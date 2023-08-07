@@ -5,9 +5,10 @@ async function main() {
   const TestLensOracle = await ethers.getContractFactory("TestLensOracle");
 
   const [deployer] = await ethers.getSigners();
+  const { name: network } = await ethers.provider.getNetwork();
 
-  const clientSC = process.env['POLYGON_MAINNET_CLIENT_SC'] ?? '0xd92D942347134C10afb797D63B70534771f20034'; // use POLYGON_MAINNET_CLIENT_SC for mainnet and POLYGON_MUMBAI_CLIENT_SC for mumbai testnet
-  const oracle = await TestLensOracle.attach(clientSC); // change this to your client smart contract address
+  const consumerSC = (network == 'polygon') ? process.env['POLYGON_MAINNET_CONSUMER_SC'] : process.env['POLYGON_MUMBAI_CONSUMER_SC'];
+  const oracle = await TestLensOracle.attach(consumerSC ?? "");
   await Promise.all([
     oracle.deployed(),
   ])

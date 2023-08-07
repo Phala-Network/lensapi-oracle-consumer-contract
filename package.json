@@ -1,5 +1,5 @@
 {
-  "name": "lensapi-oracle-client-dapp",
+  "name": "lensapi-oracle-consumer-contract",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
