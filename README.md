@@ -30,9 +30,9 @@ This project represents a basic Polygon Consumer Contract that is compatible wit
 ## Getting Started
 First you will need to run `cp .env.local .env` to copy over the local environment variables.
 ### Environment Variables:
-- `ALCHEMY_API_KEY` - API key for Polygon Mainnet RPC endpoint (e.g. [Alchemy](https://alchemy.com)).
+- `JSON_RPC_URL` - JSON-RPC URL with an API key for RPC endpoints on Polygon Mainnet or Polygon Mumbai Testnet (e.g. [Alchemy](https://alchemy.com) `https://polygon-mumbai.g.alchemy.com/v2/<api-key>`, [Infura](https://infura.io) `https://polygon.infura.io/v3/<api-key>`).
 - `DEPLOYER_PRIVATE_KEY` - Secret key for the deployer account that will deploy the Consumer Contract on either Polygon Mainnet or Polygon Mumbai Testnet.
-- `POLYGONSCAN_API_KEY` - Polygonscan API Key that can be generated on [polygonscan](https://polygonscan.com). **Note** that this is not required for Polygon Mumbai Testnet.
+- `POLYGONSCAN_API_KEY` - Polygonscan API Key that can be generated at [polygonscan](https://polygonscan.com).
 - `LENSAPI_ORACLE_ENDPOINT` - LensAPI Oracle Endpoint Address that can be found in the dashboard of the deployed LensAPI Oracle Blueprint at [Phala Mainnet](https://bricks.phala.network) for Mainnet and [Phala PoC5 Testnet](https://bricks-poc5.phala.network) for PoC5 Testnet. **Note** that Phala Mainnet connects to Polygon Mainnet and Phala PoC5 Testnet connects to Polygon Mumbai Testnet. 
 
 ## Deployment
@@ -57,6 +57,7 @@ $ yarn test-deploy
 ```
 #### Verify Contract on Polygon Mumbai Testnet
 Ensure to update the `arguments.ts` file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `arguments.ts` file.
+> **Note**: Your contract address will be different than `0x93891cb936B62806300aC687e12d112813b483C1` when verifying your contract. Make sure to get your actual contract address from the console log output after executing `yarn test-deploy`. 
 ```shell
 # Optional: verify contract
 $ yarn test-verify 0x93891cb936B62806300aC687e12d112813b483C1
@@ -89,6 +90,7 @@ Done
 
 ### Deploy to Polygon Mainnet
 Ensure to save the address after deploying the Consumer Contract because this address will be used in the "[Configure Client](https://docs.phala.network/developers/bricks-and-blueprints/featured-blueprints/lensapi-oracle#step-4-configure-the-client-address)" section of Phat Bricks UI. The deployed address will also be set to the environment variable `CONSUMER_CONTRACT_ADDRESS`.
+> **Note**: Your contract address will be different than `0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4` when verifying your contract. Make sure to get your actual contract address from the console log output after executing `yarn main-deploy`.
 ```shell
 # deploy contracts to polygon mainnet
 $ yarn main-deploy
