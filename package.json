@@ -6,16 +6,16 @@
   "scripts": {
     "compile": "hardhat compile",
     "clean": "hardhat clean",
-    "test-deploy": "hardhat run --network mumbai ./scripts/deploy-test.ts",
-    "main-deploy": "hardhat run --network polygon ./scripts/deploy-test.ts",
-    "test-set-attestor": "hardhat run --network mumbai ./scripts/set-attestor.ts",
-    "main-set-attestor": "hardhat run --network polygon ./scripts/set-attestor.ts",
-    "test-push-request": "hardhat run --network mumbai ./scripts/push-request.ts",
-    "main-push-request": "hardhat run --network polygon ./scripts/push-request.ts",
-    "test-push-malformed-request": "hardhat run --network mumbai ./scripts/push-malformed-request.ts",
-    "main-push-malformed-request": "hardhat run --network polygon ./scripts/push-malformed-request.ts",
-    "test-verify": "hardhat verify --network mumbai --constructor-args arguments.ts",
-    "main-verify": "hardhat verify --network polygon --constructor-args arguments.ts"
+    "test-deploy": "hardhat run --network mumbai ./scripts/mumbai/deploy.ts",
+    "main-deploy": "hardhat run --network polygon ./scripts/polygon/deploy.ts",
+    "test-set-attestor": "hardhat run --network mumbai ./scripts/mumbai/set-attestor.ts",
+    "main-set-attestor": "hardhat run --network polygon ./scripts/polygon/set-attestor.ts",
+    "test-push-request": "hardhat run --network mumbai ./scripts/mumbai/push-request.ts",
+    "main-push-request": "hardhat run --network polygon ./scripts/polygon/push-request.ts",
+    "test-push-malformed-request": "hardhat run --network mumbai ./scripts/mumbai/push-malformed-request.ts",
+    "main-push-malformed-request": "hardhat run --network polygon ./scripts/polygon/push-malformed-request.ts",
+    "test-verify": "hardhat verify --network mumbai --constructor-args mumbai.arguments.ts",
+    "main-verify": "hardhat verify --network polygon --constructor-args polygon.arguments.ts"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",

@@ -6,14 +6,14 @@ async function main() {
 
   const [deployer] = await ethers.getSigners();
 
-  const consumerSC = process.env['CONSUMER_CONTRACT_ADDRESS'] || "";
-  const oracle = TestLensApiConsumerContract.attach(consumerSC);
+  const consumerSC = process.env['MUMBAI_CONSUMER_CONTRACT_ADDRESS'] || "";
+  const consumer = TestLensApiConsumerContract.attach(consumerSC);
   await Promise.all([
-    oracle.deployed(),
+    consumer.deployed(),
   ])
 
   console.log('Pushing a request...');
-  await oracle.connect(deployer).request("0x8221");
+  await consumer.connect(deployer).request("0x8221");
   console.log('Done');
 }
 

@@ -30,10 +30,12 @@ This project represents a basic Polygon Consumer Contract that is compatible wit
 ## Getting Started
 First you will need to run `cp .env.local .env` to copy over the local environment variables.
 ### Environment Variables:
-- `JSON_RPC_URL` - JSON-RPC URL with an API key for RPC endpoints on Polygon Mainnet or Polygon Mumbai Testnet (e.g. [Alchemy](https://alchemy.com) `https://polygon-mumbai.g.alchemy.com/v2/<api-key>`, [Infura](https://infura.io) `https://polygon.infura.io/v3/<api-key>`).
+- `MUMBAI_RPC_URL` - JSON-RPC URL with an API key for RPC endpoints on Polygon Mumbai Testnet (e.g. [Alchemy](https://alchemy.com) `https://polygon-mumbai.g.alchemy.com/v2/<api-key>`, [Infura](https://infura.io) `https://polygon.infura.io/v3/<api-key>`).
+- `POLYGON_RPC_URL` - JSON-RPC URL with an API key for RPC endpoints on Polygon Mainnet (e.g. [Alchemy](https://alchemy.com) `https://polygon.g.alchemy.com/v2/<api-key>`, [Infura](https://infura.io) `https://polygon.infura.io/v3/<api-key>`).
 - `DEPLOYER_PRIVATE_KEY` - Secret key for the deployer account that will deploy the Consumer Contract on either Polygon Mainnet or Polygon Mumbai Testnet.
 - `POLYGONSCAN_API_KEY` - Polygonscan API Key that can be generated at [polygonscan](https://polygonscan.com).
-- `LENSAPI_ORACLE_ENDPOINT` - LensAPI Oracle Endpoint Address that can be found in the dashboard of the deployed LensAPI Oracle Blueprint at [Phala Mainnet](https://bricks.phala.network) for Mainnet and [Phala PoC5 Testnet](https://bricks-poc5.phala.network) for PoC5 Testnet. **Note** that Phala Mainnet connects to Polygon Mainnet and Phala PoC5 Testnet connects to Polygon Mumbai Testnet. 
+- `MUMBAI_LENSAPI_ORACLE_ENDPOINT` - LensAPI Oracle Endpoint Address that can be found in the dashboard of the deployed LensAPI Oracle Blueprint at [Phala PoC5 Testnet](https://bricks-poc5.phala.network) for Polygon Mumbai Testnet.
+- `POLYGON_LENSAPI_ORACLE_ENDPOINT` - LensAPI Oracle Endpoint Address that can be found in the dashboard of the deployed LensAPI Oracle Blueprint at [Phala Mainnet](https://bricks.phala.network) for Polygon Mainnet.
 
 ## Deployment
 Now that you have the prerequisites to deploy a Polygon Consumer Contract on Polygon, lets begin with some initials tasks.
@@ -47,19 +49,18 @@ $ yarn compile
 ```
 ### Deploy to Polygon Mumbai Testnet
 With the contracts successfully compiled, now we can begin deploying first to Polygon Mumbai Testnet. If you have not gotten `MATIC` for Mumbai Testnet then get `MATIC` from a [faucet](https://mumbaifaucet.com/).
-Ensure to save the address after deploying the Consumer Contract because this address will be use in the "[Configure Client](https://docs.phala.network/developers/bricks-and-blueprints/featured-blueprints/lensapi-oracle#step-4-configure-the-client-address)" section of Phat Bricks UI. The deployed address will also be set to the environment variable `CONSUMER_CONTRACT_ADDRESS`.
+Ensure to save the address after deploying the Consumer Contract because this address will be use in the "[Configure Client](https://docs.phala.network/developers/bricks-and-blueprints/featured-blueprints/lensapi-oracle#step-4-configure-the-client-address)" section of Phat Bricks UI. The deployed address will also be set to the environment variable [`MUMBAI_CONSUMER_CONTRACT_ADDRESS`](./.env.local).
 ```shell
 # deploy contracts to testnet mumbai
 $ yarn test-deploy
-# Deployed { receiver: '0x93891cb936B62806300aC687e12d112813b483C1' }
+# Deployed { consumer: '0x93891cb936B62806300aC687e12d112813b483C1' }
 
 # Check our example deployment in <https://mumbai.polygonscan.com/address/0x93891cb936B62806300aC687e12d112813b483C1>
 ```
 #### Verify Contract on Polygon Mumbai Testnet
-Ensure to update the `arguments.ts` file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `arguments.ts` file.
+Ensure to update the [`mumbai.arguments.ts`](./mumbai.arguments.ts) file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `mumbai.arguments.ts` file.
 > **Note**: Your contract address will be different than `0x93891cb936B62806300aC687e12d112813b483C1` when verifying your contract. Make sure to get your actual contract address from the console log output after executing `yarn test-deploy`. 
 ```shell
-# Optional: verify contract
 $ yarn test-verify 0x93891cb936B62806300aC687e12d112813b483C1
 Nothing to compile
 No need to generate any newer typings.
@@ -89,22 +90,21 @@ Done
 ```
 
 ### Deploy to Polygon Mainnet
-Ensure to save the address after deploying the Consumer Contract because this address will be used in the "[Configure Client](https://docs.phala.network/developers/bricks-and-blueprints/featured-blueprints/lensapi-oracle#step-4-configure-the-client-address)" section of Phat Bricks UI. The deployed address will also be set to the environment variable `CONSUMER_CONTRACT_ADDRESS`.
+Ensure to save the address after deploying the Consumer Contract because this address will be used in the "[Configure Client](https://docs.phala.network/developers/bricks-and-blueprints/featured-blueprints/lensapi-oracle#step-4-configure-the-client-address)" section of Phat Bricks UI. The deployed address will also be set to the environment variable [`POLYGON_CONSUMER_CONTRACT_ADDRESS`](./.env.local).
 > **Note**: Your contract address will be different than `0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4` when verifying your contract. Make sure to get your actual contract address from the console log output after executing `yarn main-deploy`.
 ```shell
 # deploy contracts to polygon mainnet
 $ yarn main-deploy
 Deploying...
-Deployed { oracle: '0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4' }
+Deployed { consumer: '0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4' }
 Configuring...
 Done
 
 # Check our example deployment in <https://polygonscan.com/address/0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4>
 ```
 #### Verify Contract on Polygon Mainnet
-Ensure to update the `arguments.ts` file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `arguments.ts` file.
+Ensure to update the [`polygon.arguments.ts`](./polygon.arguments.ts) file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `polygon.arguments.ts` file.
 ```shell
-# Optional: verify contract
 $ yarn main-verify 0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4
 Nothing to compile
 No need to generate any newer typings.
