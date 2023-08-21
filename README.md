@@ -78,7 +78,12 @@ Test Consumer Contract on Mumbai with a few tests to check for malformed request
 # set the attestor to the Oracle Endpoint in Phat Bricks UI
 $ yarn test-set-attestor
 Setting attestor...
+🚨NOTE🚨
+Make sure to go to your Phat Bricks 🧱 UI dashboard (https://bricks-poc5.phala.network)
+- Go to 'Configure Client' section where a text box reads 'Add Consumer Smart Contract'
+- Set value to 0x93891cb936B62806300aC687e12d112813b483C1
 Done
+✨  Done in 1.56s.
 # execute push-malformed-request
 $ yarn test-push-malformed-request
 Pushing a malformed request...
@@ -123,7 +128,12 @@ Execute Scripts to Consumer Contract on Polygon Mainnet. The Consumer Contract o
 # set the attestor to the Oracle Endpoint in Phat Bricks UI
 $ yarn main-set-attestor
 Setting attestor...
+🚨NOTE🚨
+Make sure to set the Consumer Contract Address in your Phat Bricks 🧱 UI dashboard (https://bricks-poc5.phala.network)
+- Go to 'Configure Client' section where a text box reads 'Add Consumer Smart Contract'
+- Set value to 0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4
 Done
+✨  Done in 1.56s.
 # execute push-malformed-request
 $ yarn main-push-malformed-request
 Pushing a malformed request...
