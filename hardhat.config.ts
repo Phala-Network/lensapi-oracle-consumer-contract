@@ -1,6 +1,13 @@
 import "dotenv/config";
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import { ProxyAgent, setGlobalDispatcher } from 'undici';
+
+if (process.env.http_proxy || process.env.https_proxy) {
+  const proxy = (process.env.http_proxy || process.env.https_proxy)!;
+  const proxyAgent = new ProxyAgent(proxy);
+  setGlobalDispatcher(proxyAgent);
+}
 
 // If not set, it uses the hardhat account 0 private key.
 const DEPLOYER_PRIVATE_KEY =
