@@ -15,7 +15,12 @@
     "test-push-malformed-request": "hardhat run --network mumbai ./scripts/mumbai/push-malformed-request.ts",
     "main-push-malformed-request": "hardhat run --network polygon ./scripts/polygon/push-malformed-request.ts",
     "test-verify": "hardhat verify --network mumbai --constructor-args mumbai.arguments.ts",
-    "main-verify": "hardhat verify --network polygon --constructor-args polygon.arguments.ts"
+    "main-verify": "hardhat verify --network polygon --constructor-args polygon.arguments.ts",
+    "build-function": "npx @phala/fn build src/index.ts",
+    "localhost-node": "hardhat node",
+    "localhost-deploy": "hardhat run --network localhost ./scripts/localhost/deploy.ts",
+    "localhost-watch": "npx @phala/fn watch",
+    "localhost-push-request": "hardhat run --network localhost ./scripts/localhost/push-request.ts"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
