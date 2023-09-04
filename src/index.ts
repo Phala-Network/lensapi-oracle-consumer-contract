@@ -1,41 +1,14 @@
 import "@phala/pink-env";
-import { Coders, Result } from "@phala/ethers";
+import { Coders } from "@phala/ethers";
 
-if (globalThis.pink === undefined) {
-  // Mock it to run in nodejs
-  globalThis.scriptArgs = [
-    "0x00000000000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000073078303030303200000000000000000000000000000000000000000000000000",
-  ];
-  globalThis.pink = {
-    batchHttpRequest(args: any[], timeout_ms?: number) {
-      return [
-        {
-          statusCode: 200,
-          body: JSON.stringify({
-            data: {
-              profile: {
-                stats: {
-                  totalCollects: 12345,
-                },
-              },
-            },
-          }),
-        },
-      ];
-    },
-  } as any;
-}
+type HexString = `0x${string}`
 
 // eth abi coder
 const uintCoder = new Coders.NumberCoder(32, false, "uint256");
 const bytesCoder = new Coders.BytesCoder("bytes");
 
-function encodeReply(reply: [number, number, number]): string {
-  return Coders.encode([uintCoder, uintCoder, uintCoder], reply);
-}
-
-function decodeRequest(req: string): Result {
-  return Coders.decode([uintCoder, bytesCoder], req);
+function encodeReply(reply: [number, number, number]): HexString {
+  return Coders.encode([uintCoder, uintCoder, uintCoder], reply) as HexString;
 }
 
 // Defined in TestLensOracle.sol
@@ -99,6 +72,10 @@ function fetchLensApiStats(lensApi: string, profileId: string): any {
         }`,
   });
   let body = stringToHex(query);
+  //
+  // In Phat Function runtime, we not support async/await, you need use `pink.batchHttpRequest` to
+  // send http request. The function will return an array of response.
+  //
   let response = pink.batchHttpRequest(
     [
       {
@@ -111,7 +88,7 @@ function fetchLensApiStats(lensApi: string, profileId: string): any {
     ],
     2000
   )[0];
-  if (response.statusCode != 200) {
+  if (response.statusCode !== 200) {
     console.log(
       `Fail to read Lens api with status code: ${response.statusCode}, error: ${
         response.error || response.body
@@ -134,52 +111,52 @@ function parseProfileId(hexx: string): string {
   hex = hex.slice(2);
   var str = "";
   for (var i = 0; i < hex.length; i += 2) {
-    const ch = String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    const ch = String.fromCharCode(parseInt(hex.substring(i, 2), 16));
     str += ch;
   }
   return str;
 }
 
-function encodeError(rid: number, error: Error): string {
-  return encodeReply([TYPE_ERROR, rid, errorToCode(error)]);
-}
 
-function handleRequest(rawReq: string, lensApi: string): string {
-  console.log(`handle req: ${rawReq}`);
-  let decoded;
+//
+// Here is what you need to implemented for Phat Function, you can customize your logic with
+// JavaScript here.
+//
+// The function will be called with two parameters:
+//
+// - request: The raw payload from the contract call `request` (check the `request` function in TestLensApiConsumerConract.sol).
+//            In this example, it's a tuple of two elements: [requestId, profileId]
+// - settings: The custom settings you set with the `config_core` function of the Action Offchain Rollup Phat Contract. In
+//            this example, it just a simple text of the lens api url prefix.
+//
+// Your returns value MUST be a hex string, and it will send to your contract directly. Check the `_onMessageReceived` function in
+// TestLensApiConsumerContract.sol for more details. We suggest a tuple of three elements: [successOrNotFlag, requestId, data] as
+// the return value.
+//
+export default function main(request: HexString, settings: string): HexString {
+  console.log(`handle req: ${request}`);
+  let requestId, encodedProfileId;
   try {
-    decoded = decodeRequest(rawReq);
+    [requestId, encodedProfileId] = Coders.decode([uintCoder, bytesCoder], request);
   } catch (error) {
     console.info("Malformed request received");
-    // tell client we cannot process it
-    return encodeError(0, error as Error);
+    return encodeReply([TYPE_ERROR, 0, errorToCode(error as Error)]);
   }
-  console.log(`Decoded request: ${decoded}`);
-  const rid = decoded[0];
-  const profileId = parseProfileId(decoded[1] as string);
-
+  const profileId = parseProfileId(encodedProfileId as string);
   console.log(`Request received for profile ${profileId}`);
 
   try {
-    const respData = fetchLensApiStats(lensApi, profileId);
+    const respData = fetchLensApiStats(settings, profileId);
     let stats = respData.data.profile.stats.totalCollects;
-    console.log("response:", [TYPE_RESPONSE, rid, stats]);
-    // Respond
-    return encodeReply([TYPE_RESPONSE, rid, stats]);
+    console.log("response:", [TYPE_RESPONSE, requestId, stats]);
+    return encodeReply([TYPE_RESPONSE, requestId, stats]);
   } catch (error) {
     if (error === Error.FailedToFetchData) {
       throw error;
     } else {
       // otherwise tell client we cannot process it
-      console.log("error:", [TYPE_ERROR, rid, error]);
-      return encodeError(rid, error as Error);
+      console.log("error:", [TYPE_ERROR, requestId, error]);
+      return encodeReply([TYPE_ERROR, requestId, errorToCode(error as Error)]);
     }
   }
 }
-
-function setOutput(output: any) {
-  console.log(`Reply: ${output}`);
-  (globalThis as any).scriptOutput = output;
-}
-
-setOutput(handleRequest(scriptArgs[0], scriptArgs[1]));

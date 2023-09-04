@@ -768,10 +768,10 @@
     tslib "2.4.0"
     ws "8.5.0"
 
-"@phala/fn@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@phala/fn/-/fn-0.0.3.tgz#cedf26bc448e126a4dd08f767faa9e7c1c2fa02f"
-  integrity sha512-cm967eAIsq+lHW3QFjngKN8/GmVx4nO4jBbdX0cQ91a/DPRbi/X15EQctaz25x2jerqybU+PhkLk9I3Dimkqug==
+"@phala/fn@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@phala/fn/-/fn-0.0.6.tgz#1d0da11171c793a0964d3381b9e543f35368d003"
+  integrity sha512-sZQeXSve1BRqPYlB3E0A3+1YlxvlgxT3DY0BEtAlPj45NTr3ms2KPBEFAYmSKGiPpsu3BtH1+Ng9dQQmzu+QmQ==
   dependencies:
     "@oclif/core" "^2"
     chalk "4"
