@@ -22,6 +22,14 @@ async function main() {
     });
     process.exit();
   });
+  consumer.on("ErrorReceived", async (reqId: number, pair: string, value: string) => {
+    console.info("Received event [ErrorReceived]:", {
+      reqId,
+      pair,
+      value,
+    });
+    process.exit();
+  });
 
 }
 
