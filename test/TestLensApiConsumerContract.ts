@@ -1,6 +1,30 @@
-import { expect, assert } from "chai";
+import { expect } from "chai";
 import { ethers } from "hardhat";
 import { execSync } from "child_process";
+
+async function waitForResponse(consumer: any, event: any) {
+  const [, data] = event.args;
+  // Run Phat Function
+  const result = execSync(`npm run run-function --json dist/index.js -a ${data} https://api-mumbai.lens.dev/`).toString();
+  const json = JSON.parse(result);
+  const action = ethers.utils.hexlify(ethers.utils.concat([
+    new Uint8Array([0]),
+    json.output,
+  ]));
+  // Make a response
+  const tx = await consumer.rollupU256CondEq(
+    // cond
+    [],
+    [],
+    // updates
+    [],
+    [],
+    // actions
+    [action],
+  );
+  const receipt = await tx.wait();
+  return receipt.events;
+}
 
 describe("TestLensApiConsumerContract", function () {
   it("Push and receive message", async function () {
@@ -11,30 +35,19 @@ describe("TestLensApiConsumerContract", function () {
 
     // Make a request
     const profileId = "0x01";
-    await expect(consumer.request(profileId)).to.emit(consumer, "MessageQueued");
+    const tx = await consumer.request(profileId);
+    const receipt = await tx.wait();
+    const reqEvents = receipt.events;
+    expect(reqEvents![0]).to.have.property("event", "MessageQueued");
 
-    // Start a localhost Phat functions server to execute the task
-    execSync(`yarn localhost-watch ${consumer.address} artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/ --once`, { stdio: 'inherit' });
+    // Wait for Phat Function response
+    const respEvents = await waitForResponse(consumer, reqEvents![0])
 
-    // Wait for response
-    const timeoutPromise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        reject(assert.fail("Request timeout."));
-      }, 10000);
-    });
-    const eventPromise = new Promise((resolve, reject) => {
-      consumer.once("ResponseReceived", async (reqId: number, pair: string, value: number) => {
-        console.info("Received event [ResponseReceived]:", {
-          reqId,
-          pair,
-          value,
-        });
-        assert.isNumber(Number(reqId));
-        expect(pair).to.equal(profileId);
-        assert.isNumber(Number(value));
-        resolve(reqId);
-      });
-    })
-    await Promise.race([eventPromise, timeoutPromise]);
+    // Check response data
+    expect(respEvents[0]).to.have.property("event", "ResponseReceived");
+    const [reqId, pair, value] = respEvents[0].args;
+    expect(ethers.BigNumber.isBigNumber(reqId)).to.be.true;
+    expect(pair).to.equal(profileId);
+    expect(ethers.BigNumber.isBigNumber(value)).to.be.true;
   });
 });
