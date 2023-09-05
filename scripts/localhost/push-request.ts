@@ -15,8 +15,19 @@ async function main() {
   console.log("Pushing a request...");
   await consumer.connect(deployer).request("0x01");
   consumer.on("ResponseReceived", async (reqId: number, pair: string, value: string) => {
-    console.info("Received event [ResponseReceived]:");
-    console.info(reqId, pair, value)
+    console.info("Received event [ResponseReceived]:", {
+      reqId,
+      pair,
+      value,
+    });
+    process.exit();
+  });
+  consumer.on("ErrorReceived", async (reqId: number, pair: string, value: string) => {
+    console.info("Received event [ErrorReceived]:", {
+      reqId,
+      pair,
+      value,
+    });
     process.exit();
   });
 

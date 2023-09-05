@@ -797,10 +797,10 @@
     tslib "2.4.0"
     ws "8.5.0"
 
-"@phala/fn@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@phala/fn/-/fn-0.0.7.tgz#e924be7f963669a60496edf2405de8aa553f16d0"
-  integrity sha512-6jA8Af1NGBNwiO2P3ZSR4PZS/Ej23zw/rekxyn/dIHyKPsO8WzDFOY/zuWkOjdfcDrJ1lBTHx64cbcIXnqcsHA==
+"@phala/fn@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@phala/fn/-/fn-0.1.0.tgz#dd208bb38b2a0a10f6f408c1ed50abc230fbcde3"
+  integrity sha512-gDCWVpQwihWaY3/cJhjERE3KWZZzcPqp7Kz6NeSbmuN2ASPcPxafDT2yiYqq8xuObdBzM9h5lckGbBRtkzZzzQ==
   dependencies:
     "@oclif/core" "^2"
     chalk "4"
@@ -821,10 +821,10 @@
   resolved "https://registry.yarnpkg.com/@phala/pink-env/-/pink-env-1.0.10.tgz#c0b8bb89464f92ebd9d7ac285c5af3a5b7cdbaf2"
   integrity sha512-3AfsyC3JncTMCfNbXZYEn6LRDs5wAABTb17KH72+/s3mg4EG3iY7layxiTRsTqauuq+eQ1RcBrXLgUBdp/Mcgg==
 
-"@phala/sdk@^0.5.1-nightly-20230903":
-  version "0.5.1-nightly-20230903"
-  resolved "https://registry.yarnpkg.com/@phala/sdk/-/sdk-0.5.1-nightly-20230903.tgz#b92669c6de1d8254de4fff713e7d69359d5434a9"
-  integrity sha512-HD1CQsJBVz8VG7shQSS9sCv4q+PoECfE1OmLV54aBUNEH3oHkZ60OZ+3ofGPeKJcvX3ApWtDk5E9v62lekBugw==
+"@phala/sdk@^0.5.1-nightly-20230905":
+  version "0.5.1-nightly-20230905"
+  resolved "https://registry.yarnpkg.com/@phala/sdk/-/sdk-0.5.1-nightly-20230905.tgz#e574975891121654570a1159ef98dec95d92707a"
+  integrity sha512-Up0tXCe031JIJDO48xAkJn+5MnoCa4IlzwxQ5MNNiluk4v/+1WQ3x7VP9S8drPIh+nSQsjM4sGtYEHLdOY8XTg==
   dependencies:
     "@phala/typedefs" "^0.2.33"
     "@polkadot/api" "^10.9.1"
@@ -6120,10 +6120,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@>=4.5.0:
-  version "4.8.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
-  integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
+typescript@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
+  integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
 
 typical@^4.0.0:
   version "4.0.0"
