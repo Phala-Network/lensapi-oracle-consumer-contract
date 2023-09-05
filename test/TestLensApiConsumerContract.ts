@@ -19,7 +19,7 @@ describe("TestLensApiConsumerContract", function () {
     // Wait for response
     const timeoutPromise = new Promise((resolve, reject) => {
       setTimeout(() => {
-        reject(assert.fail('Request timeout.'));
+        reject(assert.fail("Request timeout."));
       }, 10000);
     });
     const eventPromise = new Promise((resolve, reject) => {
