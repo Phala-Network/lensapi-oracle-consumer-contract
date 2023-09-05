@@ -18,6 +18,7 @@
     "main-verify": "hardhat verify --network polygon --constructor-args polygon.arguments.ts",
     "build-function": "phat-fn build src/index.ts",
     "localhost-node": "hardhat node",
+    "localhost-test": "hardhat test --network localhost",
     "localhost-deploy": "hardhat run --network localhost ./scripts/localhost/deploy.ts",
     "localhost-watch": "phat-fn watch",
     "localhost-push-request": "hardhat run --network localhost ./scripts/localhost/push-request.ts"
