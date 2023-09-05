@@ -15,11 +15,17 @@ async function main() {
   const apiPromise = await ApiPromise.create(options({ provider: new WsProvider(endpoint), noInitWarn: true }))
   const registry = await OnChainRegistry.create(apiPromise)
 
-  const exported = fs.readFileSync('./polkadot-account.json', 'utf8')
   const keyring = new Keyring({ type: 'sr25519' })
-  const pair = keyring.createFromJson(JSON.parse(exported))
-  pair.decodePkcs8(process.env.POLKADOT_WALLET_PASSPHRASE)
-
+  let pair
+  if (process.env.POLKADOT_WALLET_SURI) {
+    pair = keyring.addFromUri(process.env.POLKADOT_WALLET_SURI)
+  } else if (process.env.POLKADOT_WALLET_PASSPHRASE && fs.existsSync('./polkadot-account.json')) {
+    const exported = fs.readFileSync('./polkadot-account.json', 'utf8')
+    pair = keyring.createFromJson(JSON.parse(exported))
+    pair.decodePkcs8(process.env.POLKADOT_WALLET_PASSPHRASE)
+  } else {
+    throw new Error('You need set a polkadot account to continue, please check README.md for details.')
+  }
   const cert = await signCertificate({ pair })
 
   const brickProfileFactoryAbi = fs.readFileSync('./abis/brick_profile_factory.json', 'utf8')
