@@ -797,10 +797,10 @@
     tslib "2.4.0"
     ws "8.5.0"
 
-"@phala/fn@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@phala/fn/-/fn-0.0.8.tgz#1e0549c54c9d042f8b7ec88ee44a362514d2de3d"
-  integrity sha512-mDxYAJ+7kucwtKmcewFpqh2PC/Lmf/RxIs+ak8RZQyjAg2eYJVRr6G5Mu/Qg+jfLsZ5KNY6Dv7K8uuXI/lRPwQ==
+"@phala/fn@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@phala/fn/-/fn-0.0.9.tgz#056af1566d745ff8e5c07e680fd6cd27bbcfa13b"
+  integrity sha512-QfQRvX272KALuGcLKsinKygFO/Vl9lTmP/YOvjxqt6XYyN9fH/eh46sOMK56QBqhAU4KOjx4p/ktJSdm+QG2ag==
   dependencies:
     "@oclif/core" "^2"
     chalk "4"
