@@ -111,7 +111,7 @@ function parseProfileId(hexx: string): string {
   hex = hex.slice(2);
   var str = "";
   for (var i = 0; i < hex.length; i += 2) {
-    const ch = String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    const ch = String.fromCharCode(parseInt(hex.substring(i, i + 2), 16));
     str += ch;
   }
   return str;
