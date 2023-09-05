@@ -14,7 +14,7 @@ describe("TestLensApiConsumerContract", function () {
     await expect(consumer.request(profileId)).to.emit(consumer, "MessageQueued");
 
     // Start a localhost Phat functions server to execute the task
-    execSync(`yarn localhost-watch ${consumer.address} artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/ --onece`, { stdio: 'inherit' });
+    execSync(`yarn localhost-watch ${consumer.address} artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/ --once`, { stdio: 'inherit' });
 
     // Wait for response
     const timeoutPromise = new Promise((resolve, reject) => {
