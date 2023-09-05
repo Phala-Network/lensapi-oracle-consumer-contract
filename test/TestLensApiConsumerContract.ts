@@ -1,9 +1,10 @@
 import { expect } from "chai";
+import { type Contract, type Event } from "ethers";
 import { ethers } from "hardhat";
 import { execSync } from "child_process";
 
-async function waitForResponse(consumer: any, event: any) {
-  const [, data] = event.args;
+async function waitForResponse(consumer: Contract, event: Event) {
+  const [, data] = event.args!;
   // Run Phat Function
   const result = execSync(`phat-fn run --json dist/index.js -a ${data} https://api-mumbai.lens.dev/`).toString();
   const json = JSON.parse(result);
