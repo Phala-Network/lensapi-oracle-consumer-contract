@@ -6,12 +6,26 @@ import { Abi } from '@polkadot/api-contract'
 import { OnChainRegistry, options, PinkContractPromise, PinkBlueprintPromise, signCertificate, PinkBlueprintSubmittableResult, signAndSend } from "@phala/sdk"
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { Keyring } from '@polkadot/keyring'
+import dedent from "dedent"
 
 async function main() {
-  const endpoint = process.env.PHALA_TESTNET_ENDPOINT
+  const endpoint = process.env.PHALA_TESTNET_ENDPOINT || 'wss://poc5.phala.network/ws'
   if (!endpoint) {
     throw new Error('Please set PHALA_TESTNET_ENDPOINT via .env file first.')
   }
+  const mumbaiRpcUrl = process.env.MUMBAI_RPC_URL
+  if (!mumbaiRpcUrl) {
+    throw new Error('Please set MUMBAI_RPC_URL via .env file first.')
+  }
+  const mumbaiConsumerContractAddress = process.env.MUMBAI_CONSUMER_CONTRACT_ADDRESS
+  if (!mumbaiConsumerContractAddress) {
+    throw new Error('Please set MUMBAI_CONSUMER_CONTRACT_ADDRESS via .env file first.')
+  }
+
+  console.log(dedent`
+    We going to deploy your Phat Function to Phala Network Testnet: ${endpoint}
+  `)
+
   const apiPromise = await ApiPromise.create(options({ provider: new WsProvider(endpoint), noInitWarn: true }))
   const registry = await OnChainRegistry.create(apiPromise)
 
@@ -29,7 +43,7 @@ async function main() {
   const cert = await signCertificate({ pair })
 
   const brickProfileFactoryAbi = fs.readFileSync('./abis/brick_profile_factory.json', 'utf8')
-  const brickProfileFactoryContractId = process.env.PHAT_BRICKS_TESTNET_FACTORY_CONTRACT_ID
+  const brickProfileFactoryContractId = process.env.PHAT_BRICKS_TESTNET_FACTORY_CONTRACT_ID || '0xc9a144831a93124c471abb9ba5435487186a8d7eb6f707b1abfeea36f30696c5'
   if (!brickProfileFactoryContractId) {
     throw new Error('Please set PHAT_BRICKS_MAINNET_FACTORY_CONTRACT_ID via .env file first.')
   }
@@ -39,9 +53,20 @@ async function main() {
   if (!brickProfileAddressQuery.isOk || !brickProfileAddressQuery.asOk.isOk) {
     throw new Error('Brick Profile Factory not found.')
   }
-
-  const brickProfileAbi = fs.readFileSync('./abis/brick_profile-0.2.0.json', 'utf8')
   const brickProfileContractId = brickProfileAddressQuery.asOk.asOk.toHex()
+  const contractInfo = await registry.phactory.getContractInfo({ contracts: [brickProfileContractId] })
+  const brickProfileCodeHash = contractInfo.contracts[0].codeHash
+
+  console.log(`Your Brick Profile contract ID: ${brickProfileContractId}`)
+
+  let brickProfileAbi
+  // compatible for previously version.
+  if (brickProfileCodeHash === '0x3b3d35f92494fe60d9f9f6139ea83964dc4bca84d7ac66e985024358c9c62969') {
+    brickProfileAbi = fs.readFileSync('./abis/brick_profile-0.2.0.json', 'utf8')
+  } else {
+    brickProfileAbi = fs.readFileSync('./abis/brick_profile-1.0.0.json', 'utf8')
+  }
+
   const brickProfileContractKey = await registry.getContractKeyOrFail(brickProfileContractId)
   const brickProfile = new PinkContractPromise(apiPromise, registry, brickProfileAbi, brickProfileContractId, brickProfileContractKey)
 
@@ -61,6 +86,9 @@ async function main() {
   await result.waitFinalized()
   const contractPromise = result.contract
   console.log('The ActionOffchainRollup contract has been instantiated: ', contractPromise.address.toHex())
+
+  const { output: attestorQuery } = await contractPromise.query.getAttestAddress(cert.address, { cert })
+  const attestor = attestorQuery.asOk.toHex()
 
   const selector = rollupAbi.messages.find(i => i.identifier === 'answer_request')?.selector.toHex()
   const actions = [
@@ -106,12 +134,34 @@ async function main() {
     brickProfile.tx.authorizeWorkflow({ gasLimit: 1000000000000 }, num, externalAccountId),
     pair
   )
-  console.log(`Your workflow has been added: https://bricks-poc5.phala.network//workflows/${brickProfileContractId}/${num}`)
+  const finalMessage = dedent`
+    🎉 Your workflow has been added, you can check it out here: https://bricks-poc5.phala.network//workflows/${brickProfileContractId}/${num}
+
+       You also need set up the attestor to your .env file:
+
+       MUMBAI_LENSAPI_ORACLE_ENDPOINT=${attestor}
+
+       Then run:
+
+       yarn test-set-attestor
+
+       Then send the test request with follow up command:
+
+       yarn test-push-request
+
+       You can continue update the Phat Function codes and update it with follow up commands:
+
+       yarn build-function
+       WORKFLOW_ID=${numberQuery.asOk.toNumber()} yarn test-update-function
+  `
+  console.log(`\n${finalMessage}\n`)
 
   process.exit(0)
 }
 
-main().catch(err => {
+main().then(() => {
+  process.exit(0)
+}).catch(err => {
   console.error(err)
-  process.exitCode = 1
+  process.exit(1)
 })
