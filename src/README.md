@@ -61,7 +61,6 @@ First step is to install the package dependencies with the following command:
 ```bash
 ➜  example yarn install                                                                                                            ~/Projects/Phala/example
 yarn install v1.22.18
-warning ../../../package.json: No license field
 [1/4] 🔍  Resolving packages...
 [2/4] 🚚  Fetching packages...
 [3/4] 🔗  Linking dependencies...
@@ -296,7 +295,6 @@ Lets’s start with the first test case. First we will start a local hardhat nod
 
     ➜  example yarn hardhat node                                                                                                       ~/Projects/Phala/example
     yarn run v1.22.18
-    warning ../../../package.json: No license field
     $ /Users/hashwarlock/Projects/Phala/example/node_modules/.bin/hardhat node
     Error HH8: There's one or more errors in your config file:
     
@@ -313,8 +311,7 @@ Lets’s start with the first test case. First we will start a local hardhat nod
 ```bash
 ➜  example yarn hardhat node                                                                                                       ~/Projects/Phala/example
 yarn run v1.22.18
-warning ../../../package.json: No license field
-$ /Users/hashwarlock/Projects/Phala/example/node_modules/.bin/hardhat node
+$ ~/Projects/Phala/example/node_modules/.bin/hardhat node
 Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
 
 Accounts
@@ -327,7 +324,7 @@ Any funds sent to them on Mainnet or any other live network WILL BE LOST.
 With our hardhat node running locally, we can now execute the e2e test.
 
 ```bash
-➜  example yarn hardhat test --network localhost                                                                                   ~/Projects/Phala/example
+➜  example yarn hardhat test                                                                                   ~/Projects/Phala/example
 yarn run v1.22.18
 $ ~/Projects/Phala/example/node_modules/.bin/hardhat test --network localhost
 Compiled 14 Solidity files successfully
@@ -409,7 +406,6 @@ We will keep the hardhat node running from the previous example and run the seco
 ```tsx
 ➜  example yarn localhost-deploy                                                                                                   ~/Projects/Phala/example
 yarn run v1.22.18
-warning ../../../package.json: No license field
 $ hardhat run --network localhost ./scripts/localhost/deploy.ts
 Deploying...
 Deployed { consumer: '0x0165878A594ca255338adfa4d48449f69242Eb8F' }
@@ -423,7 +419,6 @@ Make sure to copy the deployed contract address when you deploy your own contrac
 ➜  example yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
 
 yarn run v1.22.18
-warning ../../../package.json: No license field
 $ phat-fn watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
 Listening for TestLensApiConsumerContract MessageQueued events...
 ```
@@ -434,7 +429,6 @@ Let’s now make a new request and see what happens with the listener’s output
 ➜  example LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request              ~/Projects/Phala/example
 
 yarn run v1.22.18
-warning ../../../package.json: No license field
 $ hardhat run --network localhost ./scripts/localhost/push-request.ts
 Pushing a request...
 Received event [ResponseReceived]: {
