@@ -18,6 +18,10 @@ By the end of the tutorial you will be able to:
 First you will need to install the [@phala/fn](https://www.npmjs.com/package/@phala/fn) CLI tool using your node package manager (`npm`) or use node package execute (`npx`). In this tutorial we use `npx`.
 
 Now create your first template with the the CLI tool command:
+```bash
+npx @phala/fn init example
+```
+We currently have only one template. Just press enter to see something similar to the example below:
 
 ```bash
 ➜  Phala npx @phala/fn init example                                                                                                        ~/Projects/Phala
@@ -57,6 +61,10 @@ drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 test
 With a template created and a basic default function example ready to test, let’s step through the process of preparing your repo to execute the test locally.
 
 First step is to install the package dependencies with the following command:
+```bash
+yarn install
+```
+Everything should go smoothly and produce similar output below:
 
 ```bash
 ➜  example yarn install                                                                                                            ~/Projects/Phala/example
@@ -236,7 +244,12 @@ Now that the package dependencies are installed, lets build the default function
     }
 </details>  
 
-Build the default function with the command below and a file in `./dist/index.js` will be generated.
+Build the default function with this command:
+```bash
+npx @phala/fn build src/index.ts
+```
+
+You will see output similar to the example below. and a file in `./dist/index.js` will be generated.
 
 ```bash
 ➜  example npx @phala/fn build src/index.ts                                                                                        ~/Projects/Phala/example
@@ -248,6 +261,10 @@ Compiled successfully.
 ```
 
 With our default function built, we can run some initial tests. First test will be simple.
+```bash
+npx @phala/fn run dist/index.js
+```
+It was expected for it to fail like this:
 
 ```bash
 ➜  example npx @phala/fn run dist/index.js                                                                                         ~/Projects/Phala/example
@@ -262,8 +279,11 @@ Notice that the test fails and reports that a `Malformed request received` was e
 Let’s try again.
 
 > Note: You will need to use `abi.encode` the tuple of `(requestId, profileId)` to get the appropriate hexstring for the first argument.
->
 
+```bash
+npx @phala/fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
+```
+You will see:
 ```bash
 ➜  example npx @phala/fn run dist/index.js -a / 
 	0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 /
@@ -289,7 +309,8 @@ Previously we showed how to test the default function locally without a running 
 Lets’s start with the first test case.
 
 > Note: You will need to ensure you configure your local vars `POLYGON_RPC_URL` and `MUMBAI_RPC_URL` `.env` file. You can do this with `cp .env.local .env` then edit the `.env` with your information.
->
+
+
 <details>
   <summary>Expected error if <code>.env</code> not configured.</summary>
 
@@ -308,6 +329,11 @@ Lets’s start with the first test case.
     info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
 </details>
 
+```bash
+yarn hardhat test
+```
+
+You will now see that all test cases have passed.
 ```bash
 ➜  example yarn hardhat test                                                                                   ~/Projects/Phala/example
 yarn run v1.22.18
@@ -388,20 +414,30 @@ This is how the e2e mocha test will look like. You can customize this file at `.
 
 First we will start a local hardhat node.
 ```bash
-➜  example yarn hardhat node                                                                                                       ~/Projects/Phala/example
-yarn run v1.22.18
-$ ~/Projects/Phala/example/node_modules/.bin/hardhat node
-Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
-
-Accounts
-========
-
-WARNING: These accounts, and their private keys, are publicly known.
-Any funds sent to them on Mainnet or any other live network WILL BE LOST.
+yarn hardhat node
 ```
-With our hardhat node running locally, we can now deploy the `LensApiConsumerContract.sol` contract to the local hardhat network.
 
-```tsx
+<details>
+  <summary>Example output</summary>
+
+	➜  example yarn hardhat node                                                                                                       ~/Projects/Phala/example
+	yarn run v1.22.18
+	$ ~/Projects/Phala/example/node_modules/.bin/hardhat node
+	Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
+
+	Accounts
+	========
+
+	WARNING: These accounts, and their private keys, are publicly known.
+	Any funds sent to them on Mainnet or any other live network WILL BE LOST.
+</details>
+
+With our hardhat node running locally, we can now deploy the `LensApiConsumerContract.sol` contract to the local hardhat network.
+```bash
+yarn localhost-deploy 
+```
+
+```bash
 ➜  example yarn localhost-deploy                                                                                                   ~/Projects/Phala/example
 yarn run v1.22.18
 $ hardhat run --network localhost ./scripts/localhost/deploy.ts
@@ -413,7 +449,11 @@ Deployed { consumer: '0x0165878A594ca255338adfa4d48449f69242Eb8F' }
 
 Make sure to copy the deployed contract address when you deploy your own contract locally. Note you contract address will be different than `0x0165878A594ca255338adfa4d48449f69242Eb8F`. We will now start watching the hardhat node deployed contract for any new requests.
 
-```tsx
+```bash
+yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F 
+```
+
+```bash
 ➜  example yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
 
 yarn run v1.22.18
@@ -422,6 +462,10 @@ Listening for TestLensApiConsumerContract MessageQueued events...
 ```
 
 Let’s now make a new request and see what happens with the listener’s output. In separate tab, you will push a request with the following.
+
+```bash
+LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request 
+```
 
 ```tsx
 ➜  example LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request              ~/Projects/Phala/example
