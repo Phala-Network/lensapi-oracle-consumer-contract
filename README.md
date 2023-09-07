@@ -29,6 +29,9 @@ This project represents a basic Polygon Consumer Contract that is compatible wit
 
 ## Getting Started
 First you will need to run `cp .env.local .env` to copy over the local environment variables.
+> If you are looking for how to test your custom JS function locally before deploying to PoC5 Testnet or Mainnet, check out the [README.md](./src/README.md) in the `./src/` directory.
+> 
+
 ### Environment Variables:
 - `MUMBAI_RPC_URL` - JSON-RPC URL with an API key for RPC endpoints on Polygon Mumbai Testnet (e.g. [Alchemy](https://alchemy.com) `https://polygon-mumbai.g.alchemy.com/v2/<api-key>`, [Infura](https://infura.io) `https://polygon.infura.io/v3/<api-key>`).
 - `POLYGON_RPC_URL` - JSON-RPC URL with an API key for RPC endpoints on Polygon Mainnet (e.g. [Alchemy](https://alchemy.com) `https://polygon.g.alchemy.com/v2/<api-key>`, [Infura](https://infura.io) `https://polygon.infura.io/v3/<api-key>`).
