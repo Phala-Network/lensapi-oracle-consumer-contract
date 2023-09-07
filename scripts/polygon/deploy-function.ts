@@ -9,17 +9,17 @@ import { Keyring } from '@polkadot/keyring'
 import dedent from "dedent"
 
 async function main() {
-  const endpoint = process.env.PHALA_TESTNET_ENDPOINT || 'wss://poc5.phala.network/ws'
+  const endpoint = process.env.PHALA_MAINNET_ENDPOINT || 'wss://api.phala.network/ws'
   if (!endpoint) {
-    throw new Error('Please set PHALA_TESTNET_ENDPOINT via .env file first.')
+    throw new Error('Please set PHALA_MAINNET_ENDPOINT via .env file first.')
   }
-  const mumbaiRpcUrl = process.env.MUMBAI_RPC_URL
+  const mumbaiRpcUrl = process.env.POLYGON_RPC_URL
   if (!mumbaiRpcUrl) {
-    throw new Error('Please set MUMBAI_RPC_URL via .env file first.')
+    throw new Error('Please set POLYGON_RPC_URL via .env file first.')
   }
-  const mumbaiConsumerContractAddress = process.env.MUMBAI_CONSUMER_CONTRACT_ADDRESS
-  if (!mumbaiConsumerContractAddress) {
-    throw new Error('Please set MUMBAI_CONSUMER_CONTRACT_ADDRESS via .env file first.')
+  const polygonConsumerContractAddress = process.env.POLYGON_CONSUMER_CONTRACT_ADDRESS
+  if (!polygonConsumerContractAddress) {
+    throw new Error('Please set POLYGON_CONSUMER_CONTRACT_ADDRESS via .env file first.')
   }
 
   console.log(dedent`
@@ -43,9 +43,9 @@ async function main() {
   const cert = await signCertificate({ pair })
 
   const brickProfileFactoryAbi = fs.readFileSync('./abis/brick_profile_factory.json', 'utf8')
-  const brickProfileFactoryContractId = process.env.PHAT_BRICKS_TESTNET_FACTORY_CONTRACT_ID || '0xc9a144831a93124c471abb9ba5435487186a8d7eb6f707b1abfeea36f30696c5'
+  const brickProfileFactoryContractId = process.env.PHAT_BRICKS_MAINNET_FACTORY_CONTRACT_ID || '0xb59bcc4ea352f3d878874d8f496fb093bdf362fa59d6e577c075f41cd7c84924'
   if (!brickProfileFactoryContractId) {
-    throw new Error('Please set PHAT_BRICKS_TESTNET_FACTORY_CONTRACT_ID via .env file first.')
+    throw new Error('Please set PHAT_BRICKS_MAINNET_FACTORY_CONTRACT_ID via .env file first.')
   }
   const brickProfileFactoryContractKey = await registry.getContractKeyOrFail(brickProfileFactoryContractId)
   const brickProfileFactory = new PinkContractPromise(apiPromise, registry, brickProfileFactoryAbi, brickProfileFactoryContractId, brickProfileFactoryContractKey)
@@ -75,10 +75,10 @@ async function main() {
   const result = await signAndSend<PinkBlueprintSubmittableResult>(
     blueprint.tx.withConfiguration(
       { gasLimit: 1000000000000 },
-      process.env.MUMBAI_RPC_URL, // client_rpc
-      process.env.MUMBAI_CONSUMER_CONTRACT_ADDRESS, // client_addr
+      mumbaiRpcUrl, // client_rpc
+      polygonConsumerContractAddress, // client_addr
       fs.readFileSync('./dist/index.js', 'utf8'), // core_js
-      'https://api-mumbai.lens.dev/', // core_settings
+      'https://api.lens.dev/', // core_settings
       brickProfileContractId, // brick_profile
     ),
     pair
@@ -135,7 +135,7 @@ async function main() {
     pair
   )
   const finalMessage = dedent`
-    🎉 Your workflow has been added, you can check it out here: https://bricks-poc5.phala.network//workflows/${brickProfileContractId}/${num}
+    🎉 Your workflow has been added, you can check it out here: https://bricks.phala.network//workflows/${brickProfileContractId}/${num}
 
        You also need set up the attestor to your .env file:
 
