@@ -281,21 +281,21 @@ We have now successfully tested the default function and ran a test to verify th
 
 Previously we showed how to test the default function locally without a running node, but we can also run two other tests.
 
-1. Run local hardhat node and run the default mocha e2e tests.
+1. Run the default mocha e2e tests.
 2. Run local hardhat node and watch the requests that are pushed and see how the function transforms the data.
 
-**Run local hardhat node and run the default mocha e2e tests**
+**Run the default mocha e2e tests**
 
-Lets’s start with the first test case. First we will start a local hardhat node.
+Lets’s start with the first test case.
 
 > Note: You will need to ensure you configure your local vars `POLYGON_RPC_URL` and `MUMBAI_RPC_URL` `.env` file. You can do this with `cp .env.local .env` then edit the `.env` with your information.
 >
 <details>
   <summary>Expected error if <code>.env</code> not configured.</summary>
 
-    ➜  example yarn hardhat node                                                                                                       ~/Projects/Phala/example
+    ➜  example yarn hardhat test                                                                                                       ~/Projects/Phala/example
     yarn run v1.22.18
-    $ /Users/hashwarlock/Projects/Phala/example/node_modules/.bin/hardhat node
+    $ /Users/hashwarlock/Projects/Phala/example/node_modules/.bin/hardhat test
     Error HH8: There's one or more errors in your config file:
     
       * Invalid value undefined for HardhatConfig.networks.polygon.url - Expected a value of type string.
@@ -309,24 +309,9 @@ Lets’s start with the first test case. First we will start a local hardhat nod
 </details>
 
 ```bash
-➜  example yarn hardhat node                                                                                                       ~/Projects/Phala/example
-yarn run v1.22.18
-$ ~/Projects/Phala/example/node_modules/.bin/hardhat node
-Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
-
-Accounts
-========
-
-WARNING: These accounts, and their private keys, are publicly known.
-Any funds sent to them on Mainnet or any other live network WILL BE LOST.
-```
-
-With our hardhat node running locally, we can now execute the e2e test.
-
-```bash
 ➜  example yarn hardhat test                                                                                   ~/Projects/Phala/example
 yarn run v1.22.18
-$ ~/Projects/Phala/example/node_modules/.bin/hardhat test --network localhost
+$ ~/Projects/Phala/example/node_modules/.bin/hardhat test
 Compiled 14 Solidity files successfully
 
   TestLensApiConsumerContract
@@ -401,7 +386,20 @@ This is how the e2e mocha test will look like. You can customize this file at `.
 
 **Run local hardhat node and watch the requests that are pushed and see how the function transforms the data**
 
-We will keep the hardhat node running from the previous example and run the second test. First we will deploy the `LensApiConsumerContract.sol` contract to the local hardhat network.
+First we will start a local hardhat node.
+```bash
+➜  example yarn hardhat node                                                                                                       ~/Projects/Phala/example
+yarn run v1.22.18
+$ ~/Projects/Phala/example/node_modules/.bin/hardhat node
+Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
+
+Accounts
+========
+
+WARNING: These accounts, and their private keys, are publicly known.
+Any funds sent to them on Mainnet or any other live network WILL BE LOST.
+```
+With our hardhat node running locally, we can now deploy the `LensApiConsumerContract.sol` contract to the local hardhat network.
 
 ```tsx
 ➜  example yarn localhost-deploy                                                                                                   ~/Projects/Phala/example
