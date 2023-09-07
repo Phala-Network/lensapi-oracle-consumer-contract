@@ -63,7 +63,7 @@ async function main() {
   //
   // Step 3: Check current user has been registered in the Phat Bricks dApp or not.
   //
-  const brickProfileAbi = fs.readFileSync('./abis/brick_profile.json', 'utf8')
+  const brickProfileAbi = fs.readFileSync('./abis/brick_profile-0.2.0.json', 'utf8')
   const brickProfileContractId = brickProfileAddressQuery.asOk.asOk.toHex()
   const brickProfileContractKey = await registry.getContractKeyOrFail(brickProfileContractId)
   const brickProfile = new PinkContractPromise(apiPromise, registry, brickProfileAbi, brickProfileContractId, brickProfileContractKey)

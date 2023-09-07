@@ -24,7 +24,7 @@
     "localhost-watch": "phat-fn watch",
     "localhost-push-request": "hardhat run --network localhost ./scripts/localhost/push-request.ts",
     "test-deploy-function": "hardhat run --network mumbai ./scripts/mumbai/deploy-function.ts",
-    "test-upload-function": "hardhat run --network mumbai ./scripts/mumbai/upload-function.ts"
+    "test-update-function": "hardhat run --network mumbai ./scripts/mumbai/update-function.ts"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",

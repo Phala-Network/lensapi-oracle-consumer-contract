@@ -40,7 +40,7 @@ async function main() {
     throw new Error('Brick Profile Factory not found.')
   }
 
-  const brickProfileAbi = fs.readFileSync('./abis/brick_profile.json', 'utf8')
+  const brickProfileAbi = fs.readFileSync('./abis/brick_profile-0.2.0.json', 'utf8')
   const brickProfileContractId = brickProfileAddressQuery.asOk.asOk.toHex()
   const brickProfileContractKey = await registry.getContractKeyOrFail(brickProfileContractId)
   const brickProfile = new PinkContractPromise(apiPromise, registry, brickProfileAbi, brickProfileContractId, brickProfileContractKey)
@@ -51,7 +51,7 @@ async function main() {
     blueprint.tx.withConfiguration(
       { gasLimit: 1000000000000 },
       process.env.MUMBAI_RPC_URL, // client_rpc
-      process.env.MUMBAI_LENSAPI_ORACLE_ENDPOINT, // client_addr
+      process.env.MUMBAI_CONSUMER_CONTRACT_ADDRESS, // client_addr
       fs.readFileSync('./dist/index.js', 'utf8'), // core_js
       'https://api-mumbai.lens.dev/', // core_settings
       brickProfileContractId, // brick_profile
