@@ -797,12 +797,13 @@
     tslib "2.4.0"
     ws "8.5.0"
 
-"@phala/fn@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@phala/fn/-/fn-0.1.0.tgz#dd208bb38b2a0a10f6f408c1ed50abc230fbcde3"
-  integrity sha512-gDCWVpQwihWaY3/cJhjERE3KWZZzcPqp7Kz6NeSbmuN2ASPcPxafDT2yiYqq8xuObdBzM9h5lckGbBRtkzZzzQ==
+"@phala/fn@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@phala/fn/-/fn-0.1.2.tgz#1b0e1e1316b584b6e85dca8e535862adf902a46b"
+  integrity sha512-4/4n7N4eXPvL3xK+XoLbq3N8EIMsKzJu1N5u88SKK3Uf21PgFA5iy07SY7/atGrJvi5K/0rtpwLX/Mp5WQ7rxQ==
   dependencies:
     "@oclif/core" "^2"
+    "@polkadot/util-crypto" "^12.4.2"
     chalk "4"
     ethers "^6.7.1"
     filesize "^10.0.12"
@@ -812,8 +813,11 @@
     sync-request "^6.1.0"
     terser-webpack-plugin "^5.3.9"
     ts-loader "^9.4.4"
+    ts-node "^10.9.1"
+    typescript "^5.2.2"
     webpack "^5.88.2"
     webpack-merge "^5.9.0"
+    webpack-node-externals "^3.0.0"
     webpack-virtual-modules "^0.5.0"
 
 "@phala/pink-env@^1.0.10":
@@ -821,10 +825,10 @@
   resolved "https://registry.yarnpkg.com/@phala/pink-env/-/pink-env-1.0.10.tgz#c0b8bb89464f92ebd9d7ac285c5af3a5b7cdbaf2"
   integrity sha512-3AfsyC3JncTMCfNbXZYEn6LRDs5wAABTb17KH72+/s3mg4EG3iY7layxiTRsTqauuq+eQ1RcBrXLgUBdp/Mcgg==
 
-"@phala/sdk@^0.5.1-nightly-20230905":
-  version "0.5.1-nightly-20230905"
-  resolved "https://registry.yarnpkg.com/@phala/sdk/-/sdk-0.5.1-nightly-20230905.tgz#e574975891121654570a1159ef98dec95d92707a"
-  integrity sha512-Up0tXCe031JIJDO48xAkJn+5MnoCa4IlzwxQ5MNNiluk4v/+1WQ3x7VP9S8drPIh+nSQsjM4sGtYEHLdOY8XTg==
+"@phala/sdk@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@phala/sdk/-/sdk-0.5.1.tgz#92d3d153bf7f71218dbbb0a9cdfc14edf5b16a6d"
+  integrity sha512-whkyA72tqcCwJPdZ+6/zedg3rg84RwvUhmVjQMwPKOeTCfkzmF/dQl3V+2z017AYOTSZQTfJw8uk6IpfoTmZjQ==
   dependencies:
     "@phala/typedefs" "^0.2.33"
     "@polkadot/api" "^10.9.1"
@@ -1044,7 +1048,7 @@
     rxjs "^7.8.1"
     tslib "^2.5.3"
 
-"@polkadot/util-crypto@12.4.2", "@polkadot/util-crypto@^12.3.1", "@polkadot/util-crypto@^12.3.2":
+"@polkadot/util-crypto@12.4.2", "@polkadot/util-crypto@^12.3.1", "@polkadot/util-crypto@^12.3.2", "@polkadot/util-crypto@^12.4.2":
   version "12.4.2"
   resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-12.4.2.tgz#e19258dab5f2d4fe49f2d074d36d33a445e50b74"
   integrity sha512-JP7OrEKYx35P3wWc2Iu9F6BfYMIkywXik908zQqPxwoQhr8uDLP1Qoyu9Sws+hE97Yz1O4jBVvryS2le0yusog==
@@ -2711,6 +2715,11 @@ decamelize@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-4.0.0.tgz#aa472d7bf660eb15f3494efd531cab7f2a709837"
   integrity sha512-9iE1PgSik9HeIIw2JO94IidnE3eBoQrFJ3w7sFuzSX4DpmZ3v5sZpUiV5Swcf6mQEF+Y0ru8Neo+p+nyh2J+hQ==
+
+dedent@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/dedent/-/dedent-1.5.1.tgz#4f3fc94c8b711e9bb2800d185cd6ad20f2a90aff"
+  integrity sha512-+LxW+KLWxu3HW3M2w2ympwtqPrqYRzU8fqi6Fhd18fBALe15blJPI/I4+UHveMVG6lJqB4JNd4UG0S5cnVHwIg==
 
 deep-eql@^3.0.1:
   version "3.0.1"
@@ -6286,6 +6295,11 @@ webpack-merge@^5.9.0:
   dependencies:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
+
+webpack-node-externals@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/webpack-node-externals/-/webpack-node-externals-3.0.0.tgz#1a3407c158d547a9feb4229a9e3385b7b60c9917"
+  integrity sha512-LnL6Z3GGDPht/AigwRh2dvL9PQPFQ8skEpVrWZXLWBYmqcaojHNN0onvHzie6rq7EWKrrBfPYqNEzTJgiwEQDQ==
 
 webpack-sources@^3.2.3:
   version "3.2.3"
