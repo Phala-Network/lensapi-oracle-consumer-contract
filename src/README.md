@@ -246,32 +246,37 @@ Now that the package dependencies are installed, lets build the default function
 
 Build the default function with this command:
 ```bash
-npx @phala/fn build src/index.ts
+yarn build-function
 ```
 
 You will see output similar to the example below. and a file in `./dist/index.js` will be generated.
 
 ```bash
-➜  example npx @phala/fn build src/index.ts                                                                                        ~/Projects/Phala/example
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn build-function                                                                    ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ phat-fn build src/index.ts
 Creating an optimized build... done
 Compiled successfully.
 
   17.66 KB  dist/index.js
-➜  example
+✨  Done in 3.48s.
+
 ```
 
 With our default function built, we can run some initial tests. First test will be simple.
 ```bash
-npx @phala/fn run dist/index.js
+yarn run-function
 ```
 It was expected for it to fail like this:
-
 ```bash
-➜  example npx @phala/fn run dist/index.js                                                                                         ~/Projects/Phala/example
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn run-function                                                                      ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ phat-fn run dist/index.js
 handle req: undefined
 Malformed request received
 {"output":"0x000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
-➜  example
+✨  Done in 0.96s.
+
 ```
 
 Notice that the test fails and reports that a `Malformed request received` was emitted and the request was `undefined`. This is expected as you will need to define the parameters by adding a `-a abi.encode(requestId, profileId) https://api-mumbai.lens.dev` to your command.
@@ -281,18 +286,20 @@ Let’s try again.
 > Note: You will need to use `abi.encode` the tuple of `(requestId, profileId)` to get the appropriate hexstring for the first argument.
 
 ```bash
-npx @phala/fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
+yarn run-function -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
 ```
 You will see:
 ```bash
-➜  example npx @phala/fn run dist/index.js -a / 
-	0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 /
-	https://api-mumbai.lens.dev        
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn run-function -a 0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000040000000
+00000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
+yarn run v1.22.18
+$ phat-fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
 handle req: 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000
 Request received for profile 0x01
-response: 0,1,1597
-{"output":"0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000063d"}
-➜  example
+response: 0,1,3346
+{"output":"0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000d12"}
+✨  Done in 1.42s.
+
 ```
 
 We have now successfully tested the default function and ran a test to verify the function returns a response as expected.

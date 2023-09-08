@@ -5,16 +5,17 @@
 - [Getting Started](#getting-started)
   - [Environment Variables](#environment-variables)
 - [Deployment](#deployment)
-  - [Deploy Phat Contract to Phala PoC5 Testnet](#deploy-phat-contract-to-poc5-testnet)
-    - [Update Phat Contract on Phala PoC5 Testnet](#update-phat-contract-on-phala-poc5-testnet)
   - [Deploy to Polygon Mumbai Testnet](#deploy-to-polygon-mumbai-testnet)
     - [Verify Contract on Polygon Mumabai Testnet](#verify-contract-on-polygon-mumbai-testnet)
+  - [Deploy Phat Contract to Phala PoC5 Testnet](#deploy-phat-contract-to-poc5-testnet)
     - [Interact with Consumer Contract on Polygon Mumbai](#interact-with-consumer-contract-on-polygon-mumbai)
-  - [Deploy Phat Contract to Phala Mainnet](#deploy-phat-contract-to-phala-mainnet)
-    - [Update Phat Contract on Phala Mainnet](#update-phat-contract-on-phala-mainnet)
+    - [Update Phat Contract on Phala PoC5 Testnet](#update-phat-contract-on-phala-poc5-testnet)
   - [Deploy to Polygon Mainnet](#deploy-to-polygon-mainnet)
     - [Verify Contract on Polygon Mainnet](#verify-contract-on-polygon-mainnet)
+  - [Deploy Phat Contract to Phala Mainnet](#deploy-phat-contract-to-phala-mainnet)
     - [Interact with Consumer Contract on Polygon Mainnet](#interact-with-consumer-contract-on-polygon-mainnet)
+    - [Update Phat Contract on Phala Mainnet](#update-phat-contract-on-phala-mainnet)
+      
 - [Closing](#closing)
 
 ## Overview
@@ -58,64 +59,171 @@ $ yarn
 # compile contracts
 $ yarn compile
 ```
-### Deploy Phat Contract to PoC5 Testnet
-TODO
-
-### Update Phat Contract on Phala PoC5 Testnet
-TODO
-
 ### Deploy to Polygon Mumbai Testnet
 With the contracts successfully compiled, now we can begin deploying first to Polygon Mumbai Testnet. If you have not gotten `MATIC` for Mumbai Testnet then get `MATIC` from a [faucet](https://mumbaifaucet.com/).
 Ensure to save the address after deploying the Consumer Contract because this address will be use in the "[Configure Client](https://docs.phala.network/developers/bricks-and-blueprints/featured-blueprints/lensapi-oracle#step-4-configure-the-client-address)" section of Phat Bricks UI. The deployed address will also be set to the environment variable [`MUMBAI_CONSUMER_CONTRACT_ADDRESS`](./.env.local).
+```bash
+yarn test-deploy
+```
 ```shell
 # deploy contracts to testnet mumbai
-$ yarn test-deploy
-# Deployed { consumer: '0x93891cb936B62806300aC687e12d112813b483C1' }
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn test-deploy                                                                       ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ hardhat run --network mumbai ./scripts/mumbai/deploy.ts
+Deploying...
+Deployed { consumer: '0x090E8fDC571d65459569BC87992C1026121DB955' }
+Configuring...
+Done
+✨  Done in 8.18s.
 
-# Check our example deployment in <https://mumbai.polygonscan.com/address/0x93891cb936B62806300aC687e12d112813b483C1>
 ```
 #### Verify Contract on Polygon Mumbai Testnet
 Ensure to update the [`mumbai.arguments.ts`](./mumbai.arguments.ts) file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `mumbai.arguments.ts` file.
-> **Note**: Your contract address will be different than `0x93891cb936B62806300aC687e12d112813b483C1` when verifying your contract. Make sure to get your actual contract address from the console log output after executing `yarn test-deploy`. 
+> **Note**: Your contract address will be different than `0x090E8fDC571d65459569BC87992C1026121DB955` when verifying your contract. Make sure to get your actual contract address from the console log output after executing `yarn test-deploy`.
 ```shell
-$ yarn test-verify 0x93891cb936B62806300aC687e12d112813b483C1
+yarn test-verify <MUMBAI_CONSUMER_CONTRACT_ADDRESS>
+```
+```shell
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn test-verify 0x090E8fDC571d65459569BC87992C1026121DB955                            ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ hardhat verify --network mumbai --constructor-args mumbai.arguments.ts 0x090E8fDC571d65459569BC87992C1026121DB955
 Nothing to compile
 No need to generate any newer typings.
 Successfully submitted source code for contract
-contracts/TestLensApiConsumerContract.sol.sol.sol:TestLensApiConsumerContract.sol at 0x93891cb936B62806300aC687e12d112813b483C1
+contracts/TestLensApiConsumerContract.sol:TestLensApiConsumerContract at 0x090E8fDC571d65459569BC87992C1026121DB955
 for verification on the block explorer. Waiting for verification result...
 
-Successfully verified contract TestLensApiConsumerContract.sol on Etherscan.
-https://mumbai.polygonscan.com/address/0x93891cb936B62806300aC687e12d112813b483C1#code
-Done in 8.88s.
+Successfully verified contract TestLensApiConsumerContract on Etherscan.
+https://mumbai.polygonscan.com/address/0x090E8fDC571d65459569BC87992C1026121DB955#code
+✨  Done in 5.91s.
+
 ```
+
+### Deploy Phat Contract to PoC5 Testnet
+For customizing your Phat Contract function, checkout default function [README.md](./src/README.md) and advanced configurations in [ADVANCED.md](./src/ADVANCED.md) to learn more before deploying to PoC5 testnet.
+
+First you will need to build your function with this command:
+```shell
+yarn build-function
+```
+Here is the expected output:
+```shell
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn build-function                                                                    ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ phat-fn build src/index.ts
+Creating an optimized build... done
+Compiled successfully.
+
+  17.66 KB  dist/index.js
+✨  Done in 3.71s.
+```
+Now that are Phat Contract function has built successfully, let's deploy to PhalaPoC5 Testnet with the following command:
+```shell
+yarn test-deploy-function
+```
+Here is the expected output:
+> Note: your contract IDs will very and not be the same as the IDs below.
+```shell
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn test-deploy-function                                                              ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ hardhat run --network mumbai ./scripts/mumbai/deploy-function.ts
+We going to deploy your Phat Function to Phala Network Testnet: wss://poc5.phala.network/ws
+(node:12200) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Your Brick Profile contract ID: 0xfd18dca07dc76811dd99b14ee6fe3b82e135ed06a2c311b741e6c9163892b32c
+The ActionOffchainRollup contract has been instantiated:  0x1161a649467fac4532b3ef85b70bf750380dea49c3efbb4ce8db66d0de47389a
+
+🎉 Your workflow has been added, you can check it out here: https://bricks-poc5.phala.network//workflows/0xfd18dca07dc76811dd99b14ee6fe3b82e135ed06a2c311b741e6c9163892b32c/0
+
+   You also need set up the attestor to your .env file:
+
+   MUMBAI_LENSAPI_ORACLE_ENDPOINT=0x1f6911eaa71405eb043961c0ba4bb6ed7ecc5c8e
+
+   Then run:
+
+   yarn test-set-attestor
+
+   Then send the test request with follow up command:
+
+   yarn test-push-request
+
+   You can continue update the Phat Function codes and update it with follow up commands:
+
+   yarn build-function
+   WORKFLOW_ID=0 yarn test-update-function
+
+✨  Done in 36.35s.
+```
+
+Go to the [PoC5 Testnet Bricks UI](https://bricks-poc5.phala.network) Dashboard and you can see your newly deployed function.
+![](./assets/Function-added.png)
+
 #### Interact with Consumer Contract on Polygon Mumbai
 Test Consumer Contract on Mumbai with a few tests to check for malformed requests failures, successful requests, and set the attestor.
 ```shell
-# set the attestor to the Oracle Endpoint in Phat Bricks UI
-$ yarn test-set-attestor
+yarn test-set-attestor
+```
+```shell
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn test-set-attestor                                                                 ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ hardhat run --network mumbai ./scripts/mumbai/set-attestor.ts
 Setting attestor...
 🚨NOTE🚨
-Make sure to go to your Phat Bricks 🧱 UI dashboard (https://bricks-poc5.phala.network)
+Make sure to set the Consumer Contract Address in your Phat Bricks 🧱 UI dashboard (https://bricks-poc5.phala.network)
 - Go to 'Configure Client' section where a text box reads 'Add Consumer Smart Contract'
-- Set value to 0x93891cb936B62806300aC687e12d112813b483C1
+- Set value to 0x090E8fDC571d65459569BC87992C1026121DB955
 Done
-✨  Done in 1.56s.
-# execute push-malformed-request
-$ yarn test-push-malformed-request
+✨  Done in 2.69s.
+```
+```shell
+yarn test-push-malformed-request
+```
+```shell
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn test-push-malformed-request                                                       ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ hardhat run --network mumbai ./scripts/mumbai/push-malformed-request.ts
 Pushing a malformed request...
 Done
+✨  Done in 2.48s.
+
 # execute push-request
 $ yarn test-push-request
 Pushing a request...
 Done
 ```
 
-### Deploy Phat Contract to Phala Mainnet
-TODO
+### Update Phat Contract on Phala PoC5 Testnet
+Now let's update the function that we have deployed. Once we have updated the function, we must build the function again.
+```shell
+yarn build-function
+```
+```shell
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn build-function                                                                    ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ phat-fn build src/index.ts
+Creating an optimized build... done
+Compiled successfully.
 
-### Update Phat Contract on Phala Mainnet
-TODO
+  17.66 KB  dist/index.js
+✨  Done in 3.48s.
+
+```
+> Note: Before we update the function, make sure to take the `WORKFLOW_ID` from the deployment of the Phat Contract function step and set it in your `.env` file.
+
+Now let's update the function with the following command:
+```shell
+yarn test-update-function
+```
+```shell
+➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn test-update-function                                                              ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
+yarn run v1.22.18
+$ hardhat run --network mumbai ./scripts/mumbai/update-function.ts
+(node:12991) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Your Brick Profile contract ID: 0xfd18dca07dc76811dd99b14ee6fe3b82e135ed06a2c311b741e6c9163892b32c
+The Phat Function for workflow 0 has been updated.
+✨  Done in 5.07s.
+```
 
 ### Deploy to Polygon Mainnet
 Ensure to save the address after deploying the Consumer Contract because this address will be used in the "[Configure Client](https://docs.phala.network/developers/bricks-and-blueprints/featured-blueprints/lensapi-oracle#step-4-configure-the-client-address)" section of Phat Bricks UI. The deployed address will also be set to the environment variable [`POLYGON_CONSUMER_CONTRACT_ADDRESS`](./.env.local).
@@ -144,6 +252,8 @@ Successfully verified contract TestLensApiConsumerContract.sol on Etherscan.
 https://polygonscan.com/address/0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4#code
 Done in 8.88s.
 ```
+### Deploy Phat Contract to Phala Mainnet
+TODO
 
 #### Interact with Consumer Contract on Polygon Mainnet
 Execute Scripts to Consumer Contract on Polygon Mainnet. The Consumer Contract on Polygon Mainnet with a few actions to mimic a malformed request, successful requests, and set the attestor.
@@ -166,6 +276,9 @@ $ yarn main-push-request
 Pushing a request...
 Done
 ```
+
+### Update Phat Contract on Phala Mainnet
+TODO
 
 ## Closing
 Once you have stored, the deployed address of the Consumer Contract and set the value in the "Configure Client" section of the deployed LensAPI Oracle, you will now have a basic boilerplate example of how to connect your Polygon dApp to a LensAPI Oracle Blueprint. Execute a new requests and check if your configuration is correct like below:

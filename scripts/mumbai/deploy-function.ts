@@ -43,7 +43,7 @@ async function main() {
   const cert = await signCertificate({ pair })
 
   const brickProfileFactoryAbi = fs.readFileSync('./abis/brick_profile_factory.json', 'utf8')
-  const brickProfileFactoryContractId = process.env.PHAT_BRICKS_TESTNET_FACTORY_CONTRACT_ID || '0xc9a144831a93124c471abb9ba5435487186a8d7eb6f707b1abfeea36f30696c5'
+  const brickProfileFactoryContractId = process.env.PHAT_BRICKS_TESTNET_FACTORY_CONTRACT_ID || '0x489bb4fa807bbe0f877ed46be8646867a8d16ec58add141977c4bd19b0237091'
   if (!brickProfileFactoryContractId) {
     throw new Error('Please set PHAT_BRICKS_TESTNET_FACTORY_CONTRACT_ID via .env file first.')
   }

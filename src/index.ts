@@ -86,7 +86,7 @@ function fetchLensApiStats(lensApi: string, profileId: string): any {
         returnTextBody: true,
       },
     ],
-    2000
+    10000
   )[0];
   if (response.statusCode !== 200) {
     console.log(
