@@ -25,35 +25,35 @@ We currently have only one template. Just press enter to see something similar t
 
 ```bash
 ➜  Phala npx @phala/fn init example                                                                                                        ~/Projects/Phala
-? Please select one of the templates for your "example" project: lensapi-oracle-consumer-contract. Polygon Consumer Contract for LensAPI Oracle
-Downloading the template: https://github.com/Phala-Network/lensapi-oracle-consumer-contract... ✔
-The project is created in /Users/hashwarlock/Projects/Phala/example
+# ? Please select one of the templates for your "example" project: lensapi-oracle-consumer-contract. Polygon Consumer Contract for LensAPI Oracle
+# Downloading the template: https://github.com/Phala-Network/lensapi-oracle-consumer-contract... ✔
+# The project is created in /Users/hashwarlock/Projects/Phala/example
 ```
 
 `cd` into the newly created template and `ls` the directory which will look similar to below.
 
 ```bash
-➜  Phala cd example
-➜  example ls                                                                                                                      ~/Projects/Phala/example
-total 736
-drwxr-xr-x  18 hashwarlock  staff   576B Sep  6 15:32 .
-drwxr-xr-x  35 hashwarlock  staff   1.1K Sep  6 15:32 ..
--rw-r--r--   1 hashwarlock  staff   2.1K Sep  6 15:32 .env.local
--rw-r--r--   1 hashwarlock  staff   227B Sep  6 15:32 .gitignore
--rw-r--r--   1 hashwarlock  staff    34K Sep  6 15:32 LICENSE
--rw-r--r--   1 hashwarlock  staff   8.9K Sep  6 15:32 README.md
-drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 abis
-drwxr-xr-x   4 hashwarlock  staff   128B Sep  6 15:32 assets
-drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 contracts
--rw-r--r--   1 hashwarlock  staff   1.3K Sep  6 15:32 hardhat.config.ts
--rw-r--r--   1 hashwarlock  staff    95B Sep  6 15:32 mumbai.arguments.ts
--rw-r--r--   1 hashwarlock  staff   2.6K Sep  6 15:32 package.json
--rw-r--r--   1 hashwarlock  staff    96B Sep  6 15:32 polygon.arguments.ts
-drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 scripts
-drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 src
-drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 test
--rw-r--r--   1 hashwarlock  staff   201B Sep  6 15:32 tsconfig.json
--rw-r--r--   1 hashwarlock  staff   290K Sep  6 15:32 yarn.lock
+cd example
+ls                                                                                                                      ~/Projects/Phala/example
+# total 736
+# drwxr-xr-x  18 hashwarlock  staff   576B Sep  6 15:32 .
+# drwxr-xr-x  35 hashwarlock  staff   1.1K Sep  6 15:32 ..
+# -rw-r--r--   1 hashwarlock  staff   2.1K Sep  6 15:32 .env.local
+# -rw-r--r--   1 hashwarlock  staff   227B Sep  6 15:32 .gitignore
+# -rw-r--r--   1 hashwarlock  staff    34K Sep  6 15:32 LICENSE
+# -rw-r--r--   1 hashwarlock  staff   8.9K Sep  6 15:32 README.md
+# drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 abis
+# drwxr-xr-x   4 hashwarlock  staff   128B Sep  6 15:32 assets
+# drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 contracts
+# -rw-r--r--   1 hashwarlock  staff   1.3K Sep  6 15:32 hardhat.config.ts
+# -rw-r--r--   1 hashwarlock  staff    95B Sep  6 15:32 mumbai.arguments.ts
+# -rw-r--r--   1 hashwarlock  staff   2.6K Sep  6 15:32 package.json
+# -rw-r--r--   1 hashwarlock  staff    96B Sep  6 15:32 polygon.arguments.ts
+# drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 scripts
+# drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 src
+# drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 test
+# -rw-r--r--   1 hashwarlock  staff   201B Sep  6 15:32 tsconfig.json
+# -rw-r--r--   1 hashwarlock  staff   290K Sep  6 15:32 yarn.lock
 ```
 
 ## Test Default Function Locally
@@ -68,14 +68,13 @@ Everything should go smoothly and produce similar output below:
 
 ```bash
 ➜  example yarn install                                                                                                            ~/Projects/Phala/example
-yarn install v1.22.18
-[1/4] 🔍  Resolving packages...
-[2/4] 🚚  Fetching packages...
-[3/4] 🔗  Linking dependencies...
-warning " > @typechain/ethers-v5@10.1.0" has unmet peer dependency "@ethersproject/bytes@^5.0.0".
-[4/4] 🔨  Building fresh packages...
-✨  Done in 4.95s.
-➜  example
+# yarn install v1.22.18
+# [1/4] 🔍  Resolving packages...
+# [2/4] 🚚  Fetching packages...
+# [3/4] 🔗  Linking dependencies...
+# warning " > @typechain/ethers-v5@10.1.0" has unmet peer dependency "@ethersproject/bytes@^5.0.0".
+# [4/4] 🔨  Building fresh packages...
+# ✨  Done in 4.95s.
 ```
 
 Now that the package dependencies are installed, lets build the default function which is located in `./src/index.ts`.
@@ -252,15 +251,14 @@ yarn build-function
 You will see output similar to the example below. and a file in `./dist/index.js` will be generated.
 
 ```bash
-➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn build-function                                                                    ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
-yarn run v1.22.18
-$ phat-fn build src/index.ts
-Creating an optimized build... done
-Compiled successfully.
-
-  17.66 KB  dist/index.js
-✨  Done in 3.48s.
-
+yarn build-function
+# yarn run v1.22.18
+# $ phat-fn build src/index.ts
+# Creating an optimized build... done
+# Compiled successfully.
+#
+#   17.66 KB  dist/index.js
+# ✨  Done in 3.48s.
 ```
 
 With our default function built, we can run some initial tests. First test will be simple.
@@ -269,14 +267,13 @@ yarn run-function
 ```
 It was expected for it to fail like this:
 ```bash
-➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn run-function                                                                      ~/Projects/Phala/LensCampaign/DevDAO/lensapi-oracle-consumer-contract
-yarn run v1.22.18
-$ phat-fn run dist/index.js
-handle req: undefined
-Malformed request received
-{"output":"0x000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
-✨  Done in 0.96s.
-
+yarn run-function
+# yarn run v1.22.18
+# $ phat-fn run dist/index.js
+# handle req: undefined
+# Malformed request received
+# {"output":"0x000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
+# ✨  Done in 0.96s.
 ```
 
 Notice that the test fails and reports that a `Malformed request received` was emitted and the request was `undefined`. This is expected as you will need to define the parameters by adding a `-a abi.encode(requestId, profileId) https://api-mumbai.lens.dev` to your command.
@@ -290,16 +287,15 @@ yarn run-function -a 0x000000000000000000000000000000000000000000000000000000000
 ```
 You will see:
 ```bash
-➜  lensapi-oracle-consumer-contract git:(main) ✗ yarn run-function -a 0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000040000000
+yarn run-function -a 0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000040000000
 00000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
-yarn run v1.22.18
-$ phat-fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
-handle req: 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000
-Request received for profile 0x01
-response: 0,1,3346
-{"output":"0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000d12"}
-✨  Done in 1.42s.
-
+# yarn run v1.22.18
+# $ phat-fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
+# handle req: 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000
+# Request received for profile 0x01
+# response: 0,1,3346
+# {"output":"0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000d12"}
+# ✨  Done in 1.42s.
 ```
 
 We have now successfully tested the default function and ran a test to verify the function returns a response as expected.
@@ -321,19 +317,18 @@ Lets’s start with the first test case.
 <details>
   <summary>Expected error if <code>.env</code> not configured.</summary>
 
-    ➜  example yarn hardhat test                                                                                                       ~/Projects/Phala/example
-    yarn run v1.22.18
-    $ /Users/hashwarlock/Projects/Phala/example/node_modules/.bin/hardhat test
-    Error HH8: There's one or more errors in your config file:
+    yarn hardhat test
+    # yarn run v1.22.18
+    # Error HH8: There's one or more errors in your config file:
     
-      * Invalid value undefined for HardhatConfig.networks.polygon.url - Expected a value of type string.
-      * Invalid value undefined for HardhatConfig.networks.mumbai.url - Expected a value of type string.
+    #  * Invalid value undefined for HardhatConfig.networks.polygon.url - Expected a value of type string.
+    #  * Invalid value undefined for HardhatConfig.networks.mumbai.url - Expected a value of type string.
       
-    To learn more about Hardhat's configuration, please go to https://hardhat.org/config/
+    # To learn more about Hardhat's configuration, please go to https://hardhat.org/config/
     
-    For more info go to https://hardhat.org/HH8 or run Hardhat with --show-stack-traces
-    error Command failed with exit code 1.
-    info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+    # For more info go to https://hardhat.org/HH8 or run Hardhat with --show-stack-traces
+    # error Command failed with exit code 1.
+    # info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
 </details>
 
 ```bash
@@ -342,18 +337,16 @@ yarn hardhat test
 
 You will now see that all test cases have passed.
 ```bash
-➜  example yarn hardhat test                                                                                   ~/Projects/Phala/example
-yarn run v1.22.18
-$ ~/Projects/Phala/example/node_modules/.bin/hardhat test
-Compiled 14 Solidity files successfully
-
-  TestLensApiConsumerContract
-    ✔ Push and receive message (1664ms)
-
-  1 passing (2s)
-
-✨  Done in 3.29s.
-➜  example
+yarn hardhat test
+# yarn run v1.22.18
+# Compiled 14 Solidity files successfully
+#
+#  TestLensApiConsumerContract
+#    ✔ Push and receive message (1664ms)
+#
+#  1 passing (2s)
+#
+# ✨  Done in 3.29s.
 ```
 
 This is how the e2e mocha test will look like. You can customize this file at `./test/TestLensApiConsumerContract.ts`.
@@ -427,16 +420,15 @@ yarn hardhat node
 <details>
   <summary>Example output</summary>
 
-	➜  example yarn hardhat node                                                                                                       ~/Projects/Phala/example
-	yarn run v1.22.18
-	$ ~/Projects/Phala/example/node_modules/.bin/hardhat node
-	Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
+	yarn hardhat node
+	# yarn run v1.22.18
+	# Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
 
-	Accounts
-	========
+	# Accounts
+	# ========
 
-	WARNING: These accounts, and their private keys, are publicly known.
-	Any funds sent to them on Mainnet or any other live network WILL BE LOST.
+	# WARNING: These accounts, and their private keys, are publicly known.
+	# Any funds sent to them on Mainnet or any other live network WILL BE LOST.
 </details>
 
 With our hardhat node running locally, we can now deploy the `LensApiConsumerContract.sol` contract to the local hardhat network.
@@ -445,13 +437,11 @@ yarn localhost-deploy
 ```
 
 ```bash
-➜  example yarn localhost-deploy                                                                                                   ~/Projects/Phala/example
-yarn run v1.22.18
-$ hardhat run --network localhost ./scripts/localhost/deploy.ts
-Deploying...
-Deployed { consumer: '0x0165878A594ca255338adfa4d48449f69242Eb8F' }
-✨  Done in 0.94s.
-➜  example
+yarn localhost-deploy
+# yarn run v1.22.18
+# Deploying...
+# Deployed { consumer: '0x0165878A594ca255338adfa4d48449f69242Eb8F' }
+# ✨  Done in 0.94s.
 ```
 
 Make sure to copy the deployed contract address when you deploy your own contract locally. Note you contract address will be different than `0x0165878A594ca255338adfa4d48449f69242Eb8F`. We will now start watching the hardhat node deployed contract for any new requests.
@@ -461,11 +451,11 @@ yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contra
 ```
 
 ```bash
-➜  example yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
-
-yarn run v1.22.18
-$ phat-fn watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
-Listening for TestLensApiConsumerContract MessageQueued events...
+yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
+#
+# yarn run v1.22.18
+# $ phat-fn watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
+# Listening for TestLensApiConsumerContract MessageQueued events...
 ```
 
 Let’s now make a new request and see what happens with the listener’s output. In separate tab, you will push a request with the following.
@@ -474,23 +464,22 @@ Let’s now make a new request and see what happens with the listener’s output
 LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request 
 ```
 
-```tsx
-➜  example LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request              ~/Projects/Phala/example
-
-yarn run v1.22.18
-$ hardhat run --network localhost ./scripts/localhost/push-request.ts
-Pushing a request...
-Received event [ResponseReceived]: {
-  reqId: BigNumber { value: "1" },
-  pair: '0x01',
-  value: BigNumber { value: "1597" }
-}
-✨  Done in 4.99s.
+```bash
+LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request
+# yarn run v1.22.18
+# $ hardhat run --network localhost ./scripts/localhost/push-request.ts
+# Pushing a request...
+# Received event [ResponseReceived]: {
+#  reqId: BigNumber { value: "1" },
+#  pair: '0x01',
+#  value: BigNumber { value: "1597" }
+# }
+# ✨  Done in 4.99s.
 ```
 
 If we look back at the listener tab, we will see output has been appended.
 
-```tsx
+```typescript
 Listening for TestLensApiConsumerContract MessageQueued events...
 Received event [MessageQueued]: {
   tail: 0n,
