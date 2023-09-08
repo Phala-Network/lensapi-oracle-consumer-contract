@@ -20,7 +20,7 @@ First you will need to install the [@phala/fn](https://www.npmjs.com/package/@ph
 Now create your first template with the the CLI tool command:
 
 ```bash
-➜  Phala npx @phala/fn init example                                                                                                        ~/Projects/Phala
+➜  Phala npx @phala/fn init example
 ? Please select one of the templates for your "example" project: lensapi-oracle-consumer-contract. Polygon Consumer Contract for LensAPI Oracle
 Downloading the template: https://github.com/Phala-Network/lensapi-oracle-consumer-contract... ✔
 The project is created in /Users/hashwarlock/Projects/Phala/example
@@ -30,7 +30,7 @@ The project is created in /Users/hashwarlock/Projects/Phala/example
 
 ```bash
 ➜  Phala cd example
-➜  example ls                                                                                                                      ~/Projects/Phala/example
+➜  example ls
 total 736
 drwxr-xr-x  18 hashwarlock  staff   576B Sep  6 15:32 .
 drwxr-xr-x  35 hashwarlock  staff   1.1K Sep  6 15:32 ..
@@ -59,7 +59,7 @@ With a template created and a basic default function example ready to test, let�
 First step is to install the package dependencies with the following command:
 
 ```bash
-➜  example yarn install                                                                                                            ~/Projects/Phala/example
+➜  example yarn install
 yarn install v1.22.18
 [1/4] 🔍  Resolving packages...
 [2/4] 🚚  Fetching packages...
@@ -239,7 +239,7 @@ Now that the package dependencies are installed, lets build the default function
 Build the default function with the command below and a file in `./dist/index.js` will be generated.
 
 ```bash
-➜  example npx @phala/fn build src/index.ts                                                                                        ~/Projects/Phala/example
+➜  example npx @phala/fn build src/index.ts
 Creating an optimized build... done
 Compiled successfully.
 
@@ -250,7 +250,7 @@ Compiled successfully.
 With our default function built, we can run some initial tests. First test will be simple.
 
 ```bash
-➜  example npx @phala/fn run dist/index.js                                                                                         ~/Projects/Phala/example
+➜  example npx @phala/fn run dist/index.js
 handle req: undefined
 Malformed request received
 {"output":"0x000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
@@ -265,9 +265,7 @@ Let’s try again.
 >
 
 ```bash
-➜  example npx @phala/fn run dist/index.js -a / 
-	0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 /
-	https://api-mumbai.lens.dev        
+➜  example npx @phala/fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
 handle req: 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000
 Request received for profile 0x01
 response: 0,1,1597
@@ -293,23 +291,23 @@ Lets’s start with the first test case.
 <details>
   <summary>Expected error if <code>.env</code> not configured.</summary>
 
-    ➜  example yarn hardhat test                                                                                                       ~/Projects/Phala/example
+    ➜  example yarn hardhat test
     yarn run v1.22.18
     $ /Users/hashwarlock/Projects/Phala/example/node_modules/.bin/hardhat test
     Error HH8: There's one or more errors in your config file:
-    
+
       * Invalid value undefined for HardhatConfig.networks.polygon.url - Expected a value of type string.
       * Invalid value undefined for HardhatConfig.networks.mumbai.url - Expected a value of type string.
-      
+
     To learn more about Hardhat's configuration, please go to https://hardhat.org/config/
-    
+
     For more info go to https://hardhat.org/HH8 or run Hardhat with --show-stack-traces
     error Command failed with exit code 1.
     info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
 </details>
 
 ```bash
-➜  example yarn hardhat test                                                                                   ~/Projects/Phala/example
+➜  example yarn hardhat test
 yarn run v1.22.18
 $ ~/Projects/Phala/example/node_modules/.bin/hardhat test
 Compiled 14 Solidity files successfully
@@ -388,7 +386,7 @@ This is how the e2e mocha test will look like. You can customize this file at `.
 
 First we will start a local hardhat node.
 ```bash
-➜  example yarn hardhat node                                                                                                       ~/Projects/Phala/example
+➜  example yarn hardhat node
 yarn run v1.22.18
 $ ~/Projects/Phala/example/node_modules/.bin/hardhat node
 Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
@@ -402,7 +400,7 @@ Any funds sent to them on Mainnet or any other live network WILL BE LOST.
 With our hardhat node running locally, we can now deploy the `LensApiConsumerContract.sol` contract to the local hardhat network.
 
 ```tsx
-➜  example yarn localhost-deploy                                                                                                   ~/Projects/Phala/example
+➜  example yarn localhost-deploy
 yarn run v1.22.18
 $ hardhat run --network localhost ./scripts/localhost/deploy.ts
 Deploying...
@@ -424,7 +422,7 @@ Listening for TestLensApiConsumerContract MessageQueued events...
 Let’s now make a new request and see what happens with the listener’s output. In separate tab, you will push a request with the following.
 
 ```tsx
-➜  example LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request              ~/Projects/Phala/example
+➜  example LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request
 
 yarn run v1.22.18
 $ hardhat run --network localhost ./scripts/localhost/push-request.ts
