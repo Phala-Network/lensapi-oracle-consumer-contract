@@ -17,7 +17,7 @@ By the end of the tutorial you will be able to:
 
 First you will need to install the [@phala/fn](https://www.npmjs.com/package/@phala/fn) CLI tool using your node package manager (`npm`) or use node package execute (`npx`). In this tutorial we use `npx`.
 
-Now create your first template with the the CLI tool command:
+Now create your first template with the CLI tool command:
 ```bash
 npx @phala/fn init example
 ```
@@ -450,7 +450,7 @@ Deployed { consumer: '0x0165878A594ca255338adfa4d48449f69242Eb8F' }
 Make sure to copy the deployed contract address when you deploy your own contract locally. Note you contract address will be different than `0x0165878A594ca255338adfa4d48449f69242Eb8F`. We will now start watching the hardhat node deployed contract for any new requests.
 
 ```bash
-yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F 
+yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
 ```
 
 ```bash

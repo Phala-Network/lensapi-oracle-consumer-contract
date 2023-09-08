@@ -5,9 +5,13 @@
 - [Getting Started](#getting-started)
   - [Environment Variables](#environment-variables)
 - [Deployment](#deployment)
+  - [Deploy Phat Contract to Phala PoC5 Testnet](#deploy-phat-contract-to-poc5-testnet)
+    - [Update Phat Contract on Phala PoC5 Testnet](#update-phat-contract-on-phala-poc5-testnet)
   - [Deploy to Polygon Mumbai Testnet](#deploy-to-polygon-mumbai-testnet)
     - [Verify Contract on Polygon Mumabai Testnet](#verify-contract-on-polygon-mumbai-testnet)
     - [Interact with Consumer Contract on Polygon Mumbai](#interact-with-consumer-contract-on-polygon-mumbai)
+  - [Deploy Phat Contract to Phala Mainnet](#deploy-phat-contract-to-phala-mainnet)
+    - [Update Phat Contract on Phala Mainnet](#update-phat-contract-on-phala-mainnet)
   - [Deploy to Polygon Mainnet](#deploy-to-polygon-mainnet)
     - [Verify Contract on Polygon Mainnet](#verify-contract-on-polygon-mainnet)
     - [Interact with Consumer Contract on Polygon Mainnet](#interact-with-consumer-contract-on-polygon-mainnet)
@@ -26,6 +30,7 @@ This project represents a basic Polygon Consumer Contract that is compatible wit
   - [Alchemy](https://alchemy.com) - This repo example uses Alchemy's API Key.
   - [Infura](https://infura.io)
   - Personal RPC Node
+- Polkadot Account for Phala PoC5 Testnet and Mainnet deployment
 
 ## Getting Started
 First you will need to run `cp .env.local .env` to copy over the local environment variables.
@@ -39,6 +44,9 @@ First you will need to run `cp .env.local .env` to copy over the local environme
 - `POLYGONSCAN_API_KEY` - Polygonscan API Key that can be generated at [polygonscan](https://polygonscan.com).
 - `MUMBAI_LENSAPI_ORACLE_ENDPOINT` - LensAPI Oracle Endpoint Address that can be found in the dashboard of the deployed LensAPI Oracle Blueprint at [Phala PoC5 Testnet](https://bricks-poc5.phala.network) for Polygon Mumbai Testnet.
 - `POLYGON_LENSAPI_ORACLE_ENDPOINT` - LensAPI Oracle Endpoint Address that can be found in the dashboard of the deployed LensAPI Oracle Blueprint at [Phala Mainnet](https://bricks.phala.network) for Polygon Mainnet.
+- `POLKADOT_WALLET_PASSPHRASE` - TODO
+- `POLKADOT_WALLET_SURI`(optional) - TODO
+- `WORKFLOW_ID` - TODO
 
 ## Deployment
 Now that you have the prerequisites to deploy a Polygon Consumer Contract on Polygon, lets begin with some initials tasks.
@@ -50,6 +58,12 @@ $ yarn
 # compile contracts
 $ yarn compile
 ```
+### Deploy Phat Contract to PoC5 Testnet
+TODO
+
+### Update Phat Contract on Phala PoC5 Testnet
+TODO
+
 ### Deploy to Polygon Mumbai Testnet
 With the contracts successfully compiled, now we can begin deploying first to Polygon Mumbai Testnet. If you have not gotten `MATIC` for Mumbai Testnet then get `MATIC` from a [faucet](https://mumbaifaucet.com/).
 Ensure to save the address after deploying the Consumer Contract because this address will be use in the "[Configure Client](https://docs.phala.network/developers/bricks-and-blueprints/featured-blueprints/lensapi-oracle#step-4-configure-the-client-address)" section of Phat Bricks UI. The deployed address will also be set to the environment variable [`MUMBAI_CONSUMER_CONTRACT_ADDRESS`](./.env.local).
@@ -96,6 +110,12 @@ $ yarn test-push-request
 Pushing a request...
 Done
 ```
+
+### Deploy Phat Contract to Phala Mainnet
+TODO
+
+### Update Phat Contract on Phala Mainnet
+TODO
 
 ### Deploy to Polygon Mainnet
 Ensure to save the address after deploying the Consumer Contract because this address will be used in the "[Configure Client](https://docs.phala.network/developers/bricks-and-blueprints/featured-blueprints/lensapi-oracle#step-4-configure-the-client-address)" section of Phat Bricks UI. The deployed address will also be set to the environment variable [`POLYGON_CONSUMER_CONTRACT_ADDRESS`](./.env.local).
