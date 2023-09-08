@@ -20,12 +20,12 @@ const config: HardhatUserConfig = {
   networks: {
     polygon: {
       // If not set, you can get your own Alchemy API key at https://dashboard.alchemyapi.io or https://infura.io
-      url: process.env.POLYGON_RPC_URL,
+      url: process.env.POLYGON_RPC_URL ?? '',
       accounts: [DEPLOYER_PRIVATE_KEY],
     },
     mumbai: {
       // If not set, you can get your own Alchemy API key at https://dashboard.alchemyapi.io or https://infura.io
-      url: process.env.MUMBAI_RPC_URL,
+      url: process.env.MUMBAI_RPC_URL ?? '',
       accounts: [DEPLOYER_PRIVATE_KEY],
     },
   },
