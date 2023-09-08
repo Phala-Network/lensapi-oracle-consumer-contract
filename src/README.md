@@ -24,10 +24,10 @@ npx @phala/fn init example
 We currently have only one template. Just press enter to see something similar to the example below:
 
 ```bash
-➜  Phala npx @phala/fn init example                                                                                                        ~/Projects/Phala
+npx @phala/fn init example
 # ? Please select one of the templates for your "example" project: lensapi-oracle-consumer-contract. Polygon Consumer Contract for LensAPI Oracle
 # Downloading the template: https://github.com/Phala-Network/lensapi-oracle-consumer-contract... ✔
-# The project is created in /Users/hashwarlock/Projects/Phala/example
+# The project is created in ~/Projects/Phala/example
 ```
 
 `cd` into the newly created template and `ls` the directory which will look similar to below.
@@ -67,7 +67,7 @@ yarn install
 Everything should go smoothly and produce similar output below:
 
 ```bash
-➜  example yarn install                                                                                                            ~/Projects/Phala/example
+yarn install
 # yarn install v1.22.18
 # [1/4] 🔍  Resolving packages...
 # [2/4] 🚚  Fetching packages...
@@ -413,6 +413,7 @@ This is how the e2e mocha test will look like. You can customize this file at `.
 **Run local hardhat node and watch the requests that are pushed and see how the function transforms the data**
 
 First we will start a local hardhat node.
+
 ```bash
 yarn hardhat node
 ```

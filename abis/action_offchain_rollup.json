@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x2fc15615a7caf489cca7c296ad9d6f516b815e2ef8dd34388ae4ee73258a537d",
+    "hash": "0xe0a086ccadbac348b625e859b46175224b226d29fa842f051e49c6fcc85dee62",
     "language": "ink! 4.2.0",
     "compiler": "rustc 1.72.0",
     "build_info": {
@@ -15,7 +15,7 @@
   },
   "contract": {
     "name": "action_offchain_rollup",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
       "[your_name] <[your_email]>"
     ]

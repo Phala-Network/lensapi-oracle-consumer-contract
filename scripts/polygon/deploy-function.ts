@@ -64,7 +64,7 @@ async function main() {
   if (brickProfileCodeHash === '0x3b3d35f92494fe60d9f9f6139ea83964dc4bca84d7ac66e985024358c9c62969') {
     brickProfileAbi = fs.readFileSync('./abis/brick_profile-0.2.0.json', 'utf8')
   } else {
-    brickProfileAbi = fs.readFileSync('./abis/brick_profile-1.0.0.json', 'utf8')
+    brickProfileAbi = fs.readFileSync('./abis/brick_profile-1.0.1.json', 'utf8')
   }
 
   const brickProfileContractKey = await registry.getContractKeyOrFail(brickProfileContractId)
@@ -90,7 +90,8 @@ async function main() {
   const { output: attestorQuery } = await contractPromise.query.getAttestAddress(cert.address, { cert })
   const attestor = attestorQuery.asOk.toHex()
 
-  const selector = rollupAbi.messages.find(i => i.identifier === 'answer_request')?.selector.toHex()
+  const selectorUint8Array = rollupAbi.messages.find(i => i.identifier === 'answer_request')?.selector.toU8a()
+  const selector = Buffer.from(selectorUint8Array!).readUIntBE(0, selectorUint8Array!.length)
   const actions = [
     {
       cmd: 'call',
@@ -135,7 +136,7 @@ async function main() {
     pair
   )
   const finalMessage = dedent`
-    🎉 Your workflow has been added, you can check it out here: https://bricks.phala.network//workflows/${brickProfileContractId}/${num}
+    🎉 Your workflow has been added, you can check it out here: https://bricks.phala.network/workflows/${brickProfileContractId}/${num}
 
        You also need set up the attestor to your .env file:
 
