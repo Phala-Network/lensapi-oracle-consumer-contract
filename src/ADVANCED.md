@@ -33,36 +33,36 @@ npx @phala/fn init example
 We currently have only one template. Just press enter to see something similar to the example below:
 
 ```bash
-➜  Phala npx @phala/fn init example                                                                                                        ~/Projects/Phala
-? Please select one of the templates for your "example" project: lensapi-oracle-consumer-contract. Polygon Consumer Contract for LensAPI Oracle
-Downloading the template: https://github.com/Phala-Network/lensapi-oracle-consumer-contract... ✔
-The project is created in /Users/hashwarlock/Projects/Phala/example
+npx @phala/fn init example
+# ? Please select one of the templates for your "example" project: lensapi-oracle-consumer-contract. Polygon Consumer Contract for LensAPI Oracle
+# Downloading the template: https://github.com/Phala-Network/lensapi-oracle-consumer-contract... ✔
+# The project is created in ~/Projects/Phala/example
 ```
 
 `cd` into the newly created template and `ls` the directory which will look similar to below.
 
 ```bash
-➜  Phala cd example
-➜  example ls                                                                                                                      ~/Projects/Phala/example
-total 736
-drwxr-xr-x  18 hashwarlock  staff   576B Sep  6 15:32 .
-drwxr-xr-x  35 hashwarlock  staff   1.1K Sep  6 15:32 ..
--rw-r--r--   1 hashwarlock  staff   2.1K Sep  6 15:32 .env.local
--rw-r--r--   1 hashwarlock  staff   227B Sep  6 15:32 .gitignore
--rw-r--r--   1 hashwarlock  staff    34K Sep  6 15:32 LICENSE
--rw-r--r--   1 hashwarlock  staff   8.9K Sep  6 15:32 README.md
-drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 abis
-drwxr-xr-x   4 hashwarlock  staff   128B Sep  6 15:32 assets
-drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 contracts
--rw-r--r--   1 hashwarlock  staff   1.3K Sep  6 15:32 hardhat.config.ts
--rw-r--r--   1 hashwarlock  staff    95B Sep  6 15:32 mumbai.arguments.ts
--rw-r--r--   1 hashwarlock  staff   2.6K Sep  6 15:32 package.json
--rw-r--r--   1 hashwarlock  staff    96B Sep  6 15:32 polygon.arguments.ts
-drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 scripts
-drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 src
-drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 test
--rw-r--r--   1 hashwarlock  staff   201B Sep  6 15:32 tsconfig.json
--rw-r--r--   1 hashwarlock  staff   290K Sep  6 15:32 yarn.lock
+cd example
+ls                                                                                                                      ~/Projects/Phala/example
+# total 736
+# drwxr-xr-x  18 hashwarlock  staff   576B Sep  6 15:32 .
+# drwxr-xr-x  35 hashwarlock  staff   1.1K Sep  6 15:32 ..
+# -rw-r--r--   1 hashwarlock  staff   2.1K Sep  6 15:32 .env.local
+# -rw-r--r--   1 hashwarlock  staff   227B Sep  6 15:32 .gitignore
+# -rw-r--r--   1 hashwarlock  staff    34K Sep  6 15:32 LICENSE
+# -rw-r--r--   1 hashwarlock  staff   8.9K Sep  6 15:32 README.md
+# drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 abis
+# drwxr-xr-x   4 hashwarlock  staff   128B Sep  6 15:32 assets
+# drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 contracts
+# -rw-r--r--   1 hashwarlock  staff   1.3K Sep  6 15:32 hardhat.config.ts
+# -rw-r--r--   1 hashwarlock  staff    95B Sep  6 15:32 mumbai.arguments.ts
+# -rw-r--r--   1 hashwarlock  staff   2.6K Sep  6 15:32 package.json
+# -rw-r--r--   1 hashwarlock  staff    96B Sep  6 15:32 polygon.arguments.ts
+# drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 scripts
+# drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 src
+# drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 test
+# -rw-r--r--   1 hashwarlock  staff   201B Sep  6 15:32 tsconfig.json
+# -rw-r--r--   1 hashwarlock  staff   290K Sep  6 15:32 yarn.lock
 ```
 Lastly, we will `cd` into `./src` where the `index.ts` file resides. This file will be where we customize our function logic.
 ```bash
