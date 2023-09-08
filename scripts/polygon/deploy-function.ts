@@ -64,7 +64,7 @@ async function main() {
   if (brickProfileCodeHash === '0x3b3d35f92494fe60d9f9f6139ea83964dc4bca84d7ac66e985024358c9c62969') {
     brickProfileAbi = fs.readFileSync('./abis/brick_profile-0.2.0.json', 'utf8')
   } else {
-    brickProfileAbi = fs.readFileSync('./abis/brick_profile-1.0.0.json', 'utf8')
+    brickProfileAbi = fs.readFileSync('./abis/brick_profile-1.0.1.json', 'utf8')
   }
 
   const brickProfileContractKey = await registry.getContractKeyOrFail(brickProfileContractId)

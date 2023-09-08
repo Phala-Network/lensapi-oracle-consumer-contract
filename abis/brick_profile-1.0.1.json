@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xf21d422033f5803c4be00803d62e84e1e1a44a614896a8977941530fca4ba63a",
+    "hash": "0xd6509895851f90280314d8608430b8972772306fd81973f19272588e2ad2aca8",
     "language": "ink! 4.2.0",
     "compiler": "rustc 1.72.0",
     "build_info": {
@@ -15,7 +15,7 @@
   },
   "contract": {
     "name": "brick_profile",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
       "Shelven Zhou <favoring.zhou49@gmail.com>"
     ]
