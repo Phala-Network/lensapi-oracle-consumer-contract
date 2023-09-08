@@ -34,7 +34,7 @@ npx @phala/fn init example
 
 ```bash
 cd example
-ls                                                                                                                      ~/Projects/Phala/example
+ls
 # total 736
 # drwxr-xr-x  18 hashwarlock  staff   576B Sep  6 15:32 .
 # drwxr-xr-x  35 hashwarlock  staff   1.1K Sep  6 15:32 ..
@@ -80,6 +80,7 @@ yarn install
 Now that the package dependencies are installed, lets build the default function which is located in `./src/index.ts`.
 <details>
   <summary> View file <code>./src/index.ts</code></summary>
+
     import "@phala/pink-env";
     import { Coders } from "@phala/ethers";
 
@@ -417,6 +418,16 @@ First we will start a local hardhat node.
 ```bash
 yarn hardhat node
 ```
+With our hardhat node running locally, we can now deploy the `LensApiConsumerContract.sol` contract to the local hardhat network.
+
+```bash
+yarn localhost-deploy
+# yarn run v1.22.18
+# hardhat run --network localhost ./scripts/localhost/deploy.ts
+# Deploying...
+# Deployed { consumer: '0x0165878A594ca255338adfa4d48449f69242Eb8F' }
+# ✨  Done in 0.94s.
+```
 
 <details>
   <summary>Example output</summary>
@@ -453,7 +464,6 @@ yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contra
 
 ```bash
 yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
-#
 # yarn run v1.22.18
 # $ phat-fn watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
 # Listening for TestLensApiConsumerContract MessageQueued events...
@@ -462,7 +472,7 @@ yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contra
 Let’s now make a new request and see what happens with the listener’s output. In separate tab, you will push a request with the following.
 
 ```bash
-LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request 
+LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request
 ```
 
 ```bash
