@@ -136,7 +136,7 @@ async function main() {
     pair
   )
   const finalMessage = dedent`
-    🎉 Your workflow has been added, you can check it out here: https://bricks-poc5.phala.network//workflows/${brickProfileContractId}/${num}
+    🎉 Your workflow has been added, you can check it out here: https://bricks-poc5.phala.network/workflows/${brickProfileContractId}/${num}
 
        You also need set up the attestor to your .env file:
 
