@@ -68,7 +68,6 @@ Everything should go smoothly and produce similar output below:
 
 ```bash
 yarn install
-# yarn install v1.22.18
 # [1/4] 🔍  Resolving packages...
 # [2/4] 🚚  Fetching packages...
 # [3/4] 🔗  Linking dependencies...
@@ -80,7 +79,6 @@ yarn install
 Now that the package dependencies are installed, lets build the default function which is located in `./src/index.ts`.
 <details>
   <summary> View file <code>./src/index.ts</code></summary>
-
     import "@phala/pink-env";
     import { Coders } from "@phala/ethers";
 
@@ -253,8 +251,6 @@ You will see output similar to the example below. and a file in `./dist/index.js
 
 ```bash
 yarn build-function
-# yarn run v1.22.18
-# $ phat-fn build src/index.ts
 # Creating an optimized build... done
 # Compiled successfully.
 #
@@ -269,8 +265,6 @@ yarn run-function
 It was expected for it to fail like this:
 ```bash
 yarn run-function
-# yarn run v1.22.18
-# $ phat-fn run dist/index.js
 # handle req: undefined
 # Malformed request received
 # {"output":"0x000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
@@ -290,8 +284,6 @@ You will see:
 ```bash
 yarn run-function -a 0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000040000000
 00000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
-# yarn run v1.22.18
-# $ phat-fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
 # handle req: 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000
 # Request received for profile 0x01
 # response: 0,1,3346
@@ -319,7 +311,6 @@ Lets’s start with the first test case.
   <summary>Expected error if <code>.env</code> not configured.</summary>
 
     yarn hardhat test
-    # yarn run v1.22.18
     # Error HH8: There's one or more errors in your config file:
     
     #  * Invalid value undefined for HardhatConfig.networks.polygon.url - Expected a value of type string.
@@ -339,7 +330,6 @@ yarn hardhat test
 You will now see that all test cases have passed.
 ```bash
 yarn hardhat test
-# yarn run v1.22.18
 # Compiled 14 Solidity files successfully
 #
 #  TestLensApiConsumerContract
@@ -418,22 +408,11 @@ First we will start a local hardhat node.
 ```bash
 yarn hardhat node
 ```
-With our hardhat node running locally, we can now deploy the `LensApiConsumerContract.sol` contract to the local hardhat network.
-
-```bash
-yarn localhost-deploy
-# yarn run v1.22.18
-# hardhat run --network localhost ./scripts/localhost/deploy.ts
-# Deploying...
-# Deployed { consumer: '0x0165878A594ca255338adfa4d48449f69242Eb8F' }
-# ✨  Done in 0.94s.
-```
 
 <details>
   <summary>Example output</summary>
 
 	yarn hardhat node
-	# yarn run v1.22.18
 	# Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
 
 	# Accounts
@@ -450,7 +429,6 @@ yarn localhost-deploy
 
 ```bash
 yarn localhost-deploy
-# yarn run v1.22.18
 # Deploying...
 # Deployed { consumer: '0x0165878A594ca255338adfa4d48449f69242Eb8F' }
 # ✨  Done in 0.94s.
@@ -464,7 +442,6 @@ yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contra
 
 ```bash
 yarn localhost-watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
-# yarn run v1.22.18
 # $ phat-fn watch 0x0165878A594ca255338adfa4d48449f69242Eb8F artifacts/contracts/TestLensApiConsumerContract.sol/TestLensApiConsumerContract.json dist/index.js -a https://api-mumbai.lens.dev/
 # Listening for TestLensApiConsumerContract MessageQueued events...
 ```
@@ -477,8 +454,6 @@ LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F y
 
 ```bash
 LOCALHOST_CONSUMER_CONTRACT_ADDRESS=0x0165878A594ca255338adfa4d48449f69242Eb8F yarn localhost-push-request
-# yarn run v1.22.18
-# $ hardhat run --network localhost ./scripts/localhost/push-request.ts
 # Pushing a request...
 # Received event [ResponseReceived]: {
 #  reqId: BigNumber { value: "1" },
