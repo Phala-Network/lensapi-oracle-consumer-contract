@@ -20,6 +20,12 @@ First you will need to install the [@phala/fn](https://www.npmjs.com/package/@ph
 Now create your first template with the the CLI tool command:
 
 ```bash
+npx @phala/fn init example
+```
+
+We currently have only one template. Just press enter to see something similar to the example below:
+
+```bash
 ➜  Phala npx @phala/fn init example
 ? Please select one of the templates for your "example" project: lensapi-oracle-consumer-contract. Polygon Consumer Contract for LensAPI Oracle
 Downloading the template: https://github.com/Phala-Network/lensapi-oracle-consumer-contract... ✔
@@ -57,6 +63,12 @@ drwxr-xr-x   3 hashwarlock  staff    96B Sep  6 15:32 test
 With a template created and a basic default function example ready to test, let’s step through the process of preparing your repo to execute the test locally.
 
 First step is to install the package dependencies with the following command:
+
+```bash
+yarn install
+```
+
+Everything should go smoothly and produce similar output below:
 
 ```bash
 ➜  example yarn install
@@ -236,7 +248,13 @@ Now that the package dependencies are installed, lets build the default function
     }
 </details>  
 
-Build the default function with the command below and a file in `./dist/index.js` will be generated.
+Build the default function with this command:
+
+```bash
+npx @phala/fn build src/index.ts
+```
+
+You will see output similar to the example below. and a file in ./dist/index.js will be generated.
 
 ```bash
 ➜  example npx @phala/fn build src/index.ts
@@ -247,7 +265,13 @@ Compiled successfully.
 ➜  example
 ```
 
-With our default function built, we can run some initial tests. First test will be simple.
+With our default function built, we can run some initial tests. First test will be simple, just run:
+
+```bash
+npx @phala/fn run dist/index.js
+```
+
+It was expected for it to fail like this:
 
 ```bash
 ➜  example npx @phala/fn run dist/index.js
@@ -263,6 +287,12 @@ Let’s try again.
 
 > Note: You will need to use `abi.encode` the tuple of `(requestId, profileId)` to get the appropriate hexstring for the first argument.
 >
+
+```bash
+npx @phala/fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
+```
+
+You will see:
 
 ```bash
 ➜  example npx @phala/fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
@@ -305,6 +335,12 @@ Lets’s start with the first test case.
     error Command failed with exit code 1.
     info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
 </details>
+
+```bash
+yarn hardhat test
+```
+
+You will now see that all test cases have passed.
 
 ```bash
 ➜  example yarn hardhat test
@@ -385,18 +421,26 @@ This is how the e2e mocha test will look like. You can customize this file at `.
 **Run local hardhat node and watch the requests that are pushed and see how the function transforms the data**
 
 First we will start a local hardhat node.
+
 ```bash
-➜  example yarn hardhat node
-yarn run v1.22.18
-$ ~/Projects/Phala/example/node_modules/.bin/hardhat node
-Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
-
-Accounts
-========
-
-WARNING: These accounts, and their private keys, are publicly known.
-Any funds sent to them on Mainnet or any other live network WILL BE LOST.
+yarn hardhat node
 ```
+
+<details>
+  <summary>Example output</summary>
+
+     ➜  example yarn hardhat node
+     yarn run v1.22.18
+     $ ~/Projects/Phala/example/node_modules/.bin/hardhat node
+     Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
+
+     Accounts
+     ========
+
+     WARNING: These accounts, and their private keys, are publicly known.
+     Any funds sent to them on Mainnet or any other live network WILL BE LOST.
+</details>
+
 With our hardhat node running locally, we can now deploy the `LensApiConsumerContract.sol` contract to the local hardhat network.
 
 ```tsx
