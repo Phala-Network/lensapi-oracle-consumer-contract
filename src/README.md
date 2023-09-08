@@ -254,7 +254,7 @@ Build the default function with this command:
 npx @phala/fn build src/index.ts
 ```
 
-You will see output similar to the example below. and a file in ./dist/index.js will be generated.
+You will see output similar to the example below, and a file in ./dist/index.js will be generated.
 
 ```bash
 ➜  example npx @phala/fn build src/index.ts
