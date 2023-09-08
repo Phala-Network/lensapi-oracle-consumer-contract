@@ -1,19 +1,14 @@
 import { expect } from "chai";
-import { EventLog, type Contract, type ContractTransactionReceipt } from "ethers";
+import { type Contract, type Event } from "ethers";
 import { ethers } from "hardhat";
 import { execSync } from "child_process";
 
-import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
-
-async function waitForResponse(consumer: any, receipt: ContractTransactionReceipt) {
-  const reqEvents = receipt.logs;
-  const eventQueued = reqEvents[0] as EventLog;
-  expect(eventQueued.eventName).to.be.eq("MessageQueued");
-  const [, data] = eventQueued.args;
+async function waitForResponse(consumer: Contract, event: Event) {
+  const [, data] = event.args!;
   // Run Phat Function
   const result = execSync(`phat-fn run --json dist/index.js -a ${data} https://api-mumbai.lens.dev/`).toString();
   const json = JSON.parse(result);
-  const action = ethers.hexlify(ethers.concat([
+  const action = ethers.utils.hexlify(ethers.utils.concat([
     new Uint8Array([0]),
     json.output,
   ]));
@@ -28,36 +23,32 @@ async function waitForResponse(consumer: any, receipt: ContractTransactionReceip
     // actions
     [action],
   );
-  const respReceipt = await tx.wait();
-  return respReceipt;
+  const receipt = await tx.wait();
+  return receipt.events;
 }
 
 describe("TestLensApiConsumerContract", function () {
-  async function deployFixture() {
-    const [owner] = await ethers.getSigners();
-    const TestLensApiConsumerContract = await ethers.getContractFactory("TestLensApiConsumerContract");
-    const consumer = await TestLensApiConsumerContract.deploy(owner.address);
-    return { consumer, owner, attestor: owner }
-  }
-
   it("Push and receive message", async function () {
-    const { consumer } = await loadFixture(deployFixture);
+    // Deploy the contract
+    const [deployer] = await ethers.getSigners();
+    const TestLensApiConsumerContract = await ethers.getContractFactory("TestLensApiConsumerContract");
+    const consumer = await TestLensApiConsumerContract.deploy(deployer.address);
 
     // Make a request
     const profileId = "0x01";
     const tx = await consumer.request(profileId);
     const receipt = await tx.wait();
+    const reqEvents = receipt.events;
+    expect(reqEvents![0]).to.have.property("event", "MessageQueued");
 
     // Wait for Phat Function response
-    const respReceipt = await waitForResponse(consumer, receipt!)
+    const respEvents = await waitForResponse(consumer, reqEvents![0])
 
     // Check response data
-    const eventResponseReceived = respReceipt.logs[0] as EventLog;
-    expect(eventResponseReceived.eventName).to.be.eq("ResponseReceived");
-
-    const [reqId, input, value] = eventResponseReceived.args;
-    expect(reqId).to.be.a('BigInt');
-    expect(input).to.equal(profileId);
-    expect(value).to.be.a('BigInt');
+    expect(respEvents[0]).to.have.property("event", "ResponseReceived");
+    const [reqId, pair, value] = respEvents[0].args;
+    expect(ethers.BigNumber.isBigNumber(reqId)).to.be.true;
+    expect(pair).to.equal(profileId);
+    expect(ethers.BigNumber.isBigNumber(value)).to.be.true;
   });
 });
