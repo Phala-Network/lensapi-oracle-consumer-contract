@@ -73,6 +73,7 @@ warning " > @typechain/ethers-v5@10.1.0" has unmet peer dependency "@ethersproje
 Now that the package dependencies are installed, lets build the default function which is located in `./src/index.ts`.
 <details>
   <summary> View file <code>./src/index.ts</code></summary>
+
     import "@phala/pink-env";
     import { Coders } from "@phala/ethers";
 
@@ -265,8 +266,8 @@ Let’s try again.
 >
 
 ```bash
-➜  example npx @phala/fn run dist/index.js -a / 
-	0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 /
+➜  example npx @phala/fn run dist/index.js -a \ 
+	0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 \
 	https://api-mumbai.lens.dev        
 handle req: 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000
 Request received for profile 0x01
@@ -287,26 +288,6 @@ Previously we showed how to test the default function locally without a running 
 **Run the default mocha e2e tests**
 
 Lets’s start with the first test case.
-
-> Note: You will need to ensure you configure your local vars `POLYGON_RPC_URL` and `MUMBAI_RPC_URL` `.env` file. You can do this with `cp .env.local .env` then edit the `.env` with your information.
->
-<details>
-  <summary>Expected error if <code>.env</code> not configured.</summary>
-
-    ➜  example yarn hardhat test                                                                                                       ~/Projects/Phala/example
-    yarn run v1.22.18
-    $ /Users/hashwarlock/Projects/Phala/example/node_modules/.bin/hardhat test
-    Error HH8: There's one or more errors in your config file:
-    
-      * Invalid value undefined for HardhatConfig.networks.polygon.url - Expected a value of type string.
-      * Invalid value undefined for HardhatConfig.networks.mumbai.url - Expected a value of type string.
-      
-    To learn more about Hardhat's configuration, please go to https://hardhat.org/config/
-    
-    For more info go to https://hardhat.org/HH8 or run Hardhat with --show-stack-traces
-    error Command failed with exit code 1.
-    info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
-</details>
 
 ```bash
 ➜  example yarn hardhat test                                                                                   ~/Projects/Phala/example
