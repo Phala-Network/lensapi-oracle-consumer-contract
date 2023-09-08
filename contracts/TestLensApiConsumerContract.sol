@@ -5,8 +5,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./PhatRollupAnchor.sol";
 
 contract TestLensApiConsumerContract is PhatRollupAnchor, Ownable {
-    event ResponseReceived(uint reqId, string pair, uint256 value);
-    event ErrorReceived(uint reqId, string pair, uint256 errno);
+    event ResponseReceived(uint reqId, string input, uint256 value);
+    event ErrorReceived(uint reqId, string input, uint256 errno);
 
     uint constant TYPE_RESPONSE = 0;
     uint constant TYPE_ERROR = 2;
