@@ -38,7 +38,14 @@ async function main() {
     pair = keyring.createFromJson(JSON.parse(exported))
     pair.decodePkcs8(process.env.POLKADOT_WALLET_PASSPHRASE)
   } else {
-    throw new Error('You need set a polkadot account to continue, please check README.md for details.')
+    console.log(dedent`
+      ❗ You need create Brick Profile before continue.
+
+      You can checkout out guide here: https://github.com/Phala-Network/lensapi-oracle-consumer-contract#create-a-bricks-profile
+
+      Create your Brick Profile here: https://bricks-poc5.phala.network
+    `)
+    return
   }
   const cert = await signCertificate({ pair })
 
@@ -51,7 +58,14 @@ async function main() {
   const brickProfileFactory = new PinkContractPromise(apiPromise, registry, brickProfileFactoryAbi, brickProfileFactoryContractId, brickProfileFactoryContractKey)
   const { output: brickProfileAddressQuery } = await brickProfileFactory.query.getUserProfileAddress<Result<AccountId, any>>(pair.address, { cert })
   if (!brickProfileAddressQuery.isOk || !brickProfileAddressQuery.asOk.isOk) {
-    throw new Error('Brick Profile Factory not found.')
+    console.log(dedent`
+      ❗ You need create Brick Profile before continue.
+
+      You can checkout out guide here: https://github.com/Phala-Network/lensapi-oracle-consumer-contract#create-a-bricks-profile
+
+      Create your Brick Profile here: https://bricks-poc5.phala.network
+    `)
+    return
   }
   const brickProfileContractId = brickProfileAddressQuery.asOk.asOk.toHex()
   const contractInfo = await registry.phactory.getContractInfo({ contracts: [brickProfileContractId] })
