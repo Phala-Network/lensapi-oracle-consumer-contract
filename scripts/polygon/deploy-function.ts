@@ -169,6 +169,7 @@ async function main() {
     if (clusterBalance < minRequired) {
       if (onchainBalance < minRequired) {
         console.log(`Your account balance is too low: minimal required: ${minRequired.toFixed(2)} PHA, you have ${onchainBalance.toFixed(2)}`)
+        return
       }
       const to = (minRequired - clusterBalance).toFixed(4)
       console.log(`Depositing ${to} PHA to cluster...`)
@@ -237,6 +238,7 @@ async function main() {
     if (clusterBalance < minRequired) {
       if (onchainBalance < minRequired) {
         console.log(`Your account balance is too low: minimal required: ${minRequired.toFixed(2)} PHA, you have ${onchainBalance.toFixed(2)}`)
+        return
       }
       const to = (minRequired - clusterBalance).toFixed(4)
       console.log(`Depositing ${to} PHA to cluster...`)
