@@ -138,7 +138,7 @@ async function main() {
   const finalMessage = dedent`
     🎉 Your workflow has been added, you can check it out here: https://bricks-poc5.phala.network/workflows/${brickProfileContractId}/${num}
 
-       You also need set up the attestor to your .env file:
+       You also need to set up the attestor in your .env file:
 
        MUMBAI_LENSAPI_ORACLE_ENDPOINT=${attestor}
 
