@@ -165,6 +165,8 @@ async function main() {
 
     const onchainBalance = (await apiPromise.query.system.account<Account>(pair.address)).data.free.toNumber() / 1e12
     const clusterBalance = (await registry.getClusterBalance(pair.address)).free.toNumber() / 1e12
+    console.log('Estimate minRequired:', minRequired)
+    console.log('Your Balance onchain/cluster:', onchainBalance, clusterBalance)
 
     if (clusterBalance < minRequired) {
       if (onchainBalance < minRequired) {
@@ -234,6 +236,8 @@ async function main() {
 
     const onchainBalance = (await apiPromise.query.system.account<Account>(pair.address)).data.free.toNumber() / 1e12
     const clusterBalance = (await registry.getClusterBalance(pair.address)).free.toNumber() / 1e12
+    console.log('Estimate minRequired:', minRequired)
+    console.log('Your Balance onchain/cluster:', onchainBalance, clusterBalance)
 
     if (clusterBalance < minRequired) {
       if (onchainBalance < minRequired) {

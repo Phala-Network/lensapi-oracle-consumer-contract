@@ -2,7 +2,7 @@ import "dotenv/config"
 import fs from 'fs'
 import type { Result, Struct, u16, Text, Bool } from '@polkadot/types'
 import { type AccountId } from '@polkadot/types/interfaces'
-import { type BN } from '@polkadot/util'
+import { BN } from '@polkadot/util'
 import { Abi } from '@polkadot/api-contract'
 import { OnChainRegistry, options, PinkContractPromise, signCertificate, signAndSend } from "@phala/sdk"
 import { ApiPromise, WsProvider } from '@polkadot/api'
@@ -169,24 +169,25 @@ async function main() {
     const estimate = await rollupContract.query.configCoreScript(cert.address, { cert }, source)
 
     const gasFee = estimate.gasRequired.refTime.toNumber() / 1e12
-    const storageDepositeFee = !estimate.storageDeposit.isCharge ? 0 : (
-      (registry.clusterInfo?.depositPerByte?.toNumber() ?? 0) * (
-        source.length / 2 * 2.2
-      ) / 1e12
-    )
-    // const storageDepositeFee = !estimate.storageDeposit.isCharge ? 0 : estimate.storageDeposit.asCharge.toNumber() / 1e12
+    const storageDepositeFee = !estimate.storageDeposit.isCharge ? 0 : estimate.storageDeposit.asCharge.toNumber() / 1e12
     const minRequired = gasFee + storageDepositeFee
 
     const onchainBalance = (await apiPromise.query.system.account<Account>(pair.address)).data.free.toNumber() / 1e12
     const clusterBalance = (await registry.getClusterBalance(pair.address)).free.toNumber() / 1e12
 
+    console.log('Estimate minRequired:', minRequired)
+    console.log('Your Balance onchain/cluster:', onchainBalance, clusterBalance)
+
     if (clusterBalance < minRequired) {
       if (onchainBalance < minRequired) {
         console.log(`Your account balance is too low: minimal required: ${minRequired.toFixed(2)} PHA, you have ${onchainBalance.toFixed(2)}`)
+        return
       }
       const to = (minRequired - clusterBalance).toFixed(4)
       console.log(`Depositing ${to} PHA to cluster...`)
-      await signAndSend(registry.transferToCluster(pair.address, Number(to) * 1e12), pair)
+      const num = new BN(Number(to) * 1000)
+      num.mul(new BN(1e9))
+      await signAndSend(registry.transferToCluster(pair.address, num), pair)
     }
 
     gasLimit = estimate.gasRequired.refTime.toNumber()
