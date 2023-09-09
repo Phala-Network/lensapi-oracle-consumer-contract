@@ -1,5 +1,6 @@
 import { ethers } from "hardhat";
 import "dotenv/config";
+import dedent from "dedent";
 
 async function main() {
   const TestLensApiConsumerContract = await ethers.getContractFactory("TestLensApiConsumerContract");
@@ -10,11 +11,16 @@ async function main() {
   const attestor = process.env['POLYGON_LENSAPI_ORACLE_ENDPOINT'] || deployer.address;  // When deploy for real e2e test, change it to the real attestor wallet.
   const consumer = await TestLensApiConsumerContract.deploy(attestor);
   await consumer.deployed();
-  console.log('Deployed', {
-    consumer: consumer.address,
-  });
+  const finalMessage = dedent`
+    🎉 Your Consumer Contract has been deployed, check it out here: https://polygonscan.com/address/${consumer.address}
+    
+    You also need to set up the consumer contract address in your .env file:
+    
+    POLYGON_CONSUMER_CONTRACT_ADDRESS=${consumer.address}
+  `
+  console.log(`\n${finalMessage}\n`);
 
-  console.log('Configuring...');
+  console.log('Sending a request...');
   await consumer.connect(deployer).request("0x01c567");
   console.log('Done');
 }

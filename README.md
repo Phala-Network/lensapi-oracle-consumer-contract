@@ -4,6 +4,7 @@
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
   - [Environment Variables](#environment-variables)
+- [Create a Bricks Profile](#create-a-bricks-profile)
 - [Testing Locally](#testing-locally)
   - [Test Default Function Locally](#test-default-function-locally)
   - [Testing Default Function with Local Hardhat Node](#testing-default-function-with-local-hardhat-node)
@@ -25,7 +26,7 @@
 This project represents a basic Polygon Consumer Contract that is compatible with a deployed LensAPI Oracle via [Phat Bricks UI](https://bricks.phala.network).
 
 ## Prerequisites
-- Active Bricks Profile via [Phat Bricks](https://bricks.phala.network)
+- Active Bricks Profile with version `1.0.1` via [Phat Bricks](https://bricks.phala.network)
 - [Hardhat](https://hardhat.org)
 - For EVM Mainnet deployments:
   - Ex: Polygonscan API Key that can be generated on [polygonscan](https://polygonscan.com)
@@ -39,7 +40,8 @@ This project represents a basic Polygon Consumer Contract that is compatible wit
 Check out the environment variables here in [.env.local](./.env.local) file.
 
 ## Getting Started
-
+> Note: If you cloned this repo or created a template, skip to [Create a Bricks Profile](#create-a-bricks-profile)
+> 
 First you will need to install the [@phala/fn](https://www.npmjs.com/package/@phala/fn) CLI tool using your node package manager (`npm`) or use node package execute (`npx`). In this tutorial we use `npx`.
 
 Now create your first template with the CLI tool command:
@@ -80,6 +82,22 @@ ls
 # -rw-r--r--   1 hashwarlock  staff   201B Sep  6 15:32 tsconfig.json
 # -rw-r--r--   1 hashwarlock  staff   290K Sep  6 15:32 yarn.lock
 ```
+
+## Create a Bricks Profile
+This step requires you to have a Polkadot account. You can get an account from one of the following:
+- [Polkadot.js Wallet Extension](https://polkadot.js.org/extension/)
+- [Talisman Wallet](https://www.talisman.xyz/)
+- [SubWallet](https://www.subwallet.app/) (**Support for iOS/Android**)
+
+First, create your Bricks Profile account on the [Phala PoC5 Testnet](https://bricks-poc5.phala.network) or [Phala Mainnet](https://bricks.phala.network). Here is a quick 1 minute [YouTube video](https://youtu.be/z1MR48NYtYc) on setting up from scratch.
+
+Here is what your Bricks Profile account overview should look like:
+![](./assets/BricksProfileCheck.png)
+
+After creating your Bricks Profile, set your `.env` variable `POLKADOT_WALLET_SURI` to the mnemonic phrase from generating the new Polkadot Account. 
+
+Here is a screenshot of how to set `POLKADOT_WALLET_SURI`:
+![](./assets/PolkadotAccountSuri.png)
 
 ## Testing Locally
 
