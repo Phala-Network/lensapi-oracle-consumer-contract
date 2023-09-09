@@ -113,7 +113,7 @@ async function main() {
   const brickProfileContractKey = await registry.getContractKeyOrFail(brickProfileContractId)
   const brickProfile = new PinkContractPromise(apiPromise, registry, brickProfileAbi, brickProfileContractId, brickProfileContractKey)
 
-  const rollupAbi = new Abi(fs.readFileSync('./abis/action_offchain_rollup.json', 'utf8'))
+  const rollupAbi = new Abi(fs.readFileSync('./abis/action_offchain_rollup-mainnet.json', 'utf8'))
   const codeHash = rollupAbi.info.source.wasmHash.toHex()
 
   const { output } = await registry.systemContract!.query['system::codeExists']<Bool>(pair.address, { cert }, codeHash, 'Ink')

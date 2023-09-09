@@ -135,7 +135,7 @@ async function main() {
   //
   // Step 5: Init the actionOffchainRollup instance.
   //
-  const rollupAbi = new Abi(fs.readFileSync('./abis/action_offchain_rollup.json', 'utf8'))
+  const rollupAbi = new Abi(fs.readFileSync('./abis/action_offchain_rollup-mainnet.json', 'utf8'))
   // assume the codeHash is matched
   if (actions[0].config.codeHash !== rollupAbi.info.source.wasmHash.toHex()) {
     console.log(actions)
