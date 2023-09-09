@@ -13,8 +13,8 @@ async function main() {
   if (!endpoint) {
     throw new Error('Please set PHALA_MAINNET_ENDPOINT via .env file first.')
   }
-  const mumbaiRpcUrl = process.env.POLYGON_RPC_URL
-  if (!mumbaiRpcUrl) {
+  const polygonRpcUrl = process.env.POLYGON_RPC_URL
+  if (!polygonRpcUrl) {
     throw new Error('Please set POLYGON_RPC_URL via .env file first.')
   }
   const polygonConsumerContractAddress = process.env.POLYGON_CONSUMER_CONTRACT_ADDRESS
@@ -23,7 +23,7 @@ async function main() {
   }
 
   console.log(dedent`
-    We going to deploy your Phat Function to Phala Network Testnet: ${endpoint}
+    We are going to deploy your Phat Function to Phala Network Mainnet: ${endpoint}
   `)
 
   const apiPromise = await ApiPromise.create(options({ provider: new WsProvider(endpoint), noInitWarn: true }))
@@ -75,7 +75,7 @@ async function main() {
   const result = await signAndSend<PinkBlueprintSubmittableResult>(
     blueprint.tx.withConfiguration(
       { gasLimit: 1000000000000 },
-      mumbaiRpcUrl, // client_rpc
+      polygonRpcUrl, // client_rpc
       polygonConsumerContractAddress, // client_addr
       fs.readFileSync('./dist/index.js', 'utf8'), // core_js
       'https://api.lens.dev/', // core_settings
@@ -140,7 +140,7 @@ async function main() {
 
        You also need to set up the attestor in your .env file:
 
-       MUMBAI_LENSAPI_ORACLE_ENDPOINT=${attestor}
+       POLYGON_LENSAPI_ORACLE_ENDPOINT=${attestor}
 
        Then run:
 

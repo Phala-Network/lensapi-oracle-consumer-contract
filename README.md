@@ -541,13 +541,17 @@ yarn test-deploy
 ```shell
 # deploy contracts to testnet mumbai
 yarn test-deploy
-# yarn run v1.22.18
-# $ hardhat run --network mumbai ./scripts/mumbai/deploy.ts
 # Deploying...
-# Deployed { consumer: '0x090E8fDC571d65459569BC87992C1026121DB955' }
+#
+# 🎉 Your Consumer Contract has been deployed, check it out here: https://mumbai.polygonscan.com/address/0x10FA409109E073C15b77A8352cB6A89C12CD1605
+#
+# You also need to set up the consumer contract address in your .env file:
+#
+# MUMBAI_CONSUMER_CONTRACT_ADDRESS=0x10FA409109E073C15b77A8352cB6A89C12CD1605
+#
 # Configuring...
 # Done
-# ✨  Done in 8.18s.
+# ✨  Done in 8.20s.
 ```
 #### Verify Contract on Polygon Mumbai Testnet
 Ensure to update the [`mumbai.arguments.ts`](./mumbai.arguments.ts) file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `mumbai.arguments.ts` file.
@@ -588,7 +592,7 @@ yarn build-function
 #   17.66 KB  dist/index.js
 # ✨  Done in 3.71s.
 ```
-Now that are Phat Contract function has built successfully, let's deploy to PhalaPoC5 Testnet with the following command:
+Now that are Phat Contract function has built successfully, let's deploy to Phala PoC5 Testnet with the following command:
 ```shell
 yarn test-deploy-function
 ```
@@ -646,6 +650,9 @@ yarn test-set-attestor
 # Done
 # ✨  Done in 2.69s.
 ```
+
+Test pushing a malform request.
+
 ```shell
 yarn test-push-malformed-request
 ```
@@ -656,11 +663,18 @@ yarn test-push-malformed-request
 # Pushing a malformed request...
 # Done
 # ✨  Done in 2.48s.
-#
-# execute push-request
-# $ yarn test-push-request
+```
+
+Test pushing a valid request.
+
+```shell
+yarn test-push-request
+```
+```shell
+yarn test-push-request
 # Pushing a request...
 # Done
+# ✨  Done in 2.97s.
 ```
 
 ### Update Phat Contract on Phala PoC5 Testnet
@@ -701,11 +715,16 @@ Ensure to save the address after deploying the Consumer Contract because this ad
 ```shell
 yarn main-deploy
 # Deploying...
-# Deployed { consumer: '0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4' }
+#
+# 🎉 Your Consumer Contract has been deployed, check it out here: https://polygonscan.com/address/0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4
+#
+# You also need to set up the consumer contract address in your .env file:
+#
+# POLYGON_CONSUMER_CONTRACT_ADDRESS=0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4
+#
 # Configuring...
 # Done
-
-# Check our example deployment in <https://polygonscan.com/address/0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4>
+# ✨  Done in 8.20s.
 ```
 #### Verify Contract on Polygon Mainnet
 Ensure to update the [`polygon.arguments.ts`](./polygon.arguments.ts) file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `polygon.arguments.ts` file.
@@ -722,7 +741,63 @@ yarn main-verify 0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4
 # Done in 8.88s.
 ```
 ### Deploy Phat Contract to Phala Mainnet
-TODO
+> 🚨 **WARNING** 🚨: This section is undergoing testing. Wait before an announcement to deploy to mainnet.
+> 
+For customizing your Phat Contract function, checkout default function [README.md](./src/README.md) and advanced configurations in [ADVANCED.md](./src/ADVANCED.md) to learn more before deploying to Phala Mainnet.
+
+First you will need to build your function with this command:
+```shell
+yarn build-function
+```
+Here is the expected output:
+```shell
+yarn build-function
+# yarn run v1.22.18
+# $ phat-fn build src/index.ts
+# Creating an optimized build... done
+# Compiled successfully.
+#
+#   17.66 KB  dist/index.js
+# ✨  Done in 3.71s.
+```
+Now that are Phat Contract function has built successfully, let's deploy to Phala Mainnet with the following command:
+```shell
+yarn main-deploy-function
+```
+Here is the expected output:
+> Note: your contract IDs will vary and not be the same as the IDs below.
+```shell
+yarn main-deploy-function
+# yarn run v1.22.18
+# $ hardhat run --network polygon ./scripts/polygon/deploy-function.ts
+# We are going to deploy your Phat Function to Phala Network Mainnet:: wss://api.phala.network/ws
+# (node:12200) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Your Brick Profile contract ID: 0xfd18dca07dc76811dd99b14ee6fe3b82e135ed06a2c311b741e6c9163892b32c
+# The ActionOffchainRollup contract has been instantiated:  0x1161a649467fac4532b3ef85b70bf750380dea49c3efbb4ce8db66d0de47389a
+#
+# 🎉 Your workflow has been added, you can check it out here: https://bricks.phala.network//workflows/0xfd18dca07dc76811dd99b14ee6fe3b82e135ed06a2c311b741e6c9163892b32c/0
+#
+#   You also need set up the attestor to your .env file:
+#
+#   POLYGON_LENSAPI_ORACLE_ENDPOINT=0x1f6911eaa71405eb043961c0ba4bb6ed7ecc5c8e
+#
+#   Then run:
+#
+#   yarn test-set-attestor
+#
+#   Then send the test request with follow up command:
+#
+#   yarn test-push-request
+#
+#   You can continue update the Phat Function codes and update it with follow up commands:
+#
+#   yarn build-function
+#   WORKFLOW_ID=0 yarn test-update-function
+#
+# ✨  Done in 36.35s.
+```
+
 
 #### Interact with Consumer Contract on Polygon Mainnet
 Execute Scripts to Consumer Contract on Polygon Mainnet. The Consumer Contract on Polygon Mainnet with a few actions to mimic a malformed request, successful requests, and set the attestor.
