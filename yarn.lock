@@ -862,10 +862,10 @@
   resolved "https://registry.yarnpkg.com/@phala/pink-env/-/pink-env-1.0.10.tgz#c0b8bb89464f92ebd9d7ac285c5af3a5b7cdbaf2"
   integrity sha512-3AfsyC3JncTMCfNbXZYEn6LRDs5wAABTb17KH72+/s3mg4EG3iY7layxiTRsTqauuq+eQ1RcBrXLgUBdp/Mcgg==
 
-"@phala/sdk@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@phala/sdk/-/sdk-0.5.1.tgz#92d3d153bf7f71218dbbb0a9cdfc14edf5b16a6d"
-  integrity sha512-whkyA72tqcCwJPdZ+6/zedg3rg84RwvUhmVjQMwPKOeTCfkzmF/dQl3V+2z017AYOTSZQTfJw8uk6IpfoTmZjQ==
+"@phala/sdk@^0.5.2-nightly-20230909-1":
+  version "0.5.2-nightly-20230909-1"
+  resolved "https://registry.yarnpkg.com/@phala/sdk/-/sdk-0.5.2-nightly-20230909-1.tgz#3473438c4649360a65bbccb5c3f4315e9debacd4"
+  integrity sha512-zcP8KLJWdMf2CSwCY0X6borUvk/J0hbb0VzbRhv22RZEOEe1L0qQDdaDxN7+8dmtrfCe3xvZ8SPxK9y47jOAmQ==
   dependencies:
     "@phala/typedefs" "^0.2.33"
     "@polkadot/api" "^10.9.1"

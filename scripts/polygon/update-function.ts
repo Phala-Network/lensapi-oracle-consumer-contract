@@ -2,10 +2,12 @@ import "dotenv/config"
 import fs from 'fs'
 import type { Result, Struct, u16, Text, Bool } from '@polkadot/types'
 import { type AccountId } from '@polkadot/types/interfaces'
+import { BN } from '@polkadot/util'
 import { Abi } from '@polkadot/api-contract'
 import { OnChainRegistry, options, PinkContractPromise, signCertificate, signAndSend } from "@phala/sdk"
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { Keyring } from '@polkadot/keyring'
+import dedent from "dedent"
 
 
 interface WorkflowCodec extends Struct {
@@ -14,6 +16,14 @@ interface WorkflowCodec extends Struct {
   enabled: Bool
   commandline: Text
 }
+
+interface AccountData extends Struct {
+  free: BN
+}
+interface Account extends Struct {
+  data: AccountData
+}
+
 
 
 async function main() {
@@ -29,8 +39,42 @@ async function main() {
   if (!endpoint) {
     throw new Error('Please set PHALA_MAINNET_ENDPOINT via .env file first.')
   }
+
+  const nodes = [
+      {
+        pruntimeURL: 'https://phat-cluster-de.phala.network/pruntime-01',
+        workerId:
+          '0xe028af412138fe0a31ab0b3671243bdbe19d1a164837b04e7d8d355091fcd844',
+      },
+      {
+        pruntimeURL: 'https://phat-cluster-de.phala.network/pruntime-03',
+        workerId:
+          'b063d754602f22a3ac2af01ebdb2140357e3ca3d102e55a4d44a751fcb03b040',
+      },
+      {
+        pruntimeURL: 'https://phat-cluster-de.phala.network/pruntime-04',
+        workerId:
+          '6628b623e2a9b795b57f8dc91c5718b7b63722e1ee617030845a967ff0c8c72e',
+      },
+      {
+        pruntimeURL: 'https://phat-cluster-de.phala.network/pruntime-05',
+        workerId:
+          '9099308d294e320e001d567b21cee3177d149da08a2f3e7534e7f369d93f4e5e',
+      },
+  ]
+  // pick random one
+  const picked = nodes[Math.floor(Math.random() * nodes.length)]
+
   const apiPromise = await ApiPromise.create(options({ provider: new WsProvider(endpoint), noInitWarn: true }))
-  const registry = await OnChainRegistry.create(apiPromise)
+  const registry = await OnChainRegistry.create(
+    apiPromise,
+    {
+      clusterId: '0x0000000000000000000000000000000000000000000000000000000000000001',
+      systemContractId: '0x9dc2f09872e69f622cedbb3743aea482c740d9973f30f45c26cb8ed9782e6ab2',
+      ...picked,
+      skipCheck: true,
+    }
+  )
 
   const keyring = new Keyring({ type: 'sr25519' })
   let pair
@@ -41,7 +85,14 @@ async function main() {
     pair = keyring.createFromJson(JSON.parse(exported))
     pair.decodePkcs8(process.env.POLKADOT_WALLET_PASSPHRASE)
   } else {
-    throw new Error('You need set a polkadot account to continue, please check README.md for details.')
+    console.log(dedent`
+      ❗ You need create Brick Profile before continue.
+
+      You can checkout out guide here: https://github.com/Phala-Network/lensapi-oracle-consumer-contract#create-a-bricks-profile
+
+      Create your Brick Profile here: https://bricks.phala.network
+    `)
+    return
   }
   const cert = await signCertificate({ pair })
 
@@ -57,7 +108,14 @@ async function main() {
   const brickProfileFactory = new PinkContractPromise(apiPromise, registry, brickProfileFactoryAbi, brickProfileFactoryContractId, brickProfileFactoryContractKey)
   const { output: brickProfileAddressQuery } = await brickProfileFactory.query.getUserProfileAddress<Result<AccountId, any>>(pair.address, { cert })
   if (!brickProfileAddressQuery.isOk || !brickProfileAddressQuery.asOk.isOk) {
-    throw new Error('Brick Profile Factory not found.')
+    console.log(dedent`
+      ❗ You need create Brick Profile before continue.
+
+      You can checkout out guide here: https://github.com/Phala-Network/lensapi-oracle-consumer-contract#create-a-bricks-profile
+
+      Create your Brick Profile here: https://bricks.phala.network
+    `)
+    return
   }
   const brickProfileContractId = brickProfileAddressQuery.asOk.asOk.toHex()
   const contractInfo = await registry.phactory.getContractInfo({ contracts: [brickProfileContractId] })
@@ -92,7 +150,7 @@ async function main() {
   //
   // Step 5: Init the actionOffchainRollup instance.
   //
-  const rollupAbi = new Abi(fs.readFileSync('./abis/action_offchain_rollup.json', 'utf8'))
+  const rollupAbi = new Abi(fs.readFileSync('./abis/action_offchain_rollup-mainnet.json', 'utf8'))
   // assume the codeHash is matched
   if (actions[0].config.codeHash !== rollupAbi.info.source.wasmHash.toHex()) {
     console.log(actions)
@@ -102,10 +160,43 @@ async function main() {
   }
   const rollupContractKey = await registry.getContractKeyOrFail(actionOffchainRollupContractId)
   const rollupContract = new PinkContractPromise(apiPromise, registry, rollupAbi, actionOffchainRollupContractId, rollupContractKey)
+
+  const source = fs.readFileSync('./dist/index.js', 'utf8') // core_js
+
+  // estimate gas fee & storage deposit fee, check cluster balance enough or not.
+  let gasLimit
+  {
+    const estimate = await rollupContract.query.configCoreScript(cert.address, { cert }, source)
+
+    const gasFee = estimate.gasRequired.refTime.toNumber() / 1e12
+    const storageDepositeFee = !estimate.storageDeposit.isCharge ? 0 : estimate.storageDeposit.asCharge.toNumber() / 1e12
+    const minRequired = gasFee + storageDepositeFee
+
+    const onchainBalance = (await apiPromise.query.system.account<Account>(pair.address)).data.free.toNumber() / 1e12
+    const clusterBalance = (await registry.getClusterBalance(pair.address)).free.toNumber() / 1e12
+
+    console.log('Estimate minRequired:', minRequired)
+    console.log('Your Balance onchain/cluster:', onchainBalance, clusterBalance)
+
+    if (clusterBalance < minRequired) {
+      if (onchainBalance < minRequired) {
+        console.log(`Your account balance is too low: minimal required: ${minRequired.toFixed(2)} PHA, you have ${onchainBalance.toFixed(2)}`)
+        return
+      }
+      const to = (minRequired - clusterBalance).toFixed(4)
+      console.log(`Depositing ${to} PHA to cluster...`)
+      const num = new BN(Number(to) * 1000)
+      num.mul(new BN(1e9))
+      await signAndSend(registry.transferToCluster(pair.address, num), pair)
+    }
+
+    gasLimit = estimate.gasRequired.refTime.toNumber()
+  }
+
   await signAndSend(
     rollupContract.tx.configCoreScript(
-      { gasLimit: 1000000000000 },
-      fs.readFileSync('./dist/index.js', 'utf8'), // core_js
+      { gasLimit },
+      source
     ),
     pair
   )
