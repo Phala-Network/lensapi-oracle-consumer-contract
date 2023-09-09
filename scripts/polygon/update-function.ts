@@ -2,6 +2,7 @@ import "dotenv/config"
 import fs from 'fs'
 import type { Result, Struct, u16, Text, Bool } from '@polkadot/types'
 import { type AccountId } from '@polkadot/types/interfaces'
+import { type BN } from '@polkadot/util'
 import { Abi } from '@polkadot/api-contract'
 import { OnChainRegistry, options, PinkContractPromise, signCertificate, signAndSend } from "@phala/sdk"
 import { ApiPromise, WsProvider } from '@polkadot/api'
@@ -14,6 +15,14 @@ interface WorkflowCodec extends Struct {
   enabled: Bool
   commandline: Text
 }
+
+interface AccountData extends Struct {
+  free: BN
+}
+interface Account extends Struct {
+  data: AccountData
+}
+
 
 
 async function main() {
@@ -29,8 +38,42 @@ async function main() {
   if (!endpoint) {
     throw new Error('Please set PHALA_MAINNET_ENDPOINT via .env file first.')
   }
+
+  const nodes = [
+      {
+        pruntimeURL: 'https://phat-cluster-de.phala.network/pruntime-01',
+        workerId:
+          '0xe028af412138fe0a31ab0b3671243bdbe19d1a164837b04e7d8d355091fcd844',
+      },
+      {
+        pruntimeURL: 'https://phat-cluster-de.phala.network/pruntime-03',
+        workerId:
+          'b063d754602f22a3ac2af01ebdb2140357e3ca3d102e55a4d44a751fcb03b040',
+      },
+      {
+        pruntimeURL: 'https://phat-cluster-de.phala.network/pruntime-04',
+        workerId:
+          '6628b623e2a9b795b57f8dc91c5718b7b63722e1ee617030845a967ff0c8c72e',
+      },
+      {
+        pruntimeURL: 'https://phat-cluster-de.phala.network/pruntime-05',
+        workerId:
+          '9099308d294e320e001d567b21cee3177d149da08a2f3e7534e7f369d93f4e5e',
+      },
+  ]
+  // pick random one
+  const picked = nodes[Math.floor(Math.random() * nodes.length)]
+
   const apiPromise = await ApiPromise.create(options({ provider: new WsProvider(endpoint), noInitWarn: true }))
-  const registry = await OnChainRegistry.create(apiPromise)
+  const registry = await OnChainRegistry.create(
+    apiPromise,
+    {
+      clusterId: '0x0000000000000000000000000000000000000000000000000000000000000001',
+      systemContractId: '0x9dc2f09872e69f622cedbb3743aea482c740d9973f30f45c26cb8ed9782e6ab2',
+      ...picked,
+      skipCheck: true,
+    }
+  )
 
   const keyring = new Keyring({ type: 'sr25519' })
   let pair
@@ -102,10 +145,42 @@ async function main() {
   }
   const rollupContractKey = await registry.getContractKeyOrFail(actionOffchainRollupContractId)
   const rollupContract = new PinkContractPromise(apiPromise, registry, rollupAbi, actionOffchainRollupContractId, rollupContractKey)
+
+  const source = fs.readFileSync('./dist/index.js', 'utf8') // core_js
+
+  // estimate gas fee & storage deposit fee, check cluster balance enough or not.
+  let gasLimit
+  {
+    const estimate = await rollupContract.query.configCoreScript(cert.address, { cert }, source)
+
+    const gasFee = estimate.gasRequired.refTime.toNumber() / 1e12
+    const storageDepositeFee = !estimate.storageDeposit.isCharge ? 0 : (
+      (registry.clusterInfo?.depositPerByte?.toNumber() ?? 0) * (
+        source.length / 2 * 2.2
+      ) / 1e12
+    )
+    // const storageDepositeFee = !estimate.storageDeposit.isCharge ? 0 : estimate.storageDeposit.asCharge.toNumber() / 1e12
+    const minRequired = gasFee + storageDepositeFee
+
+    const onchainBalance = (await apiPromise.query.system.account<Account>(pair.address)).data.free.toNumber() / 1e12
+    const clusterBalance = (await registry.getClusterBalance(pair.address)).free.toNumber() / 1e12
+
+    if (clusterBalance < minRequired) {
+      if (onchainBalance < minRequired) {
+        console.log(`Your account balance is too low: minimal required: ${minRequired.toFixed(2)} PHA, you have ${onchainBalance.toFixed(2)}`)
+      }
+      const to = (minRequired - clusterBalance).toFixed(4)
+      console.log(`Depositing ${to} PHA to cluster...`)
+      await signAndSend(registry.transferToCluster(pair.address, Number(to) * 1e12), pair)
+    }
+
+    gasLimit = estimate.gasRequired.refTime.toNumber()
+  }
+
   await signAndSend(
     rollupContract.tx.configCoreScript(
-      { gasLimit: 1000000000000 },
-      fs.readFileSync('./dist/index.js', 'utf8'), // core_js
+      { gasLimit },
+      source
     ),
     pair
   )
