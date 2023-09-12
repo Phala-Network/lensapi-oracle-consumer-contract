@@ -6,6 +6,14 @@ type HexString = `0x${string}`
 // eth abi coder
 const uintCoder = new Coders.NumberCoder(32, false, "uint256");
 const bytesCoder = new Coders.BytesCoder("bytes");
+// Encode Address
+const addressCoder = new Coders.AddressCoder("address");
+// Encode Array of addresses with a length of 10
+const addressArrayCoder = new Coders.ArrayCoder(addressCoder, 10, "address");
+// Encode Array of bytes with a length of 10
+const bytesArrayCoder = new Coders.ArrayCoder(bytesCoder, 10, "bytes");
+// Encode Array of uint with a length of 10
+const uintArrayCoder = new Coders.ArrayCoder(uintCoder, 10, "uint256");
 
 function encodeReply(reply: [number, number, number]): HexString {
   return Coders.encode([uintCoder, uintCoder, uintCoder], reply) as HexString;
