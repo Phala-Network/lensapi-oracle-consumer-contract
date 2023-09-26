@@ -1,5 +1,6 @@
 # Polygon Consumer Contract for LensAPI Oracle
 ![](./assets/Phat-Contract-Logo.png)
+### Table of Contents
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
@@ -19,12 +20,11 @@
   - [Deploy Phat Contract to Phala Mainnet](#deploy-phat-contract-to-phala-mainnet)
     - [Interact with Consumer Contract on Polygon Mainnet](#interact-with-consumer-contract-on-polygon-mainnet)
     - [Update Phat Contract on Phala Mainnet](#update-phat-contract-on-phala-mainnet)
-      
 - [Closing](#closing)
 
 ## Overview
 This project represents a basic Polygon Consumer Contract that is compatible with a deployed LensAPI Oracle via [Phat Bricks UI](https://bricks.phala.network).
-
+![](./assets/basic-lensapi-oracle.png)
 ## Prerequisites
 - Active Bricks Profile with version `1.0.1` via [Phat Bricks](https://bricks.phala.network)
 - [Hardhat](https://hardhat.org)
