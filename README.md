@@ -22,6 +22,9 @@
     - [Update Phat Contract on Phala Mainnet](#update-phat-contract-on-phala-mainnet)
 - [Closing](#closing)
 
+> ## 🚨 **Note** 🚨
+> The latest and greatest Phat Contract Starter Kit is located [HERE](https://github.com/Phala-Network/phat-contract-starter-kit). Go here before continuing.
+
 ## Overview
 This project represents a basic Polygon Consumer Contract that is compatible with a deployed LensAPI Oracle via [Phat Bricks UI](https://bricks.phala.network).
 ![](./assets/basic-lensapi-oracle.png)
