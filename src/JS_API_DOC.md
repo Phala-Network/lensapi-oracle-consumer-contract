@@ -1,9 +1,7 @@
-# What Can You Do With Your Function?
+# What Can You Do With Your Phat Contract?
 
-> ******Author******: Joshua Waller
->
 
-In the `README.md` [link](./README.md), you learned how to generate a new default function template and execute the 3 separate ways to test and validate your the results of the function. Now we will dive into what you can do with your function to extend the capabilities.
+In the `README.md` [link](../GETTING_STARTED.md), you learned how to generate a new default function template and execute the 3 separate ways to test and validate your the results of the function. Now we will dive into what you can do with your function to extend the capabilities.
 
 What you will learn:
 
@@ -21,6 +19,7 @@ What you will learn:
         - sha256
         - keccak256
 - Customize Your Default Function and Test Locally.
+- Encode the response data and update your consumer contract to handle the abi decoding.
 
 ## Getting Started
 
@@ -51,7 +50,6 @@ ls                                                                              
 # -rw-r--r--   1 hashwarlock  staff   227B Sep  6 15:32 .gitignore
 # -rw-r--r--   1 hashwarlock  staff    34K Sep  6 15:32 LICENSE
 # -rw-r--r--   1 hashwarlock  staff   8.9K Sep  6 15:32 README.md
-# drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 abis
 # drwxr-xr-x   4 hashwarlock  staff   128B Sep  6 15:32 assets
 # drwxr-xr-x   5 hashwarlock  staff   160B Sep  6 15:32 contracts
 # -rw-r--r--   1 hashwarlock  staff   1.3K Sep  6 15:32 hardhat.config.ts
@@ -70,7 +68,7 @@ cd src
 ```
 
 ### Available Capabilities of `@phala/pink-env`
-In the `README.md` we introduced the basic functionality of making a single HTTP request to Lens API. The example code can be seen below:
+In the `GETTING_STARTED.md` we introduced the basic functionality of making a single HTTP request to Lens API. The example code can be seen below:
 ```typescript
 function fetchLensApiStats(lensApi: string, profileId: string): any {
   // profile_id should be like 0x0001
@@ -159,10 +157,10 @@ These functions are not necessarily important for those that are not familiar wi
 The `pink.httpRequest()` allows for you to make a single HTTP request from your function to an HTTP endpoint. 
 You will have to define your args:
 - `url: string` – The URL to send the request to.
-- `method: string` – The HTTP method to use for the request (e.g. GET, POST, PUT). Defaults to GET.
-- `headers: Headers` – An map-like object containing the headers to send with the request.
-- `body: Uint8Array | string` – The body of the request, either as a Uint8Array or a string.
-- `returnTextBody: boolean` – A flag indicating whether the response body should be returned as a string (true) or a Uint8Array (false).
+- `method?: string` – (Optional) The HTTP method to use for the request (e.g. GET, POST, PUT). Defaults to GET.
+- `headers?: Headers` – (Optional) An map-like object containing the headers to send with the request.
+- `body?: Uint8Array | string` – (Optional) The body of the request, either as a Uint8Array or a string.
+- `returnTextBody?: boolean` – (Optional) A flag indicating whether the response body should be returned as a string (true) or a Uint8Array (false).
 
 Returned is the `Object` response from the HTTP request containing the following fields:
 - `{number} statusCode` - The HTTP status code of the response.
@@ -182,7 +180,24 @@ console.log(response.body);
 
 ### `pink.batchHttpRequest()`
 Now you may need to call multiple APIs at once, this would require you to use the `pink.batchHttpRequest()` function to ensure you do not timeout (timeouts for Phat Contract is 10 seconds) on your response. The `args` and returned `Object` are the same as `pink.httpRequest()`, but instead you can create an array of HTTP requests within the function.
-Since we have an example above of how to use a `pink.batchHttpRequest()`, let's create a unique example.
+Since we have an example above of how to use a `pink.batchHttpRequest()`, before an examples let's look at the syntax.
+You will have to define your **array** of args:
+- `url: string` – The URL to send the request to.
+- `method?: string` – (Optional) The HTTP method to use for the request (e.g. GET, POST, PUT). Defaults to GET.
+- `headers?: Headers` – (Optional) An map-like object containing the headers to send with the request.
+- `body?: Uint8Array | string` – (Optional) The body of the request, either as a Uint8Array or a string.
+- `returnTextBody?: boolean` – (Optional) A flag indicating whether the response body should be returned as a string (true) or a Uint8Array (false).
+- `[x]` - this value is what you will see below as `[0]` which points to index `0` in the array of HTTP requests.
+- `timeout_ms?: number` - (Optional) a number representing the number of milliseconds before the batch HTTP requests timeout.
+Returned is the `Object` response from the HTTP request containing the following fields:
+- `{number} statusCode` - The HTTP status code of the response.
+- `{string} reasonPhrase` - The reason phrase of the response.
+- `{Headers} headers` - An object containing the headers of the response.
+- `{(Uint8Array|string)} body` - The response body, either as a `Uint8Array` or a string depending on the value of `args.returnTextBody`.
+- `error?: string` - (Optional) The `error` string that will be mapped to the error corresponding to the index of the HTTP request in the batch HTTP requests.
+- `[x]` - this value is what you will see below as `[0]` which points to index `0` in the array of HTTP requests.
+
+let's create a unique example.
 In this example, we will:
 - Use `pink.batchHttpRequest()` to:
   - Query The Odds API for MLB games today
@@ -340,6 +355,291 @@ Let's see how the results look.
     ![](../assets/KVDB-hashes.png)
 - Telegram bot sends hashes for `hello`
     ![](../assets/TG-hashes.png)
+
+## Handle Response Encoding & Decoding
+In the [index.ts](https://github.com/Phala-Network/phat-contract-starter-kit/blob/37e7ee2fa96c42f90f4418d45a9c47be570d59f5/src/index.ts#L6) file of your Phat Contract starter kit, there is an npm package available called @phala/ethers and your file will import Coders which has the following types available.
+```typescript
+// From https://github.com/Phala-Network/phat-contract-starter-kit/blob/37e7ee2fa96c42f90f4418d45a9c47be570d59f5/src/index.ts#L6
+import { AddressCoder } from "./coders/address.js";
+import { ArrayCoder } from "./coders/array.js";
+import { BooleanCoder } from "./coders/boolean.js";
+import { BytesCoder } from "./coders/bytes.js";
+import { FixedBytesCoder } from "./coders/fixed-bytes.js";
+import { NullCoder } from "./coders/null.js";
+import { NumberCoder } from "./coders/number.js";
+import { StringCoder } from "./coders/string.js";
+import { TupleCoder } from "./coders/tuple.js";
+```
+
+#### `AddressCoder` Example
+`index.ts`
+```typescript
+// ...
+// Encode Address
+const addressCoder = new Coders.AddressCoder("address");
+// uint Coder
+const uintCoder = new Coders.NumberCoder(32, false, "uint256");
+function encodeReply(reply: [uint, uint, address]): HexString {
+  return Coders.encode([uintCoder, uintCoder, addressCoder], reply) as HexString;
+}
+// Defined in TestLensApiConsumerContract.sol
+const TYPE_RESPONSE = 0;
+const TYPE_ERROR = 2;
+
+// main entry function
+export default function main(request: HexString, settings: string): HexString {
+  //...
+   let requestId, encodedReqStr;
+  try {
+    [requestId, encodedReqStr] = Coders.decode([uintCoder, bytesCoder], request);
+  } catch (error) {
+    console.info("Malformed request received");
+    return encodeReply([TYPE_ERROR, 0, errorToCode(error as Error)]);
+  }
+  //...
+  try {
+    const response = "Mike Jones";
+    return encodeReply([TYPE_RESPONSE, requestId, response]);
+  } catch (error) {
+    // Define error logic
+    // otherwise tell client we cannot process it
+    console.log("error:", [TYPE_ERROR, requestId, error]);
+    return encodeReply([TYPE_ERROR, requestId, errorToCode(error as Error)]);
+  }
+}
+// ...
+```
+`TestLensApiConsumerContract.sol`
+```solidity
+event ResponseReceived(uint reqId, string reqStr, string memory value);
+event ErrorReceived(uint reqId, string reqStr, string memory errno);
+// ...
+// request action request for Phat Contract to respond to
+function request(string calldata reqData) public {
+    // assemble the request
+    uint id = nextRequest;
+    requests[id] = reqData;
+    _pushMessage(abi.encode(id, reqData));
+    nextRequest += 1;
+}
+//...
+// _onMessageReceived response from Phat Contract
+function _onMessageReceived(bytes calldata action) internal override {
+    // Optional to check length of action
+    // require(action.length == 32 * 3, "cannot parse action");
+    (uint respType, uint id, string memory data) = abi.decode(
+        action,
+        (uint, uint, string)
+    );
+    if (respType == TYPE_RESPONSE) {
+        emit ResponseReceived(id, requests[id], data);
+        delete requests[id];
+    } else if (respType == TYPE_ERROR) {
+        emit ErrorReceived(id, requests[id], data);
+        delete requests[id];
+    }
+}
+// ...
+```
+
+#### `BooleanCoder` Example
+
+`index.ts`
+```typescript
+// ...
+// bool Coder
+const booleanCoder = new Coders.BooleanCoder("bool");
+// uint Coder
+const uintCoder = new Coders.NumberCoder(32, false, "uint256");
+function encodeReply(reply: [uint, uint, bool]): HexString {
+    return Coders.encode([uintCoder, uintCoder, booleanCoder], reply) as HexString;
+}
+// Defined in TestLensApiConsumerContract.sol
+const TYPE_RESPONSE = 0;
+const TYPE_ERROR = 2;
+
+// main entry function
+export default function main(request: HexString, settings: string): HexString {
+    //...
+    let requestId, encodedReqStr;
+    try {
+        [requestId, encodedReqStr] = Coders.decode([uintCoder, bytesCoder], request);
+    } catch (error) {
+        console.info("Malformed request received");
+        return encodeReply([TYPE_ERROR, 0, errorToCode(error as Error)]);
+    }
+    //...
+    try {
+        const response = true;
+        return encodeReply([TYPE_RESPONSE, requestId, response]);
+    } catch (error) {
+        // Define error logic
+        // otherwise tell client we cannot process it
+        console.log("error:", [TYPE_ERROR, requestId, error]);
+        return encodeReply([TYPE_ERROR, requestId, errorToCode(error as Error)]);
+    }
+}
+// ...
+```
+`TestLensApiConsumerContract.sol`
+```solidity
+event ResponseReceived(uint reqId, string reqStr, bool value);
+event ErrorReceived(uint reqId, string reqStr, bool errno);
+// ...
+// request action request for Phat Contract to respond to
+function request(string calldata reqData) public {
+    // assemble the request
+    uint id = nextRequest;
+    requests[id] = reqData;
+    _pushMessage(abi.encode(id, reqData));
+    nextRequest += 1;
+}
+//...
+// _onMessageReceived response from Phat Contract
+function _onMessageReceived(bytes calldata action) internal override {
+    // Optional to check length of action
+    // require(action.length == 32 * 3, "cannot parse action");
+    (uint respType, uint id, bool data) = abi.decode(
+        action,
+        (uint, uint, bool)
+    );
+    if (respType == TYPE_RESPONSE) {
+        emit ResponseReceived(id, requests[id], data);
+        delete requests[id];
+    } else if (respType == TYPE_ERROR) {
+        emit ErrorReceived(id, requests[id], data);
+        delete requests[id];
+    }
+}
+// ...
+```
+
+#### `NumberCoder` Example
+
+`index.ts`
+```typescript
+// ...
+// Encode number
+const uintCoder = new Coders.NumberCoder(32, false, "uint256");
+function encodeReply(reply: [number, number, number]): HexString {
+    return Coders.encode([uintCoder, uintCoder, uintCoder], reply) as HexString;
+}
+// Defined in TestLensApiConsumerContract.sol
+const TYPE_RESPONSE = 0;
+const TYPE_ERROR = 2;
+
+// main entry function
+export default function main(request: HexString, settings: string): HexString {
+    //...
+    let requestId, encodedReqStr;
+    try {
+        [requestId, encodedReqStr] = Coders.decode([uintCoder, bytesCoder], request);
+    } catch (error) {
+        console.info("Malformed request received");
+        return encodeReply([TYPE_ERROR, 0, errorToCode(error as Error)]);
+    }
+    //...
+    try {
+        const response = 2813308004;
+        return encodeReply([TYPE_RESPONSE, requestId, stats]);
+    } catch (error) {
+        // Define error logic
+        // otherwise tell client we cannot process it
+        console.log("error:", [TYPE_ERROR, requestId, error]);
+        return encodeReply([TYPE_ERROR, requestId, errorToCode(error as Error)]);
+    }
+}
+// ...
+```
+`TestLensApiConsumerContract.sol`
+```solidity
+event ResponseReceived(uint reqId, string reqStr, string memory value);
+event ErrorReceived(uint reqId, string reqStr, string memory errno);
+// ...
+// request action request for Phat Contract to respond to
+function request(string calldata reqData) public {
+    // assemble the request
+    uint id = nextRequest;
+    requests[id] = reqData;
+    _pushMessage(abi.encode(id, reqData));
+    nextRequest += 1;
+}
+//...
+// _onMessageReceived response from Phat Contract
+function _onMessageReceived(bytes calldata action) internal override {
+    // Optional to check length of action
+    // require(action.length == 32 * 3, "cannot parse action");
+    (uint respType, uint id, uint256 data) = abi.decode(
+        action,
+        (uint, uint, uint256)
+    );
+    if (respType == TYPE_RESPONSE) {
+        emit ResponseReceived(id, requests[id], data);
+        delete requests[id];
+    } else if (respType == TYPE_ERROR) {
+        emit ErrorReceived(id, requests[id], data);
+        delete requests[id];
+    }
+}
+// ...
+```
+
+#### `ArrayCoder` Example
+
+`index.ts`
+```typescript
+const stringCoder = new Coders.StringCoder("string");
+const stringArrayCoder = new Coders.ArrayCoder(stringCoder, 10, "string[]");
+function encodeReply(reply: [number, number, string[]]): HexString {
+  return Coders.encode([uintCoder, uintCoder, stringArrayCoder], reply) as HexString;
+}
+
+const stringArray = string[10];
+
+export default function main(request: HexString, settings: string): HexString {
+  return encodeReply([0, 1, stringArray]);
+}
+```
+`TestLensApiConsumerContract.sol`
+```solidity
+function _onMessageReceived(bytes calldata action) internal override {
+    (uint respType, uint id, string[10] memory data) = abi.decode(
+        action,
+        (uint, uint, string[10])
+    );
+}
+```
+
+#### Complex Example
+- `BytesCoder`
+- `FixedBytesCoder`
+- `NullCoder`
+- `TupleCoder`
+
+Sample of returning complex tuple data from `index.ts` to consumer contract:
+```typescript
+import { Coders } from "@phala/ethers";
+
+const bytesCoder = new Coders.BytesCoder('bytes');
+const fixedCoder = new Coders.FixedBytesCoder(16, 'bytes')
+const nullCoder = new Coders.NullCoder('nullCoder')
+const tupleCoder = new Coders.TupleCoder([bytesCoder, fixedCoder, nullCoder], 'tupleCoder')
+
+export default function main() {
+  return Coders.encode([tupleCoder], [[new Uint8Array(0), new Uint8Array(16), null]])
+}
+```
+How the Solidity consumer contract handles the decoding:
+```solidity
+function _onMessageReceived(bytes calldata action) internal override {
+    // Optional to check length of action
+    // require(action.length == 32 * 3, "cannot parse action");
+    (bytes16 bytesResp, bytes16 bytes16Resp, uint null) = abi.decode(
+        action,
+        (bytes16, bytes16, uint)
+    );
+}
+```
 
 ## Closing
 Congratulations! You now possess the power to extend the functionality of your functions in many unique ways. If this sparks some ideas that require some extensive functionality that is not supported in `@phala/pink-env`, jump in our [discord](https://discord.gg/dB4AuP4Q), and we can help you learn a little rust to build some Phat Contracts with the Rust SDK then leverage the functions `pink.invokeContract()` & `pink.invokeContractDelegate()` to make calls to the Rust SDK deployed Phat Contracts.
