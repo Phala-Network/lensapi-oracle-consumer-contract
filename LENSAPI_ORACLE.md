@@ -343,15 +343,56 @@ yarn run-function -a 0x000000000000000000000000000000000000000000000000000000000
 >     console.info("Malformed request received");
 >   }
 > // ...
-> } 
->
+> }
+
+<details>
+  <summary><u>How the query looks under the hood</u></summary>
+
+- HTTP Endpoint: https://api-mumbai.lens.dev
+- Profile ID: `0x01`
+- Expected Graphql Query:
+  ```graphql
+  query Profile {
+    profile(request: { profileId: "0x01" }) {
+      stats {
+          totalFollowers
+          totalFollowing
+          totalPosts
+          totalComments
+          totalMirrors
+          totalPublications
+          totalCollects
+      }
+    }
+  }
+  ```
+- Expected Output:
+  ```json
+  {
+    "data": {
+      "profile": {
+        "stats": {
+          "totalFollowers": 3361,
+          "totalFollowing": 0,
+          "totalPosts": 3,
+          "totalComments": 0,
+          "totalMirrors": 0,
+          "totalPublications": 3,
+          "totalCollects": 1597
+        }
+      }
+    }
+  }
+  ```
+</details>
+
 You will see:
 ```bash
 yarn run-function -a 0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000040000000
 00000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
 # handle req: 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000
 # Request received for profile 0x01
-# response: 0,1,3346
+# response: 0,1,3361
 # {"output":"0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000d12"}
 # ✨  Done in 1.42s.
 ```

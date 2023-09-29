@@ -45,6 +45,7 @@ Now, build the default Phala Oracle function with this command:
 ```bash
 yarn build-function
 ```
+
 To simulate the expected result locally, run the Phala Oracle function now with this command:
 ```bash
 yarn run-function -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-mumbai.lens.dev
@@ -68,7 +69,47 @@ yarn run-function -a 0x000000000000000000000000000000000000000000000000000000000
 >   }
 > // ...
 > } 
->
+
+<details>
+  <summary><u>How the query looks under the hood</u></summary>
+
+- HTTP Endpoint: https://api-mumbai.lens.dev
+- Profile ID: `0x01`
+- Expected Graphql Query:
+  ```graphql
+  query Profile {
+    profile(request: { profileId: "0x01" }) {
+      stats {
+          totalFollowers
+          totalFollowing
+          totalPosts
+          totalComments
+          totalMirrors
+          totalPublications
+          totalCollects
+      }
+    }
+  }
+  ```
+- Expected Output:
+  ```json
+  {
+    "data": {
+      "profile": {
+        "stats": {
+          "totalFollowers": 3361,
+          "totalFollowing": 0,
+          "totalPosts": 3,
+          "totalComments": 0,
+          "totalMirrors": 0,
+          "totalPublications": 3,
+          "totalCollects": 1597
+        }
+      }
+    }
+  }
+  ```
+</details>
 
 Finally, run the local end-to-end tests with this command. Here we will simulate locally the interaction between the Phat Contract and the Consumer Contract with hardhat.
 ```bash
