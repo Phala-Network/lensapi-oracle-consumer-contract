@@ -566,7 +566,7 @@ yarn main-deploy
 # Done
 # ✨  Done in 8.20s.
 ```
-#### Verify Contract on Polygon Mainnet
+#### (Optional) Verify Contract on Polygon Mainnet
 Ensure to update the [`polygon.arguments.ts`](./polygon.arguments.ts) file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `polygon.arguments.ts` file.
 ```shell
 yarn main-verify 0xbb0d733BDBe151dae3cEf8D7D63cBF74cCbf04C4
