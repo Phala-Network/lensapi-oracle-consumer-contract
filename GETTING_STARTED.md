@@ -414,7 +414,7 @@ yarn test-deploy
 # Done
 # ✨  Done in 8.20s.
 ```
-#### Verify Contract on Polygon Mumbai Testnet (Optional)
+#### (Optional) Verify Contract on Polygon Mumbai Testnet
 Ensure to update the [`mumbai.arguments.ts`](./mumbai.arguments.ts) file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `mumbai.arguments.ts` file.
 > **Note**: Your contract address will be different than `0x090E8fDC571d65459569BC87992C1026121DB955` when verifying your contract. Make sure to get your actual contract address from the console log output after executing `yarn test-deploy`.
 ```shell
@@ -666,5 +666,5 @@ yarn main-update-function -a ./polkadot-account.json
 ```
 
 ## Closing
-Once you have stored, the deployed address of the Consumer Contract and set the value in the "Configure Client" section of the deployed Phala Oracle, you will now have a basic boilerplate example of how to connect your Polygon dApp to a LensAPI Oracle Blueprint. Execute a new requests and check if your configuration is correct like below:
+Once you have stored, the deployed address of the Consumer Contract and set the value in the "Configure Client" section of the deployed Phala Oracle, you will now have a basic boilerplate example of how to connect your Polygon dApp to a LensAPI Oracle Template. Execute a new requests and check if your configuration is correct like below:
 ![](./assets/polygonscan-ex.png)

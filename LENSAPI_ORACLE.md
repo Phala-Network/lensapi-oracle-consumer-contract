@@ -614,7 +614,7 @@ yarn test-deploy
 # Done
 # ✨  Done in 8.20s.
 ```
-#### Verify Contract on Polygon Mumbai Testnet
+#### (Optional) Verify Contract on Polygon Mumbai Testnet
 Ensure to update the [`mumbai.arguments.ts`](./mumbai.arguments.ts) file with the constructor arguments used to instantiate the Consumer Contract. If you add additional parameters to the constructor function then make sure to update the `mumbai.arguments.ts` file.
 > **Note**: Your contract address will be different than `0x090E8fDC571d65459569BC87992C1026121DB955` when verifying your contract. Make sure to get your actual contract address from the console log output after executing `yarn test-deploy`.
 ```shell
