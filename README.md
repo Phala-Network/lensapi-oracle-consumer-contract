@@ -1,5 +1,5 @@
 # :hammer_and_pick: The Phat Contract Starter Kit
-> ### :rotating_light: <u>**Warning**</u> :rotating_light:
+> ### <center>:rotating_light: <u>**Warning**</u> :rotating_light:</center>
 >
 > For the **LensAPI Oracle** specific documentation, check out the guide in [`LENSAPI_ORACLE.md`](./LENSAPI_ORACLE.md). The rest of this `README.md` file will be based on the Phat Contract Start Kit.
 >
@@ -16,7 +16,7 @@ The Phat Contract Starter Kit is your one-stop solution to connect any API to yo
 This starter kit empowers you to initiate the data request from the smart contract side. The request is then seamlessly sent to your script for processing. You have the liberty to call any APIs to fulfill the request and define the response data structure that will be replied to your smart contract.
 ## :runner: Quick Start
 To kickstart your journey with the Phat Contract Starter Kit, you have 2 options:
-1. Create a template from the [`phat-contract-starter-kit`](https://github.com/Phala-Network/phat-contract-starter-kit) template repo. Click on the "**Use this template**" button in the top right corner of the webpage. Then skip the `npx @phala/fn init example` step.
+1. Create a template from the [`lensapi-oracle-consumer-contract`](https://github.com/Phala-Network/lensapi-oracle-consumer-contract) template repo. Click on the "**Use this template**" button in the top right corner of the webpage. Then skip the `npx @phala/fn init example` step.
   ![](./assets/UseThisTemplate.png)
 2. Install the `@phala/fn` CLI tool. You can do this using your node package manager (`npm`) or use node package execute (`npx`). For the purpose of this tutorial, we will be using `npx`.
 
@@ -24,6 +24,17 @@ To kickstart your journey with the Phat Contract Starter Kit, you have 2 options
 ```bash
 # Skip this step if chose option 1 or cloned this repo
 npx @phala/fn init example
+```
+
+<center>:rotating_light: <u><b>Note</b></u> :rotating_light:</center> 
+
+> When selecting your template, elect `lensapi-oracle-consumer-contract`.
+
+```shell
+npx @phala/fn init example
+? Please select one of the templates for your "example" project: (Use arrow keys)
+   phat-contract-starter-kit. The Phat Contract Starter Kit 
+❯  lensapi-oracle-consumer-contract. Polygon Consumer Contract for LensAPI Oracle 
 ```
 
 :stop_sign: **Not so fast!** What is it exactly that we are building? :stop_sign:
