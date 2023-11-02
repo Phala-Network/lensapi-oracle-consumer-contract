@@ -259,7 +259,7 @@ To add some error handling to an HTTP request, you can check the default example
 A simple example can be defined:
 ```typescript
 try {
-  const response = pink.httpReqeust({
+  const response = pink.httpRequest({
     url: "https://httpbin.org/ip",
     method: 42,
     returnTextBody: true,
