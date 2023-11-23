@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@adraffy/ens-normalize@1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@adraffy/ens-normalize/-/ens-normalize-1.10.0.tgz#d2a39395c587e092d77cbbc80acf956a54f38bf7"
+  integrity sha512-nA9XHtlAkYfJxY7bce8DcN7eKxWWCWkU+1GR9d+U6MbNpfwQp8TI7vqOsBsMcHoT4mBu2kypKoSKnghEzOOq5Q==
+
 "@adraffy/ens-normalize@1.9.2":
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/@adraffy/ens-normalize/-/ens-normalize-1.9.2.tgz#60111a5d9db45b2e5cbb6231b0bb8d97e8659316"
@@ -821,23 +826,10 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@openzeppelin/contracts@4.9.3":
+"@openzeppelin/contracts@4.9.3", "@openzeppelin/contracts@^4.8.2":
   version "4.9.3"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.9.3.tgz#00d7a8cf35a475b160b3f0293a6403c511099364"
   integrity sha512-He3LieZ1pP2TNt5JbkPA4PNT9WC3gOTOlDcFGJW4Le4QKqwmiNJCRt44APfxMxvq7OugU/cqYuPcSBzOw38DAg==
-
-"@phala/ethers@^6.6.3":
-  version "6.6.3"
-  resolved "https://registry.yarnpkg.com/@phala/ethers/-/ethers-6.6.3.tgz#cfeac4681339920a31e08b7f31b90fcfeca98085"
-  integrity sha512-Bn0Hu/lX1wCJo48VIizYutU8uA00Zec72MFRtYpA3BjNTDJrbuNQj+MN/SKmEJAJfsK++sK19JdTBNo0q04eSA==
-  dependencies:
-    "@adraffy/ens-normalize" "1.9.2"
-    "@noble/hashes" "1.1.2"
-    "@noble/secp256k1" "1.7.1"
-    "@types/node" "18.15.13"
-    aes-js "4.0.0-beta.5"
-    tslib "2.4.0"
-    ws "8.5.0"
 
 "@phala/fn@^0.2.4":
   version "0.2.4"
@@ -866,29 +858,10 @@
     webpack-merge "^5.9.0"
     webpack-virtual-modules "^0.5.0"
 
-"@phala/pink-env@^1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@phala/pink-env/-/pink-env-1.0.10.tgz#c0b8bb89464f92ebd9d7ac285c5af3a5b7cdbaf2"
-  integrity sha512-3AfsyC3JncTMCfNbXZYEn6LRDs5wAABTb17KH72+/s3mg4EG3iY7layxiTRsTqauuq+eQ1RcBrXLgUBdp/Mcgg==
-
-"@phala/sdk@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@phala/sdk/-/sdk-0.5.5.tgz#cd2bc4ed2daf583471f7dc1c004713e64a813140"
-  integrity sha512-6oTxjqaqUBVMtjMQJGNxt6tOadnOr1qP9t+8heINDuaDbGuj3aEWVZNVTlqNTJNCjMs/EEcS8KAT/4M6LAgMvw==
-  dependencies:
-    "@polkadot/api" "^10.9.1"
-    "@polkadot/api-contract" "^10.9.1"
-    "@polkadot/keyring" "^12.3.2"
-    "@polkadot/types" "^10.9.1"
-    "@polkadot/types-augment" "^10.9.1"
-    "@polkadot/util" "^12.3.2"
-    "@polkadot/util-crypto" "^12.3.2"
-    browserify-cipher "^1.0.1"
-    cross-fetch "^4.0.0"
-    protobufjs "^7.2.4"
-    randombytes "^2.1.0"
-    rxjs "^7.8.1"
-    viem "^1.5.0"
+"@phala/pink-env@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@phala/pink-env/-/pink-env-1.0.13.tgz#8dda19538733588f7fb9c5d81f61bf118d37d63d"
+  integrity sha512-yo/mxBRs+auJz7/k3jeSiQFk6UZpvAdivrFPpQZb2a76vrSLHH5eU86CuZedpvZNBggUde7QUVo8TT6MGQWV+Q==
 
 "@phala/sdk@^0.6.0-nightly-20231114":
   version "0.6.0-nightly-20231116"
@@ -908,6 +881,14 @@
     randombytes "^2.1.0"
     rxjs "^7.8.1"
     viem "^1.5.0"
+
+"@phala/solidity@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@phala/solidity/-/solidity-0.0.3.tgz#9aebf435cacb1d26ad73b96eb785cc7cff2e7b31"
+  integrity sha512-i017Ye2DJ+m/hxrI/rTbEBELSTinveS7hr6BQQUJIKk0snvKly3JzmjnpmKXirAD51A++theE+DQLAwZ3bfmkw==
+  dependencies:
+    "@openzeppelin/contracts" "^4.8.2"
+    dotenv "^16.0.3"
 
 "@polkadot/api-augment@10.9.1":
   version "10.9.1"
@@ -4374,6 +4355,11 @@ isomorphic-ws@5.0.0:
   resolved "https://registry.yarnpkg.com/isomorphic-ws/-/isomorphic-ws-5.0.0.tgz#e5529148912ecb9b451b46ed44d53dae1ce04bbf"
   integrity sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==
 
+isows@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/isows/-/isows-1.0.3.tgz#93c1cf0575daf56e7120bab5c8c448b0809d0d74"
+  integrity sha512-2cKei4vlmg2cxEjm3wVSqn8pcoRF/LX/wpifuuNquFO4SQmPwarClT+SUCA2lt+l581tTeZIPIZuIDo2jWN1fg==
+
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
@@ -6432,6 +6418,20 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+viem@^1.19.3:
+  version "1.19.7"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-1.19.7.tgz#815d100c37ed1dda56809bbbb1c1ca4a7982f5f7"
+  integrity sha512-NFCqU73CTHML9K7G3K8hnDJ9VjHJbH822Z6U2jUGNr0g5486EHMW0gtwnk6ivFP+ru5UewmUKwEvO0p5m0rvnA==
+  dependencies:
+    "@adraffy/ens-normalize" "1.10.0"
+    "@noble/curves" "1.2.0"
+    "@noble/hashes" "1.3.2"
+    "@scure/bip32" "1.3.2"
+    "@scure/bip39" "1.2.1"
+    abitype "0.9.8"
+    isows "1.0.3"
+    ws "8.13.0"
 
 viem@^1.5.0:
   version "1.10.1"
