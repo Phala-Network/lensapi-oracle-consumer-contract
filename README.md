@@ -1,7 +1,7 @@
 # :hammer_and_pick: The Phat Contract Starter Kit
 > ### <center>:rotating_light: <u>**Warning**</u> :rotating_light:</center>
 >
-> For the **LensAPI Oracle** specific documentation, check out the guide in [`LENSAPI_ORACLE.md`](./LENSAPI_ORACLE.md). The rest of this `README.md` file will be based on the Phat Contract Start Kit.
+> For the **LensAPI Oracle** specific documentation, check out the guide in our [docs](https://bit.ly/3runoN1). The rest of this `README.md` file will be based on the Phat Contract Start Kit.
 >
 
 > <u>**Note on Terminology**</u>
@@ -50,19 +50,19 @@ npx @phala/fn@latest init example
 
 After creating a Phala Oracle template, `cd` into the new project and install the package dependencies. You can do this with the following command:
 ```bash
-yarn install
+npm install
 ```
 Now, build the default Phala Oracle function with this command:
 ```bash
-yarn build-function
+npm run build-function
 ```
 
 To simulate the expected result locally, run the Phala Oracle function now with this command:
 ```bash
-yarn run-function -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-v2.lens.dev/
+npm run run-function -- -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-v2.lens.dev/
 ```
 >
-> **What are the ingredients for the `yarn run-function` command?**
+> **What are the ingredients for the `npm run run-function` command?**
 >
 > Our Phat Contract script, now fully constructed, is ready for a trial run. This simulation mirrors the live script's operation when deployed on the Phala Network.
 >
@@ -130,13 +130,13 @@ yarn run-function -a 0x000000000000000000000000000000000000000000000000000000000
 
 Finally, run the local end-to-end tests with this command. Here we will simulate locally the interaction between the Phat Contract and the Consumer Contract with hardhat.
 ```bash
-yarn hardhat test
+npm run localhost-test
 ```
 :partying_face: **Congratulations!** 
 
 You have successfully completed the quick start. For the next steps, you will learn how to deploy your Phala Oracle and connect to the consumer contract for the EVM testnet chain to start testing the request-response model live.
 
-For a deeper dive into the details, click [here](./GETTING_STARTED.md),  or continue reading to learn about the valuable features the Phala Oracle can offer to your on-chain consumer contract.
+For a deeper dive into the details, click [here](https://bit.ly/lensapi-oracle),  or continue reading to learn about the valuable features the Phala Oracle can offer to your on-chain consumer contract.
 
 ---
 ## :magic_wand: Features and Benefits
