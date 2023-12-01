@@ -18,3 +18,4 @@ artifacts
 
 dist
 polkadot-account.json
+package-lock.json

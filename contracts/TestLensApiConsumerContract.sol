@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./PhatRollupAnchor.sol";
+import "@phala/solidity/contracts/PhatRollupAnchor.sol";
 
 contract TestLensApiConsumerContract is PhatRollupAnchor, Ownable {
     event ResponseReceived(uint reqId, string pair, uint256 value);
