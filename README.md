@@ -105,22 +105,22 @@ npx @phala/fn run dist/index.js -a 0x0000000000000000000000000000000000000000000
     }
   }
   ```
-  - Expected Output:
-    ```json
-    {
-      "data": {
-        "profile": {
-          "stats": {
-            "followers": 2,
-            "following": 0,
-            "comments": 0,
-            "countOpenActions": 1,
-            "posts": 14,
-            "quotes": 0,
-            "mirrors": 0,
-            "publications": 14,
-            "reacted": 0,
-            "reactions": 0
+- Expected Output:
+  ```json
+  {
+    "data": {
+      "profile": {
+        "stats": {
+          "followers": 2,
+          "following": 0,
+          "comments": 0,
+          "countOpenActions": 1,
+          "posts": 14,
+          "quotes": 0,
+          "mirrors": 0,
+          "publications": 14,
+          "reacted": 0,
+          "reactions": 0
         }
       }
     }
