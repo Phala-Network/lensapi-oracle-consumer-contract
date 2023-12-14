@@ -54,12 +54,12 @@ npm install
 ```
 Now, build the default Phala Oracle function with this command:
 ```bash
-npm run build-function
+npx @phala/fn build
 ```
 
 To simulate the expected result locally, run the Phala Oracle function now with this command:
 ```bash
-npm run run-function -- -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-v2-mumbai-live.lens.dev/
+npx @phala/fn run dist/index.js -a 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000043078303100000000000000000000000000000000000000000000000000000000 https://api-v2-mumbai-live.lens.dev/
 ```
 >
 > **What are the ingredients for the `npm run run-function` command?**
@@ -105,22 +105,22 @@ npm run run-function -- -a 0x000000000000000000000000000000000000000000000000000
     }
   }
   ```
-  - Expected Output:
-    ```json
-    {
-      "data": {
-        "profile": {
-          "stats": {
-            "followers": 2,
-            "following": 0,
-            "comments": 0,
-            "countOpenActions": 1,
-            "posts": 14,
-            "quotes": 0,
-            "mirrors": 0,
-            "publications": 14,
-            "reacted": 0,
-            "reactions": 0
+- Expected Output:
+  ```json
+  {
+    "data": {
+      "profile": {
+        "stats": {
+          "followers": 2,
+          "following": 0,
+          "comments": 0,
+          "countOpenActions": 1,
+          "posts": 14,
+          "quotes": 0,
+          "mirrors": 0,
+          "publications": 14,
+          "reacted": 0,
+          "reactions": 0
         }
       }
     }
