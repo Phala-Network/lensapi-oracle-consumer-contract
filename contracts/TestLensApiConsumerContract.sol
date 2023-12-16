@@ -33,7 +33,7 @@ contract TestLensApiConsumerContract is PhatRollupAnchor, Ownable {
     // For test
     function malformedRequest(bytes calldata malformedData) public {
         uint id = 0;
-        requests[id] = 0x0000000000000000000000000000000000000000;
+        requests[id] = "malformed_req";
         _pushMessage(malformedData);
     }
 
