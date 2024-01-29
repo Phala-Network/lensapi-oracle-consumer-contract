@@ -20,7 +20,7 @@ async function main() {
 
     You can continue deploying the default Phat Contract with the following command:
 
-    npx @phala/fn upload -b --mode dev --consumerAddress=${consumer.address} --coreSettings=--coreSettings=https://api-v2-mumbai-live.lens.dev/
+    npx @phala/fn upload -b --mode dev --consumerAddress=${consumer.address} --coreSettings=https://api-v2-mumbai-live.lens.dev/
   `
   console.log(`\n${finalMessage}\n`);
 
