@@ -1,26 +1,21 @@
 # :hammer_and_pick: The Phat Contract Starter Kit
-> ### <center>:rotating_light: <u>**Warning**</u> :rotating_light:</center>
->
-> For the **LensAPI Oracle** specific documentation, check out the guide in our [docs](https://bit.ly/3runoN1). The rest of this `README.md` file will be based on the Phat Contract Start Kit.
->
 
 > <u>**Note on Terminology**</u>
 > 
 > **Phat Contract** will also be referred to as the **Phala Oracle** in this `README`.
 
 ## :mag_right: Overview
-The Phat Contract Starter Kit is your one-stop solution to connect any API to your smart contract. It offers wide-ranging support for all EVM-compatible blockchains, including but not limited to Ethereum, Polygon, Arbitrum, Avalanche, Binance Smart Chain, Optimism, and zkSync.
+The LensAPI Oracle Phat Contract is your one-stop solution to connect any API to your smart contract. It offers wide-ranging support for all EVM-compatible blockchains, including but not limited to Ethereum, Polygon, Arbitrum, Avalanche, Binance Smart Chain, Optimism, and zkSync.
 
 ![](./assets/case-self-owned-oracles.jpg)
 
 This starter kit empowers you to initiate the data request from the smart contract side. The request is then seamlessly sent to your script for processing. You have the liberty to call any APIs to fulfill the request and define the response data structure that will be replied to your smart contract.
 ## :runner: Quick Start
-To kickstart your journey with the Phat Contract Starter Kit, you have 2 options:
-1. Create a template from the [`lensapi-oracle-consumer-contract`](https://bit.ly/3runoN1) template repo. Click on the "**Use this template**" button in the top right corner of the webpage. Then skip the `npx @phala/fn@latest init example` step.
-  ![](./assets/UseThisTemplate.png)
-2. Install the `@phala/fn` CLI tool. You can do this using your node package manager (`npm`) or use node package execute (`npx`). For the purpose of this tutorial, we will be using `npx`.
+To kickstart your journey with the Phat Contract Starter Kit, you will use the `@phala/fn` CLI tool.
 
-(Option 2) Once you have the CLI tool installed, you can create your first Phala Oracle template with the following command.
+Install the `@phala/fn` CLI tool. You can do this using your node package manager (`npm`) or use node package execute (`npx`). For the purpose of this tutorial, we will be using `npx`.
+
+Once you have the CLI tool installed, you can create your first Phala Oracle template with the following command.
 ```bash
 # Skip this step if chose option 1 or cloned this repo
 npx @phala/fn@latest init example
@@ -32,9 +27,12 @@ npx @phala/fn@latest init example
 
 ```shell
 npx @phala/fn@latest init example
-? Please select one of the templates for your "example" project: (Use arrow keys)
-   phat-contract-starter-kit. The Phat Contract Starter Kit 
-❯  lensapi-oracle-consumer-contract. Polygon Consumer Contract for LensAPI Oracle 
+? Please select one of the templates for your "example" project: 
+  phat-contract-starter-kit: Send data from any API to your smart contract with Javascript. 
+❯ lensapi-oracle-consumer-contract: Send data from Lens API to your smart contract to empower your Web3 Social dApp. 
+  vrf-oracle: TEE-guarded Verifiable Random Function template to bring randomness to your smart contract. 
+  airstack-phat-contract: Request an account’s data from Airstack’s API to compute trust score and send to your Web3 dApp on-chain. 
+  thegraph-phat-contract: Connect your subgraphs from The Graph to your on-chain dApps via Phat Contract.  
 ```
 
 :stop_sign: **Not so fast!** What is it exactly that we are building? :stop_sign:
@@ -166,6 +164,7 @@ You could use the Oracle to:
 - **[Dynamic NFTs](https://bit.ly/3ZBJHNb)**
 
 ## :books: Resources
+- **[LensAPI Oracle Docs](https://bit.ly/lensapi-oracle)**
 - **[What is an Oracle](https://bit.ly/3PE6ymF)**
 - **Frontend Templates**
   - **[Scaffold ETH2](https://bit.ly/45ekZnt)**
